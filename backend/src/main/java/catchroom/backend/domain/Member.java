@@ -18,6 +18,9 @@ public class Member {
 
     private String name;
 
+    @Column(name = "id")
+    private String identity;
+
     private String password;
 
     @Embedded
