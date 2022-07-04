@@ -91,6 +91,8 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
+            state.studentUser = dummyStudentLogin(action.data);
+            state.presidentUser = null;
         },
         [studentSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
@@ -106,6 +108,8 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
+            state.presidentUser = dummyPresidentLogin(action.data);
+            state.studentUser = null;
         },
         [presidentSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
