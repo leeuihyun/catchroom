@@ -1,5 +1,17 @@
 /*global kakao*/
 import React, { useEffect } from "react";
+import Header from "../components/Header";
+import styled from "styled-components";
+import HrComponent from "../components/HrComponent";
+
+const MainBox = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
+const MapBox = styled.div`
+    top: 10px;
+`;
 
 const Map = () => {
     useEffect(() => {
@@ -23,9 +35,14 @@ const Map = () => {
     }, []);
 
     return (
-        <div>
-            <div id="map" style={{ width: "500px", height: "400px" }}></div>
-        </div>
+        <MainBox>
+            <Header color="black"></Header>
+            <HrComponent />
+            <MapBox
+                id="map"
+                style={{ width: "500px", height: "400px" }}
+            ></MapBox>
+        </MainBox>
     );
 };
 
