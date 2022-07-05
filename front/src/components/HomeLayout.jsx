@@ -10,9 +10,12 @@ import Footer from "./Footer";
 import { SearchOutlined } from "@ant-design/icons";
 
 const Box = styled.div`
-    background: linear-gradient(90deg, #00ffff, #07aed0);
+    background: linear-gradient(100deg, #1c16bc, #07aed0);
     width: 100%;
     height: 100%;
+    h1 {
+        color: white;
+    }
 `;
 
 const SearchOutLineIcon = styled.div`
@@ -42,6 +45,15 @@ const Input = styled.div`
         text-align: center;
         overflow: auto;
     }
+`;
+const ThirdPage = styled.div`
+    width: 100%;
+    background-color: white;
+    color: black;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 const HomeLayout = () => {
     const sectionStyle = {
@@ -74,7 +86,7 @@ const HomeLayout = () => {
                         <h1>screen 2</h1>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>
-                        <h1>screen 3</h1>
+                        <ThirdPage>블로그 등이 연결될 부분입니다.</ThirdPage>
                         <Footer />
                     </FullpageSection>
                 </FullPageSections>
