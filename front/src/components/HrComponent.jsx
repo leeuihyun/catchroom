@@ -7,7 +7,7 @@ const Line = styled.hr`
     width: 98%;
     border-width: 1px 0px 0px 0px;
     border-style: solid;
-
+    opacity: 30%;
     border-color: #808080;
 `;
 
