@@ -13,3 +13,5 @@
 # Request : 웹 수집
 
 #Urllib : image Data + scrap & save
+
+#
