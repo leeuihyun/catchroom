@@ -12,6 +12,10 @@ const HeaderBox = styled.div`
         font-family: "surroundAir";
         font-weight: bold;
         font-size: 2rem;
+        a {
+            text-decoration: none;
+            color: white;
+        }
     }
 
     .box {
@@ -46,7 +50,9 @@ const Header = () => {
     }, []);*/
     return (
         <HeaderBox>
-            <div className="logo">자방</div>
+            <div className="logo">
+                <Link to="/">자방</Link>
+            </div>
             <div className="box">
                 <Link to="/map">지도</Link>
                 <Link to="#">찜 목록</Link>
