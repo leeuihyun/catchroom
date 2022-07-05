@@ -32,7 +32,9 @@ const HeaderBox = styled.div`
             letter-spacing: -1px;
             font-weight: normal;
             margin-left: 3rem;
+
             color: ${(props) => props.color || "white"};
+
             text-decoration: none;
             :hover {
                 font-weight: bolder;
@@ -41,7 +43,9 @@ const HeaderBox = styled.div`
     }
 `;
 
+
 const Header = ({ color }) => {
+
     /*const navigate = useNavigate();
     const onClickLogIn = useCallback(() => {
         navigate(`/login`);
@@ -58,7 +62,9 @@ const Header = ({ color }) => {
             <div className="box">
                 <Link to="/map">지도</Link>
                 <Link to="#">찜 목록</Link>
+
                 <Link to="/logIn">회원가입 / 로그인</Link>
+
             </div>
         </HeaderBox>
     );
