@@ -7,33 +7,91 @@ import FullPage, {
 } from "@ap.cx/react-fullpage";
 import Header from "./Header";
 import Footer from "./Footer";
+import { SearchOutlined } from "@ant-design/icons";
 
+const Box = styled.div`
+    background: linear-gradient(100deg, #1c16bc, #07aed0);
+    width: 100%;
+    height: 100%;
+    h1 {
+        color: white;
+    }
+`;
+
+const SearchOutLineIcon = styled.div`
+    background-color: transparent;
+    position: absolute;
+    top: 30%;
+    left: 1rem;
+    font-size: 2rem;
+`;
+const Input = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+
+    input {
+        :focus {
+            outline: none;
+        }
+        width: 50rem;
+        height: 5rem;
+        font-size: 2rem;
+        border: none;
+        -webkit-appearance: none;
+        text-align: center;
+        overflow: auto;
+    }
+`;
+const ThirdPage = styled.div`
+    width: 100%;
+    background-color: white;
+    color: black;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 const HomeLayout = () => {
     const sectionStyle = {
         height: "100vh",
         width: "100vw",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
     };
     return (
-        <>
+        <Box>
             <Header />
             <FullPage>
                 <FullPageSections>
                     <FullpageSection style={sectionStyle}>
-                        <h1>screen 1</h1>
+                        <h1>당신의 방을 찾아보세요</h1>
+
+                        <Input>
+                            <input
+                                type="text"
+                                placeholder="지역 혹은 학교명을 입력해주세요"
+                            />
+                            <SearchOutLineIcon>
+                                <SearchOutlined />
+                            </SearchOutLineIcon>
+                        </Input>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>
                         <h1>screen 2</h1>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>
-                        <h1>screen 3</h1>
+                        <ThirdPage>블로그 등이 연결될 부분입니다.</ThirdPage>
+                        <Footer />
                     </FullpageSection>
                 </FullPageSections>
             </FullPage>
-            <Footer />
-        </>
+        </Box>
     );
 };
 
