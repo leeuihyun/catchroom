@@ -17,13 +17,13 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findOne(String identity){
-        return em.find(Member.class,identity);
+    public Member findOne(String email){
+        return em.find(Member.class,email);
     }
 
-    public List<Member> findByIdentity(String identity) {
+    public List<Member> findByIdentity(String email) {
         return em.createQuery("select m from Member m where m.id = :id", Member.class)
-                .setParameter("id", identity)
+                .setParameter("id", email)
                 .getResultList();
     }
 }

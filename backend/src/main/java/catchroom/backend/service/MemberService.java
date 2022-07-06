@@ -1,7 +1,7 @@
 package catchroom.backend.service;
 
 import catchroom.backend.domain.Member;
-import catchroom.backend.repository.MemberRepository;
+import catchroom.backend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +17,18 @@ public class MemberService {
 
     //회원 가입
     @Transactional
-    public Long join(Member member) {
+    public String join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
 
-        return member.getId();
+        return member.getEmail();
     }
     //중복 아이디 검출
     private void validateDuplicateMember(Member member) {
-        List<Member> findMember = memberRepository.findByIdentity(member.getIdentity());
+        List<Member> findMember = memberRepository.findByIdentity(member.getEmail());
         if(!findMember.isEmpty())
             throw new IllegalStateException("이미 존재하는 회원입니다.");
     }
 
-    public Member findOne(String identity){return memberRepository.findOne(identity);}
+    public Member findOne(String email){return memberRepository.findOne(email);}
 }
