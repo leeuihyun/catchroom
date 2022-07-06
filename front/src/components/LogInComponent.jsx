@@ -4,6 +4,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import Button from "../subcomponents/Button";
 
 const Main = styled.div`
     background-color: white;
@@ -15,34 +17,41 @@ const Main = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
+    font-size: 16px;
 `;
 
-const Button = styled.button`
-    margin-top: 2rem;
-    margin-left: 2rem;
-    width: 89%;
-    height: 20%;
-    background-color: #2d36df;
-    color: white;
-    font-size: 1rem;
-    border: none;
+const SignUpBox = styled.div`
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: flex-end;
+
+    font-size: 16px;
+
+    a {
+        margin-right: 28px;
+        color: #696969;
+    }
 `;
 
 const LogInBox = styled.div`
-    border: 0.5px solid black;
+    border: 1px solid #e3e9e6;
     width: 550px;
     height: 500px;
     display: flex;
-    margin-top: 12rem;
-    margin-bottom: 18rem;
+    margin-top: 192px;
+    margin-bottom: 210px;
     padding-bottom: 26vh;
     position: relative;
-    padding-top: 0.5rem;
+    padding-top: 8px;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     color: black;
-
+    form {
+        margin-left: 24px;
+        margin-bottom: 10px;
+    }
     .login {
         padding-top: 3rem;
         padding-left: 2rem;
@@ -51,22 +60,25 @@ const LogInBox = styled.div`
         font-weight: bold;
     }
     .explain {
-        padding-top: 1rem;
-        padding-left: 2rem;
-        font-size: 1rem;
-        margin-bottom: 3rem;
+        padding-top: 8px;
+        padding-left: 16px;
+        font-size: 16px;
+        margin-bottom: 48px;
     }
     .text {
-        padding-left: 2rem;
-        font-size: 1rem;
-        margin-bottom: 1rem;
+        padding-left: 16px;
+
+        margin-bottom: 16px;
+    }
+    .des {
+        margin-left: 32px;
     }
     input[type="password"],
     input[type="text"] {
-        margin-bottom: 1rem;
-        margin-left: 2rem;
-        width: 88%;
-        height: 80px;
+        margin-bottom: 16px;
+        margin-left: 32px;
+        width: 30rem;
+        height: 2rem;
         :focus {
             outline: none;
         }
@@ -124,20 +136,28 @@ const LogInComponent = () => {
                         />
                         <label>사장님</label>
                     </form>
-
-                    <div className="text">아이디</div>
-                    <input
-                        type="text"
-                        placeholder="이메일 주소 입력"
-                        onChange={onChangeEmail}
-                    />
-                    <div className="text">비밀번호</div>
-                    <input
-                        type="password"
-                        placeholder="비밀번호 입력"
-                        onChange={onChangePassword}
-                    />
-                    <Button onClick={onClickLogIn}>로그인</Button>
+                    <div>
+                        <div className="des">아이디</div>
+                        <input
+                            type="text"
+                            placeholder="이메일 주소 입력"
+                            onChange={onChangeEmail}
+                        />
+                    </div>
+                    <div>
+                        <div className="des">비밀번호</div>
+                        <input
+                            type="password"
+                            placeholder="비밀번호 입력"
+                            onChange={onChangePassword}
+                        />
+                    </div>
+                    <div>
+                        <Button onClick={onClickLogIn}>로그인</Button>
+                    </div>
+                    <SignUpBox>
+                        <Link to="/signup">회원가입</Link>
+                    </SignUpBox>
                 </LogInBox>
 
                 <Footer>footer</Footer>
