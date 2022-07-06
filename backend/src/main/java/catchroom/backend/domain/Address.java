@@ -15,4 +15,14 @@ public class Address {
     @Column(name = "address_detail")
     private String detail; //상세 주소
     private String zipcode; //우편 번호
+
+    protected Address(){
+    }
+
+    public Address(String city, String district, String detail, String zipcode) {
+        this.city = city;
+        this.district = district;
+        this.detail = detail;
+        this.zipcode = zipcode;
+    }
 }

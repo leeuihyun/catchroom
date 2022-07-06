@@ -12,14 +12,15 @@ import java.util.List;
 @Getter @Setter
 public class Member {
 
-    @Id @GeneratedValue
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
     private String name;
 
+    @Id
     @Column(name = "id")
-    private String identity;
+    private String email;
 
     private String password;
 

@@ -12,7 +12,7 @@
 > Backend
 
 -   지상일
--   🛠 tech : mysql, springboot, + ?
+-   🛠 tech : mysql, spring-boot, JPA
 
 > Frontend
 
