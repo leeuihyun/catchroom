@@ -6,19 +6,7 @@ import HrComponent from "./HrComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../subcomponents/Button";
-
-const Main = styled.div`
-    background-color: white;
-    color: black;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    font-size: 16px;
-`;
+import Main from "../subcomponents/Main";
 
 const SignUpBox = styled.div`
     display: flex;
