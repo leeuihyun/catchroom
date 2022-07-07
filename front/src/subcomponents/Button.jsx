@@ -18,8 +18,8 @@ const ButtonBox = styled.button`
     }
 `;
 
-const Button = ({ children }) => {
-    return <ButtonBox>{children}</ButtonBox>;
+const Button = ({ children, onClick }) => {
+    return <ButtonBox onClick={onClick}>{children}</ButtonBox>;
 };
 
 export default Button;

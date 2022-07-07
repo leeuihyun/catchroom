@@ -4,7 +4,8 @@ import Home from "./pages/Home";
 import LogIn from "./pages/LogIn";
 import Map from "./pages/Map";
 import SignUp from "./pages/SignUp";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const App = () => {
     return (
         <Routes>

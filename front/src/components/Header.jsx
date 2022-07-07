@@ -24,6 +24,7 @@ const HeaderBox = styled.div`
         font-size: 1.2rem;
         padding-left: 0.5rem;
         width: 92%;
+        margin-right: 50px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -31,10 +32,8 @@ const HeaderBox = styled.div`
             display: inline-block;
             letter-spacing: -1px;
             font-weight: normal;
-            margin-left: 3rem;
-
+            margin-left: 2rem;
             color: ${(props) => props.color || "white"};
-
             text-decoration: none;
             :hover {
                 font-weight: bolder;
@@ -43,9 +42,7 @@ const HeaderBox = styled.div`
     }
 `;
 
-
 const Header = ({ color }) => {
-
     /*const navigate = useNavigate();
     const onClickLogIn = useCallback(() => {
         navigate(`/login`);
@@ -64,7 +61,6 @@ const Header = ({ color }) => {
                 <Link to="#">찜 목록</Link>
 
                 <Link to="/logIn">회원가입 / 로그인</Link>
-
             </div>
         </HeaderBox>
     );
