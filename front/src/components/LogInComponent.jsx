@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../subcomponents/Button";
 import Main from "../subcomponents/Main";
+import LogInBox from "../subcomponents/LogInBox";
 
 const SignUpBox = styled.div`
     display: flex;
@@ -19,57 +20,6 @@ const SignUpBox = styled.div`
     a {
         margin-right: 28px;
         color: #696969;
-    }
-`;
-
-const LogInBox = styled.div`
-    border: 1px solid #e3e9e6;
-    width: 550px;
-    height: 500px;
-    display: flex;
-    margin-top: 192px;
-    margin-bottom: 210px;
-    padding-bottom: 26vh;
-    position: relative;
-    padding-top: 8px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    color: black;
-    form {
-        margin-left: 24px;
-        margin-bottom: 10px;
-    }
-    .login {
-        padding-top: 3rem;
-        padding-left: 2rem;
-        left: 0;
-        font-size: 2rem;
-        font-weight: bold;
-    }
-    .explain {
-        padding-top: 8px;
-        padding-left: 16px;
-        font-size: 16px;
-        margin-bottom: 48px;
-    }
-    .text {
-        padding-left: 16px;
-
-        margin-bottom: 16px;
-    }
-    .des {
-        margin-left: 32px;
-    }
-    input[type="password"],
-    input[type="text"] {
-        margin-bottom: 16px;
-        margin-left: 32px;
-        width: 30rem;
-        height: 2rem;
-        :focus {
-            outline: none;
-        }
     }
 `;
 
@@ -100,6 +50,7 @@ const LogInComponent = () => {
     return (
         <>
             <Header color="black"></Header>
+            <HrComponent />
             <Main>
                 <LogInBox>
                     <div className="login">로그인</div>
