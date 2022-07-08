@@ -1,6 +1,7 @@
 package catchroom.backend.service;
 
 
+import catchroom.backend.domain.Address;
 import catchroom.backend.domain.Member;
 import catchroom.backend.domain.Room;
 import catchroom.backend.domain.WishRoom;
@@ -109,5 +110,21 @@ public class MemberServiceTest {
         //then
 
         Assertions.assertEquals(member.getWishes().get(0),wishRoom);
+    }
+
+    @Test
+    public void 멤버_수정() throws Exception{
+        //given
+        Member member = new Member();
+        member.setName("지상일");
+        member.setEmail("gsl0515");
+        member.setPassword("1234");
+
+        memberService.join(member);
+        //when
+        Member updateMember = memberService.updateMember(member.getEmail(), "지상일1", new Address("a", "a", "a", "a"), "123", "1234");
+
+        //then
+        Assertions.assertEquals(member.getName(),updateMember.getName());
     }
 }

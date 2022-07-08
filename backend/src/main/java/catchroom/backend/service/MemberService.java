@@ -1,5 +1,6 @@
 package catchroom.backend.service;
 
+import catchroom.backend.domain.Address;
 import catchroom.backend.domain.Member;
 import catchroom.backend.domain.Room;
 import catchroom.backend.domain.WishRoom;
@@ -62,5 +63,17 @@ public class MemberService {
 
         Member member = memberRepository.findOne(email);
         memberRepository.delete(member);
+    }
+
+    //아이디 수정
+    @Transactional
+    public Member updateMember(String email, String name, Address address, String password, String number){
+        Member findMember = memberRepository.findOne(email);
+        findMember.setName(name);
+        findMember.setAddress(address);
+        findMember.setPassword(password);
+        findMember.setNumber(number);
+
+        return findMember;
     }
 }
