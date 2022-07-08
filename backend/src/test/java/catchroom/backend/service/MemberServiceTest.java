@@ -72,11 +72,20 @@ public class MemberServiceTest {
         member.setEmail("gsl0515");
         member.setPassword("1234");
         member.setWishes(new ArrayList<>());
-        //when
+
+        Room room = new Room();
+        room.setName("방1");
+
         String saveEmail = memberService.join(member);
+        Long saveRoom = roomService.addRoom(room);
+
+        WishRoom wishRoom = memberService.wish(saveEmail, saveRoom);
+        //when
+
+        memberService.deleteId(saveEmail);
 
         //then
-        Assertions.assertEquals(member,memberRepository.findOne(saveEmail));
+        Assertions.assertEquals(null,memberRepository.findOne(saveEmail));
     }
 
 
