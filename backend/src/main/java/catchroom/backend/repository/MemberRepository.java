@@ -22,8 +22,10 @@ public class MemberRepository {
     }
 
     public List<Member> findByIdentity(String email) {
-        return em.createQuery("select m from Member m where m.id = :id", Member.class)
-                .setParameter("id", email)
+        return em.createQuery("select m from Member m where m.id = :email", Member.class)
+                .setParameter("email", email)
                 .getResultList();
     }
+
+    public void delete(Member member) {em.remove(member); }
 }

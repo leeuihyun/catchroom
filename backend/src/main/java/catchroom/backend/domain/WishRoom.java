@@ -23,5 +23,4 @@ public class WishRoom {
     private Room room;
 
 
-
 }

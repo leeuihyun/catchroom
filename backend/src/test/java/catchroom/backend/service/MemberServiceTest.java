@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 
 @SpringBootTest
 @Transactional
@@ -31,6 +33,44 @@ public class MemberServiceTest {
 
         //then
         Assertions.assertEquals(member,memberRepository.findOne(saveEmail));
+    }
 
+    @Test
+    public void 중복회원가입() throws Exception{
+        //given
+        Member memberA = new Member();
+        memberA.setName("지상일");
+        memberA.setEmail("gsl0515");
+        memberA.setPassword("1234");
+
+        Member memberB = new Member();
+        memberB.setName("지상일");
+        memberB.setEmail("gsl0515");
+        memberB.setPassword("1234");
+
+        //when
+        memberService.join(memberA);
+
+
+
+        //then
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            memberService.join(memberB);
+        });
+    }
+
+    @Test
+    public void 회원탈퇴() throws Exception{
+        //given
+        Member member = new Member();
+        member.setName("지상일");
+        member.setEmail("gsl0515");
+        member.setPassword("1234");
+        member.setWishes(new ArrayList<>());
+        //when
+        String saveEmail = memberService.join(member);
+
+        //then
+        Assertions.assertEquals(member,memberRepository.findOne(saveEmail));
     }
 }

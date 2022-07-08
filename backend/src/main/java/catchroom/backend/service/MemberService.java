@@ -1,7 +1,7 @@
 package catchroom.backend.service;
 
 import catchroom.backend.domain.Member;
-import catchroom.backend.repository.*;
+import catchroom.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +30,14 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
     }
 
+    //아이디 찾기
     public Member findOne(String email){return memberRepository.findOne(email);}
+
+    // 아이디 삭제
+    @Transactional
+    public  void deleteId(String email){
+
+        Member member = memberRepository.findOne(email);
+        memberRepository.delete(member);
+    }
 }
