@@ -11,11 +11,11 @@ import java.util.List;
 @Getter @Setter
 public class President {
 
-    @Id @GeneratedValue
-    @Column(name = "president_id")
-    private Long id;
-
     private String name;
+
+    @Id
+    @Column(name = "president_id")
+    private String email;
 
     private String password;
 

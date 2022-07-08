@@ -12,14 +12,10 @@ import java.util.List;
 @Getter @Setter
 public class Member {
 
-    @GeneratedValue
-    @Column(name = "member_id")
-    private Long id;
-
     private String name;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "member_id")
     private String email;
 
     private String password;
@@ -31,7 +27,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<WishRoom> wishes = new ArrayList<>();
-
 
 
 }
