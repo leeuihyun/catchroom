@@ -16,4 +16,8 @@ public class RoomRepository {
     public void save(Room room) {
         em.persist(room);
     }
+
+    public Room findOne(Long roomId){
+        return em.find(Room.class,roomId);
+    }
 }

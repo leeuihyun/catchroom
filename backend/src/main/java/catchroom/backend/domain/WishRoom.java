@@ -23,4 +23,13 @@ public class WishRoom {
     private Room room;
 
 
+    //생성 메소드
+    public static WishRoom createWish(Member member, Room room){
+        WishRoom wishRoom = new WishRoom();
+
+        wishRoom.setMember(member);
+        wishRoom.setRoom(room);
+
+        return wishRoom;
+    }
 }

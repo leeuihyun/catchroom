@@ -2,7 +2,10 @@ package catchroom.backend.service;
 
 
 import catchroom.backend.domain.Member;
+import catchroom.backend.domain.Room;
+import catchroom.backend.domain.WishRoom;
 import catchroom.backend.repository.MemberRepository;
+import catchroom.backend.repository.RoomRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ public class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
+    @Autowired RoomRepository roomRepository;
+    @Autowired RoomService roomService;
 
 
     @Test
@@ -72,5 +77,28 @@ public class MemberServiceTest {
 
         //then
         Assertions.assertEquals(member,memberRepository.findOne(saveEmail));
+    }
+
+
+    @Test
+    public void 찜기능() throws Exception{
+        //given
+        Member member = new Member();
+        member.setName("지상일");
+        member.setEmail("gsl0515");
+        member.setPassword("1234");
+
+        Room room = new Room();
+        room.setName("방1");
+
+        String saveEmail = memberService.join(member);
+        Long saveRoom = roomService.addRoom(room);
+        //when
+
+
+        WishRoom wishRoom = memberService.wish(saveEmail, saveRoom);
+        //then
+
+        Assertions.assertEquals(member.getWishes().get(0),wishRoom);
     }
 }
