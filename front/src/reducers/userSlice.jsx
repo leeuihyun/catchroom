@@ -13,13 +13,13 @@ const initialState = {
     signUpError: null,
 };
 
-const dummyStudentLogin = (data) => ({
+const dummyStudentLogIn = (data) => ({
     id: shortId.generate(),
     email: data.email,
     password: data.password,
 });
 
-const dummyHostLogin = (data) => ({
+const dummyHostLogIn = (data) => ({
     id: shortId.generate(),
     email: data.email,
     password: data.password,
@@ -43,18 +43,29 @@ const dummyHostSignUp = (data) => ({
     phone: data.phone,
 });
 
-export const logIn = createAsyncThunk("logIn", async () => {
+export const studentLogIn = createAsyncThunk("studentLogIn", async (data) => {
     try {
         //const res = await axios.post("https://catchroom.com/logIn/post", data);
         //console.log(res);
 
         console.log("logIn");
+        return data;
     } catch (error) {
         console.error(error);
         return error;
     }
 });
-
+export const hostLogIn = createAsyncThunk("hostLogIn", async (data) => {
+    try {
+        //const res = await axios.post("https://catchroom.com/logIn/post", data);
+        //console.log(res);
+        console.log("hostLogIn");
+        return data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+});
 export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
     try {
         //const res = await axios.post("https://catchroom.com/", data);
@@ -90,22 +101,40 @@ export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
         return error;
     }
 });
+
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {},
     extraReducers: {
-        [logIn.pending]: (state, action) => {
+        [studentLogIn.pending]: (state, action) => {
             state.logInLoading = true;
             state.logInDone = false;
             state.logInError = null;
         },
-        [logIn.fulfilled]: (state, action) => {
+        [studentLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
+            state.studentUser = dummyStudentLogIn(action.payload.data);
             state.logInError = null;
         },
-        [logIn.rejected]: (state, action) => {
+        [studentLogIn.rejected]: (state, action) => {
+            state.logInLoading = false;
+            state.logInDone = false;
+            state.logInError = action.error;
+        },
+        [hostLogIn.pending]: (state, action) => {
+            state.logInLoading = true;
+            state.logInDone = false;
+            state.logInError = null;
+        },
+        [hostLogIn.fulfilled]: (state, action) => {
+            state.logInLoading = false;
+            state.logInDone = true;
+            state.hostUser = dummyHostLogIn(action.payload.data);
+            state.logInError = null;
+        },
+        [hostLogIn.rejected]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = false;
             state.logInError = action.error;
@@ -119,7 +148,6 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.studentUser = dummyStudentLogin(action.data);
             state.hostUser = null;
         },
         [studentSignUp.rejected]: (state, action) => {
@@ -136,7 +164,6 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.hostUser = dummyHostLogin(action.data);
             state.studentUser = null;
         },
         [hostSignUp.rejected]: (state, action) => {
