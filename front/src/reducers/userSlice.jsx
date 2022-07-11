@@ -4,7 +4,7 @@ import shortId from "shortid";
 
 const initialState = {
     studentUser: null,
-    presidentUser: null,
+    hostUser: null,
     logInLoading: false,
     logInDone: false,
     logInError: null,
@@ -19,16 +19,35 @@ const dummyStudentLogin = (data) => ({
     password: data.password,
 });
 
-const dummyPresidentLogin = (data) => ({
+const dummyHostLogin = (data) => ({
     id: shortId.generate(),
     email: data.email,
     password: data.password,
+});
+
+const dummyStudentSignUp = (data) => ({
+    id: shortId.generate(),
+    email: data.email,
+    password: data.password,
+    address: data.address,
+    name: data.name,
+    phone: data.phone,
+});
+
+const dummyHostSignUp = (data) => ({
+    id: shortId.generate(),
+    email: data.email,
+    password: data.password,
+    address: data.address,
+    name: data.name,
+    phone: data.phone,
 });
 
 export const logIn = createAsyncThunk("logIn", async () => {
     try {
         //const res = await axios.post("https://catchroom.com/logIn/post", data);
         //console.log(res);
+
         console.log("logIn");
     } catch (error) {
         console.error(error);
@@ -36,27 +55,36 @@ export const logIn = createAsyncThunk("logIn", async () => {
     }
 });
 
-export const presidentSignUp = createAsyncThunk(
-    "presidentSignUp",
-    async (data) => {
-        try {
-            //const res = await axios.post("https://catchroom.com/", data);
-            //console.log(res);
-            console.log("presidentSignUp");
-            console.log(data);
-        } catch (error) {
-            console.error(error);
-            return error;
-        }
+export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
+    try {
+        //const res = await axios.post("https://catchroom.com/", data);
+        //console.log(res);
+        console.log("hostSignUp");
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+        return error;
     }
-);
+});
 
 export const studentSignUp = createAsyncThunk("studentSignUp", async (data) => {
     try {
         //const res = await axios.post("https://catchroom.com/studentSignUp/post", data);
         //console.log(res);
+        //return res;
         console.log("studentSignUp");
         console.log(data);
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+});
+
+export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
+    try {
+        //const res = await axios.get("https://catchroom.com/studentLogInCheck/");
+        //console.log(res);
+        //return res;
     } catch (error) {
         console.error(error);
         return error;
@@ -92,26 +120,26 @@ const userSlice = createSlice({
             state.signUpDone = true;
             state.signUpError = null;
             state.studentUser = dummyStudentLogin(action.data);
-            state.presidentUser = null;
+            state.hostUser = null;
         },
         [studentSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
             state.signUpDone = false;
             state.signUpError = action.error;
         },
-        [presidentSignUp.pending]: (state, action) => {
+        [hostSignUp.pending]: (state, action) => {
             state.signUpLoading = true;
             state.signUpDone = false;
             state.signUpError = null;
         },
-        [presidentSignUp.fulfilled]: (state, action) => {
+        [hostSignUp.fulfilled]: (state, action) => {
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.presidentUser = dummyPresidentLogin(action.data);
+            state.hostUser = dummyHostLogin(action.data);
             state.studentUser = null;
         },
-        [presidentSignUp.rejected]: (state, action) => {
+        [hostSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
             state.signUpDone = false;
             state.signUpError = action.error;
