@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,10 +47,6 @@ public class MemberService {
         Room room = roomRepository.findOne(roomId);
 
         WishRoom wishRoom = WishRoom.createWish(member,room);
-
-        if(member.getEmail()==null)
-            member.setWishes(new ArrayList<>());
-        member.getWishes().add(wishRoom);
 
         return wishRoom;
     }
