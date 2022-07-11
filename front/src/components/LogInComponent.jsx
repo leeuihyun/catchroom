@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Button from "../subcomponents/Button";
 import Main from "../subcomponents/Main";
 import LogInBox from "../subcomponents/LogInBox";
+import { studentLogIn, hostLogIn } from "../reducers/userSlice";
 
 const SignUpBox = styled.div`
     display: flex;
@@ -25,6 +26,8 @@ const SignUpBox = styled.div`
 
 const LogInComponent = () => {
     const dispatch = useDispatch();
+    const { hostUser, studentUser } = useSelector((state) => state.user);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [radio, setRadio] = useState("student");
@@ -45,6 +48,26 @@ const LogInComponent = () => {
             console.log(radio);
             console.log(email);
             console.log(password);
+            if (radio === "student") {
+                dispatch(
+                    studentLogIn({
+                        data: {
+                            email: email,
+                            password: password,
+                        },
+                    })
+                );
+            }
+            if (radio === "host") {
+                dispatch(
+                    hostLogIn({
+                        data: {
+                            email: email,
+                            password: password,
+                        },
+                    })
+                );
+            }
         },
         [radio, email, password]
     );
