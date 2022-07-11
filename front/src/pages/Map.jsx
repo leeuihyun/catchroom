@@ -17,17 +17,13 @@ const Map = () => {
     useEffect(() => {
         var container = document.getElementById("map");
         var options = {
-            center: new kakao.maps.LatLng(
-                37.365264512305174,
-                127.10676860117488
-            ),
-            level: 3,
+            center: new kakao.maps.LatLng(37.566826, 126.9786567),
+            level: 4,
         };
         var map = new kakao.maps.Map(container, options);
-        var markerPosition = new kakao.maps.LatLng(
-            37.365264512305174,
-            127.10676860117488
-        );
+        //var ps = new kakao.maps.services.Places(map);
+
+        var markerPosition = new kakao.maps.LatLng(37.566826, 126.9786567);
         var marker = new kakao.maps.Marker({
             position: markerPosition,
         });
