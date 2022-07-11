@@ -89,7 +89,7 @@ public class MemberServiceTest {
         Assertions.assertEquals(null,memberRepository.findOne(saveEmail));
     }
 
-
+/*
     @Test
     public void 찜기능() throws Exception{
         //given
@@ -111,7 +111,7 @@ public class MemberServiceTest {
 
         Assertions.assertEquals(member.getWishes().get(0),wishRoom);
     }
-
+*/
     @Test
     public void 멤버_수정() throws Exception{
         //given
