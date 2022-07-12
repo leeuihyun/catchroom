@@ -66,8 +66,9 @@ const ThirdPage = styled.div`
     width: 100%;
     background-color: white;
     color: black;
-    height: 40vh;
+    height: 48vh;
     display: flex;
+
     justify-content: center;
     align-items: center;
 `;
