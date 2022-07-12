@@ -11,6 +11,9 @@ const initialState = {
     signUpLoading: false,
     signUpDone: false,
     signUpError: null,
+    logOutLoading: false,
+    logOutDone: false,
+    logOutError: null,
 };
 
 const dummyStudentLogIn = (data) => ({
@@ -102,6 +105,26 @@ export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
     }
 });
 
+export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
+    try {
+        //const res = await axios.post("https://catchroom.com/hostLogOut", data);
+        //return res;
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+});
+
+export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
+    try {
+        //const res = await axios.post("https://catchroom.com/studentLogOut", data);
+        //return res;
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+    }
+});
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -170,6 +193,38 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = false;
             state.signUpError = action.error;
+        },
+        [studentLogOut.pending]: (state, action) => {
+            state.logOutLoading = true;
+            state.logOutDone = false;
+            state.logOutError = null;
+        },
+        [studentLogOut.fulfilled]: (state, action) => {
+            state.logOutLoading = false;
+            state.logOutDone = true;
+            state.logOutError = null;
+            state.studentUser = null;
+        },
+        [studentLogOut.rejected]: (state, action) => {
+            state.logOutLoading = false;
+            state.logOutDone = false;
+            state.logOutError = action.error;
+        },
+        [hostLogOut.pending]: (state, action) => {
+            state.logOutLoading = true;
+            state.logOutDone = false;
+            state.logOutError = null;
+        },
+        [hostLogOut.fulfilled]: (state, action) => {
+            state.logOutLoading = false;
+            state.logOutDone = true;
+            state.logOutError = null;
+            state.hostUser = null;
+        },
+        [hostLogOut.rejected]: (state, action) => {
+            state.logOutLoading = false;
+            state.logOutDone = false;
+            state.logOutError = action.error;
         },
     },
 });
