@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const FooterBox = styled.div`
-    background-color: #716e6e;
+    background-color: #000000;
     color: white;
     width: 100%;
     height: 26vh;
