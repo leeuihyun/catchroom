@@ -9,6 +9,7 @@ import Button from "../subcomponents/Button";
 import Main from "../subcomponents/Main";
 import LogInBox from "../subcomponents/LogInBox";
 import { studentLogIn, hostLogIn } from "../reducers/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignUpBox = styled.div`
     display: flex;
@@ -27,7 +28,7 @@ const SignUpBox = styled.div`
 const LogInComponent = () => {
     const dispatch = useDispatch();
     const { hostUser, studentUser } = useSelector((state) => state.user);
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [radio, setRadio] = useState("student");
@@ -71,6 +72,12 @@ const LogInComponent = () => {
         },
         [radio, email, password]
     );
+    useEffect(() => {
+        if (hostUser || studentUser) {
+            navigate("/");
+        }
+    }, [hostUser, studentUser]);
+
     return (
         <>
             <Header color="black"></Header>
