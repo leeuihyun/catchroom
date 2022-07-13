@@ -81,7 +81,7 @@ const LogInComponent = () => {
     return (
         <>
             <Header color="black"></Header>
-            <HrComponent />
+
             <Main>
                 <LogInBox>
                     <div className="login">로그인</div>
