@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Line = styled.hr`
-    margin-top: 80px;
+    margin-top: 10px;
     height: 1px;
     width: 98%;
     border-width: 1px 0px 0px 0px;
