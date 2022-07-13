@@ -20,7 +20,7 @@ const Box = styled.div`
         margin-bottom: 10px;
     }
     .login {
-        padding-top: 40px;
+        padding-top: 10px;
         padding-left: 16px;
         left: 0;
         font-size: 32px;

@@ -15,6 +15,7 @@ const SignUpComponent = () => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [radio, setRadio] = useState("student");
+    const dispatch = useDispatch();
 
     const onChangeStudentRadioButton = useCallback((e) => {
         setRadio("student");
@@ -51,7 +52,7 @@ const SignUpComponent = () => {
     return (
         <>
             <Header color="black" />
-            <HrComponent />
+
             <Main>
                 <LogInBox>
                     <div className="login">회원가입</div>

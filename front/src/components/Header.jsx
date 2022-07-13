@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { hostLogOut, studentLogOut } from "../reducers/userSlice";
+import HrComponent from "./HrComponent";
 
 const HeaderBox = styled.div`
     width: 100%;
-    top: 0;
-    position: fixed;
-    margin: 1.5rem;
+    padding-top: 20px;
+    margin-left: 30px;
     display: flex;
     z-index: 2;
     .logo {
@@ -23,8 +23,8 @@ const HeaderBox = styled.div`
     }
 
     .box {
-        font-size: 1.2rem;
-        padding-left: 0.5rem;
+        font-size: 20px;
+        padding-left: 8px;
         width: 92%;
         margin-right: 50px;
         display: flex;
@@ -69,22 +69,25 @@ const Header = ({ color }) => {
     }, [studentUser, hostUser]);
 
     return (
-        <HeaderBox color={color}>
-            <div className="logo">
-                <Link to="/">자방</Link>
-            </div>
-            <div className="box">
-                <Link to="/map">지도</Link>
-                <Link to="#">찜 목록</Link>
-                {studentUser || hostUser ? (
-                    <div className="logOut" onClick={onClickLogOut}>
-                        로그아웃
-                    </div>
-                ) : (
-                    <Link to="/logIn">회원가입 / 로그인</Link>
-                )}
-            </div>
-        </HeaderBox>
+        <>
+            <HeaderBox color={color}>
+                <div className="logo">
+                    <Link to="/">자방</Link>
+                </div>
+                <div className="box">
+                    <Link to="/map">지도</Link>
+                    <Link to="#">찜 목록</Link>
+                    {studentUser || hostUser ? (
+                        <div className="logOut" onClick={onClickLogOut}>
+                            로그아웃
+                        </div>
+                    ) : (
+                        <Link to="/logIn">회원가입 / 로그인</Link>
+                    )}
+                </div>
+            </HeaderBox>
+            <HrComponent></HrComponent>
+        </>
     );
 };
 
