@@ -82,23 +82,25 @@ const HomeLayout = () => {
         justifyContent: "center",
         alignItems: "center",
     };
+
     return (
         <Box>
-            <Header />
             <FullPage>
                 <FullPageSections>
-                    <FullpageSection style={sectionStyle}>
-                        <h1>당신의 방을 찾아보세요</h1>
-
-                        <Input>
-                            <input
-                                type="text"
-                                placeholder="지역 혹은 학교명을 입력해주세요"
-                            />
-                            <SearchOutLineIcon>
-                                <SearchOutlined />
-                            </SearchOutLineIcon>
-                        </Input>
+                    <FullpageSection>
+                        <Header></Header>
+                        <div style={sectionStyle}>
+                            <h1>당신의 방을 찾아보세요</h1>
+                            <Input>
+                                <input
+                                    type="text"
+                                    placeholder="지역 혹은 학교명을 입력해주세요"
+                                />
+                                <SearchOutLineIcon>
+                                    <SearchOutlined />
+                                </SearchOutLineIcon>
+                            </Input>
+                        </div>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>
                         <h1>screen 2</h1>
