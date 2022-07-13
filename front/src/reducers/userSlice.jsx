@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import shortId from "shortid";
+import { backUrl } from "../config/config";
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = backUrl;
 
 const initialState = {
     studentUser: null,
@@ -48,7 +51,7 @@ const dummyHostSignUp = (data) => ({
 
 export const studentLogIn = createAsyncThunk("studentLogIn", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/logIn/post", data);
+        //const res = await axios.post("logIn/post", data);
         //console.log(res);
 
         console.log("logIn");
@@ -60,7 +63,7 @@ export const studentLogIn = createAsyncThunk("studentLogIn", async (data) => {
 });
 export const hostLogIn = createAsyncThunk("hostLogIn", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/logIn/post", data);
+        //const res = await axios.post("logIn/post", data);
         //console.log(res);
         console.log("hostLogIn");
         return data;
@@ -71,7 +74,7 @@ export const hostLogIn = createAsyncThunk("hostLogIn", async (data) => {
 });
 export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/", data);
+        //const res = await axios.post("", data);
         //console.log(res);
         console.log("hostSignUp");
         console.log(data);
@@ -83,7 +86,7 @@ export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
 
 export const studentSignUp = createAsyncThunk("studentSignUp", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/studentSignUp/post", data);
+        //const res = await axios.post("studentSignUp/post", data);
         //console.log(res);
         //return res;
         console.log("studentSignUp");
@@ -96,7 +99,7 @@ export const studentSignUp = createAsyncThunk("studentSignUp", async (data) => {
 
 export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
     try {
-        //const res = await axios.get("https://catchroom.com/studentLogInCheck/");
+        //const res = await axios.get("studentLogInCheck/");
         //console.log(res);
         //return res;
     } catch (error) {
@@ -118,7 +121,7 @@ export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
 
 export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/studentLogOut", data);
+        //const res = await axios.post("studentLogOut", data);
         //return res;
         console.log(data);
     } catch (error) {

@@ -7,8 +7,7 @@ import HrComponent from "./HrComponent";
 
 const HeaderBox = styled.div`
     width: 100%;
-    padding-top: 30px;
-
+    padding-top: 20px;
     margin-left: 30px;
     display: flex;
     z-index: 2;
