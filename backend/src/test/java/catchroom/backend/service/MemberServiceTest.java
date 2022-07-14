@@ -1,31 +1,23 @@
-//package catchroom.backend.service;
-//
-//
-//import catchroom.backend.domain.Address;
-//import catchroom.backend.domain.Member;
-//import catchroom.backend.domain.Room;
-//import catchroom.backend.domain.WishRoom;
-//import catchroom.backend.repository.MemberRepository;
-//import catchroom.backend.repository.RoomRepository;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.util.ArrayList;
-//
-//
-//@SpringBootTest
-//@Transactional
-//public class MemberServiceTest {
-//
-//    @Autowired MemberService memberService;
-//    @Autowired MemberRepository memberRepository;
-//    @Autowired RoomRepository roomRepository;
-//    @Autowired RoomService roomService;
-//
-//
+package catchroom.backend.service;
+
+
+import catchroom.backend.repository.MemberRepository;
+import catchroom.backend.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+
+@SpringBootTest
+@Transactional
+public class MemberServiceTest {
+
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;
+    @Autowired RoomRepository roomRepository;
+    @Autowired RoomService roomService;
+
+
 //    @Test
 //    public void 회원가입() throws Exception{
 //        //given
@@ -127,4 +119,4 @@
 //        //then
 //        Assertions.assertEquals(member.getName(),updateMember.getName());
 //    }
-//}
+}
