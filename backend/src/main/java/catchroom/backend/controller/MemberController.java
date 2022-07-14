@@ -55,10 +55,10 @@ public class MemberController {
 
     //조회
     @GetMapping("/{id}")
-    public ResponseEntity<?> searchMember(@PathVariable("id")String email){
+    public ResponseEntity<?> searchMember(@PathVariable("id") String email) {
         Member findMember = memberService.findOne(email);
 
-        return new ResponseEntity<>(findMember,HttpStatus.OK);
+        return new ResponseEntity<>(findMember, HttpStatus.OK);
     }
 
     //수정
@@ -67,9 +67,16 @@ public class MemberController {
         Address address = new Address(form.getCity(),
                 form.getDistrict(), form.getDetail(), form.getZipcode());
         Member updateMember = memberService.updateMember(email,
-                form.getName(),address,form.getPassword(),form.getNumber());
+                form.getName(), address, form.getPassword(), form.getNumber());
 
-        return new ResponseEntity<>(updateMember,HttpStatus.OK);
+        return new ResponseEntity<>(updateMember, HttpStatus.OK);
     }
 
+
+    //삭제
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<?> deleteMember(@PathVariable("id") String email){
+        memberService.deleteId(email);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
