@@ -5,6 +5,8 @@ import catchroom.backend.domain.Address;
 import catchroom.backend.domain.Member;
 import catchroom.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,7 +38,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/new")
-    public void ExMember(@RequestBody MemberForm form) {
+    public ResponseEntity<?> createMember(@RequestBody MemberForm form) {
         Address address = new Address(form.getCity(),
                 form.getDistrict(), form.getDetail(), form.getZipcode());
 
@@ -48,5 +50,26 @@ public class MemberController {
         member.setNumber(form.getNumber());
         memberService.join(member);
 
+        return new ResponseEntity<>(member, HttpStatus.CREATED);
     }
+
+    //조회
+    @GetMapping("/{id}")
+    public ResponseEntity<?> searchMember(@PathVariable("id")String email){
+        Member findMember = memberService.findOne(email);
+
+        return new ResponseEntity<>(findMember,HttpStatus.OK);
+    }
+
+    //수정
+    @PostMapping("/{id}/update")
+    public ResponseEntity<?> updateMember(@PathVariable("id") String email, @RequestBody MemberForm form) {
+        Address address = new Address(form.getCity(),
+                form.getDistrict(), form.getDetail(), form.getZipcode());
+        Member updateMember = memberService.updateMember(email,
+                form.getName(),address,form.getPassword(),form.getNumber());
+
+        return new ResponseEntity<>(updateMember,HttpStatus.OK);
+    }
+
 }
