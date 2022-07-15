@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Card from "./Card";
 
 const { kakao } = window;
 
@@ -10,21 +11,23 @@ const Divstyle = styled.div`
     width: 100%;
     height: 100%;
 `;
+const ResultTitle = styled.div`
+    color: black;
+    font-weight: bold;
+`;
 
 const ResultStyle = styled.div`
     width: 367px;
     height: 575px;
     overflow: scroll;
     position: absolute;
-    top: 40px;
+    top: 50px;
     bottom: 10px;
     right: 20px;
-
-    background-color: gray;
-    opacity: 0.7;
-    z-index: 1;
+    background-color: white;
     font-size: 17px;
-    color: #000000;
+    color: black;
+    z-index: 2;
 `;
 
 const Pagination = styled.div`
@@ -113,13 +116,13 @@ const MapLayout = ({ searchPlace }) => {
             }
             paginationEl.appendChild(fragment);
         }
-
+        //마커 그리기
         function displayMarker(place) {
             let marker = new kakao.maps.Marker({
                 map: map,
                 position: new kakao.maps.LatLng(place.y, place.x),
             });
-
+            //마커 클릭시
             kakao.maps.event.addListener(marker, "click", function () {
                 infowindow.setContent(
                     '<div style="padding:5px;font-size:12px;">' +
@@ -147,10 +150,10 @@ const MapLayout = ({ searchPlace }) => {
             </MapContainer>
             <ResultStyle>
                 {Places.map((item, i) => (
-                    <div key={i} style={{ marginTop: "20px" }}>
-                        <span>{i + 1}</span>
+                    <Card index={i} data={item.address_name}>
                         <div>
-                            <h5>{item.place_name}</h5>
+                            <ResultTitle>{item.place_name}</ResultTitle>
+
                             {item.road_address_name ? (
                                 <div>
                                     <span>{item.road_address_name}</span>
@@ -159,9 +162,8 @@ const MapLayout = ({ searchPlace }) => {
                             ) : (
                                 <span>{item.address_name}</span>
                             )}
-                            <span>{item.phone}</span>
                         </div>
-                    </div>
+                    </Card>
                 ))}
                 <div id="pagination"></div>
             </ResultStyle>
