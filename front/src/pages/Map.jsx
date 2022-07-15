@@ -1,79 +1,106 @@
 /*global kakao*/
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import styled from "styled-components";
 import HrComponent from "../components/HrComponent";
 import { markerdata } from "../components/MarkerData";
+import MapLayout from "../components/MapLayout";
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const MapContainer = styled.div`
+    width: 100%;
+    height: 400px;
+    top: 50px;
+    border-width: thick;
+    border-color: black;
+    border-style: solid;
+    border-radius: 30px;
+    position: relative;
+`;
+
+const Search = styled.input`
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    border-radius: 30px 0px 0px 30px;
+    z-index: 2;
+    font-size: 20px;
+`;
+
+const SearchForm = styled.form``;
+
+const SearchBtn = styled.button`
+    width: 50px;
+    height: 45px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border-radius: 0px 30px 30px 0px;
+    z-index: 2;
+    background-color: #fff;
+    color: #333;
+    &:hover {
+        cursor: pointer;
+        background-color: #333;
+        color: #fff;
+    }
+`;
 
 const MainBox = styled.div`
     width: 100%;
     height: 100%;
 `;
 
-const MapBox = styled.div`
-    top: 10px;
-    margin-left: 30px;
-    width: 600px;
-    height: 500px;
-`;
-
 export default function Map() {
-    useEffect(() => {
-        mapscript();
-    }, []);
+    const [InputText, setInputText] = useState("");
+    const [Place, setPlace] = useState("");
 
-    var imageSrc =
-        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-    const mapscript = () => {
-        let container = document.getElementById("map");
-        let options = {
-            center: new kakao.maps.LatLng(
-                37.624915253753194,
-                127.15122688059974
-            ),
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    };
 
-            level: 5,
-        };
-
-        //map
-        const map = new kakao.maps.Map(container, options);
-
-        var imageSize = new kakao.maps.Size(24, 35);
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-        markerdata.forEach((el) => {
-            // 마커를 생성합니다
-            new kakao.maps.Marker({
-                //마커가 표시 될 지도
-                map: map,
-                //마커가 표시 될 위치
-                position: new kakao.maps.LatLng(el.lat, el.lng),
-                //마커에 hover시 나타날 title
-                title: el.title,
-                image: markerImage, //마커 이미지
-            });
-        });
-        console.log(map.getCenter());
-        kakao.maps.event.addListener(map, "dragend", function () {
-            // 지도 중심좌표를 얻어옵니다
-            var latlng = map.getCenter();
-
-            var message =
-                "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
-            message +=
-                "경도는 " + latlng.getLng() + "이고 레벨은 " + map.getLevel();
-
-            console.log(message);
-        });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setPlace(InputText);
+        setInputText("");
     };
 
     return (
-        <MainBox>
-            <Header color="black"></Header>
-
-            <MapBox
-                id="map"
-                style={{ width: "500px", height: "400px" }}
-            ></MapBox>
-        </MainBox>
+        <>
+            <div
+                className="section"
+                style={{
+                    backgroundColor: `${(props) =>
+                        props.theme.questionPage.backgroundColor}`,
+                }}
+            >
+                <Container>
+                    <MapContainer>
+                        <SearchForm
+                            className="inputForm"
+                            onSubmit={handleSubmit}
+                        >
+                            <Search
+                                placeholder="검색어를 입력하세요"
+                                onChange={onChange}
+                                value={InputText}
+                            />
+                            <SearchBtn type="submit">검색</SearchBtn>
+                        </SearchForm>
+                        <MapLayout searchPlace={Place} />
+                    </MapContainer>
+                </Container>
+            </div>
+        </>
     );
 }
