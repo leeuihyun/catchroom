@@ -5,18 +5,21 @@ const { kakao } = window;
 
 const Divstyle = styled.div`
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
+    height: 100%;
 `;
 
 const ResultStyle = styled.div`
-    width: 360px;
-    height: 350px;
+    width: 367px;
+    height: 575px;
     overflow: scroll;
     position: absolute;
-    top: 10px;
+    top: 40px;
     bottom: 10px;
     right: 20px;
-    border-radius: 30px;
+
     background-color: gray;
     opacity: 0.7;
     z-index: 1;
@@ -38,7 +41,14 @@ const Pagination = styled.div`
     }
 `;
 
-const Map = ({ searchPlace }) => {
+const MapContainer = styled.div`
+    width: 1020px;
+    height: 615px;
+    left: 20px;
+    position: relative;
+`;
+
+const MapLayout = ({ searchPlace }) => {
     // 검색결과 배열에 담아줌
     const [Places, setPlaces] = useState([]);
 
@@ -123,17 +133,18 @@ const Map = ({ searchPlace }) => {
 
     return (
         <Divstyle>
-            <div
-                id="myMap"
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "30px",
-                    position: "absolute",
-                    bottom: "0px",
-                    left: "0px",
-                }}
-            />
+            <MapContainer>
+                <div
+                    id="myMap"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        bottom: "0px",
+                        left: "0px",
+                    }}
+                />
+            </MapContainer>
             <ResultStyle>
                 {Places.map((item, i) => (
                     <div key={i} style={{ marginTop: "20px" }}>
@@ -158,4 +169,4 @@ const Map = ({ searchPlace }) => {
     );
 };
 
-export default Map;
+export default MapLayout;
