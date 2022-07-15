@@ -11,12 +11,10 @@ const Container = styled.div`
     height: 100%;
     position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 const MapContainer = styled.div`
-    width: 100%;
+    width: 800px;
     height: 400px;
     top: 50px;
     border-width: thick;
@@ -27,12 +25,12 @@ const MapContainer = styled.div`
 `;
 
 const Search = styled.input`
-    width: 300px;
+    width: 310px;
     height: 40px;
     position: absolute;
-    top: 10px;
+
     right: 70px;
-    border-radius: 30px 0px 0px 30px;
+
     z-index: 2;
     font-size: 20px;
 `;
@@ -43,9 +41,8 @@ const SearchBtn = styled.button`
     width: 50px;
     height: 45px;
     position: absolute;
-    top: 10px;
+
     right: 20px;
-    border-radius: 0px 30px 30px 0px;
     z-index: 2;
     background-color: #fff;
     color: #333;
@@ -77,30 +74,20 @@ export default function Map() {
 
     return (
         <>
-            <div
-                className="section"
-                style={{
-                    backgroundColor: `${(props) =>
-                        props.theme.questionPage.backgroundColor}`,
-                }}
-            >
-                <Container>
-                    <MapContainer>
-                        <SearchForm
-                            className="inputForm"
-                            onSubmit={handleSubmit}
-                        >
-                            <Search
-                                placeholder="검색어를 입력하세요"
-                                onChange={onChange}
-                                value={InputText}
-                            />
-                            <SearchBtn type="submit">검색</SearchBtn>
-                        </SearchForm>
-                        <MapLayout searchPlace={Place} />
-                    </MapContainer>
-                </Container>
-            </div>
+            <Header color="black" />
+
+            <Container>
+                <SearchForm className="inputForm" onSubmit={handleSubmit}>
+                    <Search
+                        placeholder="검색어를 입력하세요"
+                        onChange={onChange}
+                        value={InputText}
+                    />
+                    <SearchBtn type="submit">검색</SearchBtn>
+                </SearchForm>
+
+                <MapLayout searchPlace={Place} />
+            </Container>
         </>
     );
 }
