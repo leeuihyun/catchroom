@@ -1,6 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import HrComponent from "./HrComponent";
+import ModalContainer from "./ModalContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { modalActions } from "../reducers/modalSlice";
 
 const Container = styled.div`
     display: flex;
@@ -23,8 +26,11 @@ const ContentBox = styled.div`
     justify-content: center;
 `;
 const Card = ({ children, index, data }) => {
+    const { isOpen } = useSelector((state) => state.modal);
+    const dispatch = useDispatch();
     const onClickContainer = useCallback(() => {
         console.log(data);
+        dispatch(modalActions.setIsOpen({ data: !isOpen }));
     }, []);
     return (
         <>
