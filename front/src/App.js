@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Wish from "./pages/Wish";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "antd/dist/antd.min.css";
 
 const App = () => {
     return (

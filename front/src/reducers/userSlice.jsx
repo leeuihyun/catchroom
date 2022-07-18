@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import shortId from "shortid";
-import { backUrl } from "../config/config";
+//import { backUrl } from "../config/config";
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = backUrl;
+//axios.defaults.baseURL = backUrl;
 
 const initialState = {
     studentUser: null,
@@ -84,18 +84,23 @@ export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
     }
 });
 
-export const studentSignUp = createAsyncThunk("studentSignUp", async (data) => {
-    try {
-        //const res = await axios.post("studentSignUp/post", data);
-        //console.log(res);
-        //return res;
-        console.log("studentSignUp");
-        console.log(data);
-    } catch (error) {
-        console.error(error);
-        return error;
+export const studentSignUp = createAsyncThunk(
+    "studentSignUp",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post(
+                "http://52.79.85.130:8080/members/new",
+                data
+            );
+            console.log(res);
+            return res;
+            //console.log("studentSignUp");
+            //console.log(data);
+        } catch (error) {
+            return rejectWithValue("Opps there seems to be an error");
+        }
     }
-});
+);
 
 export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
     try {
@@ -174,7 +179,7 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.hostUser = null;
+            state.studentUser = action.payload;
         },
         [studentSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
@@ -231,6 +236,5 @@ const userSlice = createSlice({
         },
     },
 });
-
 export const userSliceActions = userSlice.actions;
 export default userSlice.reducer;
