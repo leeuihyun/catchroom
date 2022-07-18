@@ -7,13 +7,14 @@ import Main from "../subcomponents/Main";
 import Button from "../subcomponents/Button";
 import LogInBox from "../subcomponents/LogInBox";
 import Footer from "./Footer";
+import { studentSignUp } from "../reducers/userSlice";
 
 const SignUpComponent = () => {
     const [email, setEamil] = useState("");
     const [password, setPassword] = useState("");
-    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [number, setNumber] = useState("");
     const [radio, setRadio] = useState("student");
     const dispatch = useDispatch();
 
@@ -29,11 +30,11 @@ const SignUpComponent = () => {
     const onChangeName = useCallback((e) => {
         setName(e.target.value);
     }, []);
-    const onChangeAddress = useCallback((e) => {
-        setAddress(e.target.value);
+    const onChangeCity = useCallback((e) => {
+        setCity(e.target.value);
     }, []);
-    const onChangePhone = useCallback((e) => {
-        setPhone(e.target.value);
+    const onChangeNumber = useCallback((e) => {
+        setNumber(e.target.value);
     }, []);
     const onChangePassword = useCallback((e) => {
         setPassword(e.target.value);
@@ -43,11 +44,33 @@ const SignUpComponent = () => {
             console.log(radio);
             console.log(email);
             console.log(name);
-            console.log(address);
-            console.log(phone);
+            console.log(city);
+            console.log(number);
             console.log(password);
+            if (radio === "student") {
+                dispatch(
+                    studentSignUp({
+                        email: email,
+                        name: name,
+                        city: city,
+                        number: number,
+                        password: password,
+                    })
+                );
+            } else {
+                dispatch(
+                    studentSignUp({
+                        //presidentSignUp
+                        email: email,
+                        name: name,
+                        city: city,
+                        number: number,
+                        password: password,
+                    })
+                );
+            }
         },
-        [email, password, name, address, phone, radio]
+        [email, password, name, city, number, radio, dispatch]
     );
     return (
         <>
@@ -91,11 +114,11 @@ const SignUpComponent = () => {
                     </div>
                     <div>
                         <div className="des">주소</div>
-                        <input type="text" onChange={onChangeAddress} />
+                        <input type="text" onChange={onChangeCity} />
                     </div>
                     <div>
                         <div className="des">핸드폰 번호</div>
-                        <input type="text" onChange={onChangePhone} />
+                        <input type="text" onChange={onChangeNumber} />
                     </div>
                     <div>
                         <Button onClick={onClickButton}>회원가입</Button>
