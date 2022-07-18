@@ -89,7 +89,7 @@ export const studentSignUp = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const res = await axios.post(
-                "http://52.79.85.130:8080/members/new",
+                "http://52.79.85.130/members/new",
                 data
             );
             console.log(res);
