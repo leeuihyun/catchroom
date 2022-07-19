@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import shortId from "shortid";
 //import { backUrl } from "../config/config";
+axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 axios.defaults.withCredentials = true;
 //axios.defaults.baseURL = backUrl;
 
@@ -88,12 +89,11 @@ export const studentSignUp = createAsyncThunk(
     "studentSignUp",
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.post(
-                "http://52.79.85.130/members/new",
-                data
-            );
+            const res = await axios.post("/members/new", data, {
+                withCredentials: true,
+            });
             console.log(res);
-            return res;
+            return res.data;
             //console.log("studentSignUp");
             //console.log(data);
         } catch (error) {
@@ -136,7 +136,13 @@ export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        signUpClear(state, action) {
+            state.signUpLoading = false;
+            state.signUpDone = false;
+            state.signUpError = null;
+        },
+    },
     extraReducers: {
         [studentLogIn.pending]: (state, action) => {
             state.logInLoading = true;
@@ -179,7 +185,6 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.studentUser = action.payload;
         },
         [studentSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;

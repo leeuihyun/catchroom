@@ -8,6 +8,9 @@ import Wish from "./pages/Wish";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
+import axios from "axios";
+axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
+axios.defaults.withCredentials = true;
 
 const App = () => {
     return (
