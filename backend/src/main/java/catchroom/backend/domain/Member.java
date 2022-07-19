@@ -29,4 +29,9 @@ public class Member {
     private List<WishRoom> wishes = new ArrayList<>();
 
 
+    //연관관계 메소드//
+    public void createWish(WishRoom wishRoom) {
+        wishes.add(wishRoom);
+        wishRoom.setMember(this);
+    }
 }

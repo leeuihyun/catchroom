@@ -28,4 +28,18 @@ public class Room {
 
     @OneToOne(mappedBy = "room")
     private WishRoom wishRoom;
+
+    //연관관계 메소드//
+    public void setPresident(President president) {
+        this.president = president;
+        president.getRooms().add(this);
+    }
+
+    //생성 메소드//
+    public static Room createRoom(President president) {
+        Room room = new Room();
+        room.setPresident(president);
+
+        return room;
+    }
 }

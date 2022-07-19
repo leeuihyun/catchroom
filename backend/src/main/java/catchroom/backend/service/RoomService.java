@@ -2,9 +2,12 @@ package catchroom.backend.service;
 
 import catchroom.backend.domain.Room;
 import catchroom.backend.repository.RoomRepository;
+import catchroom.backend.repository.RoomSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -20,5 +23,7 @@ public class RoomService {
         return room.getId();
     }
 
+    //조회
+    public List<Room> findRooms(RoomSearch roomSearch) { return roomRepository.findAll(roomSearch);}
 
 }
