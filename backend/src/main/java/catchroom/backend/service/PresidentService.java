@@ -16,7 +16,6 @@ public class PresidentService {
 
     private final PresidentRepository presidentRepository;
     private final RoomRepository roomRepository;
-    private final RoomService roomService;
 
     @Transactional
     public String join(President president){
@@ -37,9 +36,9 @@ public class PresidentService {
     @Transactional
     public Room createRoom(String presidentId){
         President president = presidentRepository.findOne(presidentId);
-        Room room = new Room();
+        Room room = Room.createRoom(president);
         room.setPresident(president);
-        roomService.addRoom(room);
+
 
         return room;
     }

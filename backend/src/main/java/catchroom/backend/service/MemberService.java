@@ -46,8 +46,8 @@ public class MemberService {
         Member member = memberRepository.findOne(memberId);
         Room room = roomRepository.findOne(roomId);
 
-        WishRoom wishRoom = WishRoom.createWish(member,room);
-
+        WishRoom wishRoom = WishRoom.createWish(room);
+        member.createWish(wishRoom);
         return wishRoom;
     }
 
