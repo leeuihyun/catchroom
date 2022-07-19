@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -38,7 +38,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/new")
-    public ResponseEntity<?> createMember(@RequestBody MemberForm form) {
+    public String createMember(@RequestBody MemberForm form) {
         Address address = new Address(form.getCity(),
                 form.getDistrict(), form.getDetail(), form.getZipcode());
 
@@ -50,7 +50,7 @@ public class MemberController {
         member.setNumber(form.getNumber());
         memberService.join(member);
 
-        return new ResponseEntity<>(member, HttpStatus.CREATED);
+        return "ok";
     }
 
     //조회
