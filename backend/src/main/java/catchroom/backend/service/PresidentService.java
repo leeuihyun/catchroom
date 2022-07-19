@@ -39,7 +39,6 @@ public class PresidentService {
         Room room = Room.createRoom(president);
         room.setPresident(president);
 
-
         return room;
     }
 
