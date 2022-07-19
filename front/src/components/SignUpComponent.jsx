@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Header from "./Header";
 import HrComponent from "./HrComponent";
 import styled from "styled-components";
@@ -8,6 +8,8 @@ import Button from "../subcomponents/Button";
 import LogInBox from "../subcomponents/LogInBox";
 import Footer from "./Footer";
 import { studentSignUp } from "../reducers/userSlice";
+import { userSliceActions } from "../reducers/userSlice";
+import Swal from "sweetalert2";
 
 const SignUpComponent = () => {
     const [email, setEamil] = useState("");
@@ -16,8 +18,20 @@ const SignUpComponent = () => {
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
     const [radio, setRadio] = useState("student");
+    const { signUpDone, signUpError } = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "center-center",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
     const onChangeStudentRadioButton = useCallback((e) => {
         setRadio("student");
     }, []);
@@ -72,6 +86,15 @@ const SignUpComponent = () => {
         },
         [email, password, name, city, number, radio, dispatch]
     );
+    useEffect(() => {
+        if (signUpDone === true) {
+            Toast.fire({
+                icon: "success",
+                title: "회원가입이 성공적으로 완료되었습니다.",
+            });
+        }
+        dispatch(userSliceActions.signUpClear());
+    }, [signUpDone]);
     return (
         <>
             <Header color="black" />
