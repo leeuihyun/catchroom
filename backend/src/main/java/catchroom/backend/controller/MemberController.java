@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -79,4 +79,6 @@ public class MemberController {
         memberService.deleteId(email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 }

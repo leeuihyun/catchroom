@@ -1,4 +1,4 @@
-package catchroom.backend;
+package catchroom.backend.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,6 +10,7 @@ public class AppConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("POST","GET");
+                .allowedHeaders("*")
+                .allowedMethods("*");
     }
 }

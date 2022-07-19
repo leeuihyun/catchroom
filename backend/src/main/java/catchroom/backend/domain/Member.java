@@ -1,6 +1,7 @@
 package catchroom.backend.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +29,15 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<WishRoom> wishes = new ArrayList<>();
 
+
+    @Builder
+    public Member(String email, String password, String name, Address address, String number){
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.address = address;
+        this.number = number;
+    }
 
     //연관관계 메소드//
     public void createWish(WishRoom wishRoom) {
