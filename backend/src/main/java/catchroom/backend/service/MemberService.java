@@ -35,6 +35,7 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
     }
 
+
     //아이디 찾기
     public Member findOne(String email){return memberRepository.findOne(email);}
 
