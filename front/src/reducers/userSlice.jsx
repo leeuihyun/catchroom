@@ -20,36 +20,6 @@ const initialState = {
     logOutError: null,
 };
 
-const dummyStudentLogIn = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-});
-
-const dummyHostLogIn = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-});
-
-const dummyStudentSignUp = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-    address: data.address,
-    name: data.name,
-    phone: data.phone,
-});
-
-const dummyHostSignUp = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-    address: data.address,
-    name: data.name,
-    phone: data.phone,
-});
-
 export const studentLogIn = createAsyncThunk(
     "studentLogIn",
     async (data, { rejectWithValue }) => {
@@ -156,7 +126,8 @@ const userSlice = createSlice({
         [studentLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.studentUser = dummyStudentLogIn(action.payload.data);
+            state.studentUser = action.payload;
+            state.hostUser = null;
             state.logInError = null;
         },
         [studentLogIn.rejected]: (state, action) => {
@@ -172,7 +143,8 @@ const userSlice = createSlice({
         [hostLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.hostUser = dummyHostLogIn(action.payload.data);
+            state.hostUser = action.payload;
+            state.studentUser = null;
             state.logInError = null;
         },
         [hostLogIn.rejected]: (state, action) => {
@@ -204,7 +176,6 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.studentUser = null;
         },
         [hostSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
