@@ -50,40 +50,45 @@ const dummyHostSignUp = (data) => ({
     phone: data.phone,
 });
 
-export const studentLogIn = createAsyncThunk("studentLogIn", async (data) => {
-    try {
-        //const res = await axios.post("logIn/post", data);
-        //console.log(res);
-
-        console.log("logIn");
-        return data;
-    } catch (error) {
-        console.error(error);
-        return error;
+export const studentLogIn = createAsyncThunk(
+    "studentLogIn",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("members/logIn", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
-export const hostLogIn = createAsyncThunk("hostLogIn", async (data) => {
-    try {
-        //const res = await axios.post("logIn/post", data);
-        //console.log(res);
-        console.log("hostLogIn");
-        return data;
-    } catch (error) {
-        console.error(error);
-        return error;
+);
+export const hostLogIn = createAsyncThunk(
+    "hostLogIn",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("host/logIn", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
-export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
-    try {
-        //const res = await axios.post("", data);
-        //console.log(res);
-        console.log("hostSignUp");
-        console.log(data);
-    } catch (error) {
-        console.error(error);
-        return error;
+);
+export const hostSignUp = createAsyncThunk(
+    "hostSignUp",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("/host/new", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
+);
 
 export const studentSignUp = createAsyncThunk(
     "studentSignUp",
@@ -94,9 +99,8 @@ export const studentSignUp = createAsyncThunk(
             });
             console.log(res);
             return res.data;
-            //console.log("studentSignUp");
-            //console.log(data);
         } catch (error) {
+            console.error(error);
             return rejectWithValue("Opps there seems to be an error");
         }
     }
