@@ -20,70 +20,45 @@ const initialState = {
     logOutError: null,
 };
 
-const dummyStudentLogIn = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-});
-
-const dummyHostLogIn = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-});
-
-const dummyStudentSignUp = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-    address: data.address,
-    name: data.name,
-    phone: data.phone,
-});
-
-const dummyHostSignUp = (data) => ({
-    id: shortId.generate(),
-    email: data.email,
-    password: data.password,
-    address: data.address,
-    name: data.name,
-    phone: data.phone,
-});
-
-export const studentLogIn = createAsyncThunk("studentLogIn", async (data) => {
-    try {
-        //const res = await axios.post("logIn/post", data);
-        //console.log(res);
-
-        console.log("logIn");
-        return data;
-    } catch (error) {
-        console.error(error);
-        return error;
+export const studentLogIn = createAsyncThunk(
+    "studentLogIn",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("members/logIn", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
-export const hostLogIn = createAsyncThunk("hostLogIn", async (data) => {
-    try {
-        //const res = await axios.post("logIn/post", data);
-        //console.log(res);
-        console.log("hostLogIn");
-        return data;
-    } catch (error) {
-        console.error(error);
-        return error;
+);
+export const hostLogIn = createAsyncThunk(
+    "hostLogIn",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("host/logIn", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
-export const hostSignUp = createAsyncThunk("hostSignUp", async (data) => {
-    try {
-        //const res = await axios.post("", data);
-        //console.log(res);
-        console.log("hostSignUp");
-        console.log(data);
-    } catch (error) {
-        console.error(error);
-        return error;
+);
+export const hostSignUp = createAsyncThunk(
+    "hostSignUp",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("/host/new", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
+);
 
 export const studentSignUp = createAsyncThunk(
     "studentSignUp",
@@ -94,9 +69,8 @@ export const studentSignUp = createAsyncThunk(
             });
             console.log(res);
             return res.data;
-            //console.log("studentSignUp");
-            //console.log(data);
         } catch (error) {
+            console.error(error);
             return rejectWithValue("Opps there seems to be an error");
         }
     }
@@ -152,7 +126,8 @@ const userSlice = createSlice({
         [studentLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.studentUser = dummyStudentLogIn(action.payload.data);
+            state.studentUser = action.payload;
+            state.hostUser = null;
             state.logInError = null;
         },
         [studentLogIn.rejected]: (state, action) => {
@@ -168,7 +143,8 @@ const userSlice = createSlice({
         [hostLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.hostUser = dummyHostLogIn(action.payload.data);
+            state.hostUser = action.payload;
+            state.studentUser = null;
             state.logInError = null;
         },
         [hostLogIn.rejected]: (state, action) => {
@@ -200,7 +176,6 @@ const userSlice = createSlice({
             state.signUpLoading = false;
             state.signUpDone = true;
             state.signUpError = null;
-            state.studentUser = null;
         },
         [hostSignUp.rejected]: (state, action) => {
             state.signUpLoading = false;
