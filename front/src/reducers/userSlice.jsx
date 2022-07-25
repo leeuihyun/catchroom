@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import shortId from "shortid";
 //import { backUrl } from "../config/config";
 axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 axios.defaults.withCredentials = true;
@@ -26,6 +25,9 @@ export const studentLogIn = createAsyncThunk(
         try {
             const res = await axios.post("members/logIn", data);
             console.log(res);
+            localStorage.setItem("token", res.data.token);
+            const TOKEN = localStorage.getItem("token");
+            console.log(TOKEN);
             return res.data;
         } catch (error) {
             console.error(error);
@@ -39,6 +41,9 @@ export const hostLogIn = createAsyncThunk(
         try {
             const res = await axios.post("host/logIn", data);
             console.log(res);
+            localStorage.setItem("token", res.data.token);
+            const TOKEN = localStorage.getItem("token");
+            console.log(TOKEN);
             return res.data;
         } catch (error) {
             console.error(error);
@@ -78,9 +83,12 @@ export const studentSignUp = createAsyncThunk(
 
 export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
     try {
-        //const res = await axios.get("studentLogInCheck/");
-        //console.log(res);
-        //return res;
+        axios.defaults.headers.Cookie = "";
+        const TOKEN = localStorage.getItem("token");
+        axios.defaults.headers.Cookie = TOKEN;
+        const res = await axios.get("/studentLogInCheck");
+        console.log(res);
+        return res.data;
     } catch (error) {
         console.error(error);
         return error;
