@@ -97,9 +97,10 @@ export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
 
 export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
     try {
-        //const res = await axios.post("https://catchroom.com/hostLogOut", data);
-        //return res;
-        console.log(data);
+        const res = await axios.post("/hostLogOut", data);
+        console.log(res);
+        localStorage.removeItem("token");
+        return res.data;
     } catch (error) {
         console.error(error);
         return error;
@@ -108,9 +109,10 @@ export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
 
 export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
     try {
-        //const res = await axios.post("studentLogOut", data);
-        //return res;
-        console.log(data);
+        const res = await axios.post("studentLogOut", data);
+        console.log(res);
+        localStorage.removeItem("token");
+        return res.data;
     } catch (error) {
         console.error(error);
     }
