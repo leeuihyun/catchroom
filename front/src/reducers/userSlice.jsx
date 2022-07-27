@@ -25,9 +25,9 @@ export const studentLogIn = createAsyncThunk(
         try {
             const res = await axios.post("members/logIn", data);
             console.log(res);
-            localStorage.setItem("token", res.data.token);
-            const TOKEN = localStorage.getItem("token");
-            console.log(TOKEN);
+            localStorage.setItem("cookie", res.data.cookie);
+            const COOKIE = localStorage.getItem("cookie");
+            console.log(COOKIE);
             return res.data;
         } catch (error) {
             console.error(error);
@@ -41,9 +41,9 @@ export const hostLogIn = createAsyncThunk(
         try {
             const res = await axios.post("host/logIn", data);
             console.log(res);
-            localStorage.setItem("token", res.data.token);
-            const TOKEN = localStorage.getItem("token");
-            console.log(TOKEN);
+            localStorage.setItem("cookie", res.data.token);
+            const COOKIE = localStorage.getItem("cookie");
+            console.log(COOKIE);
             return res.data;
         } catch (error) {
             console.error(error);
@@ -84,8 +84,8 @@ export const studentSignUp = createAsyncThunk(
 export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
     try {
         axios.defaults.headers.Cookie = "";
-        const TOKEN = localStorage.getItem("token");
-        axios.defaults.headers.Cookie = TOKEN;
+        const COOKIE = localStorage.getItem("cookie");
+        axios.defaults.headers.Cookie = COOKIE;
         const res = await axios.get("/studentLogInCheck");
         console.log(res);
         return res.data;
@@ -99,7 +99,7 @@ export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
     try {
         const res = await axios.post("/hostLogOut", data);
         console.log(res);
-        localStorage.removeItem("token");
+        localStorage.removeItem("cookie");
         return res.data;
     } catch (error) {
         console.error(error);
@@ -111,7 +111,7 @@ export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
     try {
         const res = await axios.post("studentLogOut", data);
         console.log(res);
-        localStorage.removeItem("token");
+        localStorage.removeItem("cookie");
         return res.data;
     } catch (error) {
         console.error(error);
