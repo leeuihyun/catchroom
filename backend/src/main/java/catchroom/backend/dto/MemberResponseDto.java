@@ -1,10 +1,7 @@
-package catchroom.backend.domain.dto;
+package catchroom.backend.dto;
 
 import catchroom.backend.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
@@ -15,6 +12,8 @@ public class MemberResponseDto {
     private String name;
 
     public static MemberResponseDto of(Member member) {
+
+
         return MemberResponseDto.builder()
                 .email(member.getEmail())
                 .name(member.getName())

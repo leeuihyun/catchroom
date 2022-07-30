@@ -2,7 +2,12 @@ package catchroom.backend.controller;
 
 
 import catchroom.backend.domain.Address;
+import catchroom.backend.domain.Authority;
 import catchroom.backend.domain.Member;
+import catchroom.backend.dto.MemberRequestDto;
+import catchroom.backend.dto.MemberResponseDto;
+import catchroom.backend.dto.TokenDto;
+import catchroom.backend.service.AuthService;
 import catchroom.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,25 +21,28 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
-    //회원가입
-//    @PostMapping("/new")
-//    public String create(@Valid MemberForm form, BindingResult result) {
-//
-//
-//        Address address = new Address(form.getCity(),
-//                form.getDistrict(), form.getDetail(), form.getZipcode());
-//
-//        Member member = new Member();
-//        member.setName(form.getName());
-//        member.setAddress(address);
-//        member.setEmail(form.getEmail());
-//        member.setPassword(form.getPassword());
-//        member.setNumber(form.getNumber());
-//
-//        memberService.join(member);
-//        return "redirect:/";
-//    }
+
+    //뉴 회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto){
+        return  ResponseEntity.ok(authService.signup(requestDto));
+    }
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+        return ResponseEntity.ok(authService.login(requestDto));
+    }
+
+    //토큰 조회
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        System.out.println(myInfoBySecurity.getName());
+        return ResponseEntity.ok((myInfoBySecurity));
+        // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
+    }
 
     //회원가입
     @PostMapping("/new")
@@ -48,6 +56,7 @@ public class MemberController {
         member.setEmail(form.getEmail());
         member.setPassword(form.getPassword());
         member.setNumber(form.getNumber());
+        member.setAuthority(Authority.ROLE_USER);
         memberService.join(member);
 
         return "ok";
