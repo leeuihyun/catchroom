@@ -28,7 +28,7 @@ public class MemberRequestDto {
         member.setName(this.getName());
         member.setAddress(address);
         member.setEmail(this.getEmail());
-        member.setPassword(this.getPassword());
+        member.setPassword(passwordEncoder.encode(this.password));
         member.setNumber(this.getNumber());
         member.setAuthority(Authority.ROLE_USER);
         return member;

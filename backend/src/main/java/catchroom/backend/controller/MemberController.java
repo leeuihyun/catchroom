@@ -10,6 +10,7 @@ import catchroom.backend.dto.TokenDto;
 import catchroom.backend.service.AuthService;
 import catchroom.backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -32,6 +34,7 @@ public class MemberController {
     //로그인
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+        log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
