@@ -4,11 +4,13 @@ package catchroom.backend.controller;
 import catchroom.backend.domain.Address;
 import catchroom.backend.domain.Authority;
 import catchroom.backend.domain.Member;
+import catchroom.backend.domain.Room;
 import catchroom.backend.dto.MemberRequestDto;
 import catchroom.backend.dto.MemberResponseDto;
 import catchroom.backend.dto.TokenDto;
 import catchroom.backend.service.AuthService;
 import catchroom.backend.service.MemberService;
+import catchroom.backend.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final AuthService authService;
-
+    private final RoomService roomService;
 
     //뉴 회원가입
     @PostMapping("/signup")
@@ -35,7 +37,8 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
-        return ResponseEntity.ok(authService.login(requestDto));
+        TokenDto token = authService.login(requestDto);
+        return ResponseEntity.ok(token);
     }
 
     //토큰 조회
@@ -45,6 +48,17 @@ public class MemberController {
         System.out.println(myInfoBySecurity.getName());
         return ResponseEntity.ok((myInfoBySecurity));
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
+    }
+
+    //찜목록
+    @GetMapping("/wish")
+
+    //찜하기
+    @PostMapping("/{id}/wish")
+    public ResponseEntity<?> roomWish(@PathVariable("id") Long roomId){
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        Room findRoom = roomService.findOne(roomId);
+        return ResponseEntity.ok(memberService.wish(myInfoBySecurity.getEmail(),findRoom.getId()));
     }
 
     //회원가입

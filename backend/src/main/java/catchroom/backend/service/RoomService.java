@@ -23,7 +23,13 @@ public class RoomService {
         return room.getId();
     }
 
-    //조회
+    //조회 동적쿼리
     public List<Room> findRooms(RoomSearch roomSearch) { return roomRepository.findAll(roomSearch);}
+
+    //한개 조회
+    public Room findOne(Long roomId){
+
+        return roomRepository.findOne(roomId);
+    }
 
 }
