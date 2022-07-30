@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 //import { backUrl } from "../config/config";
-axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
+//axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 axios.defaults.withCredentials = true;
 //axios.defaults.baseURL = backUrl;
 
@@ -17,15 +17,20 @@ const initialState = {
     logOutLoading: false,
     logOutDone: false,
     logOutError: null,
+    logInCheckLoading: false,
+    logInCheckDone: false,
+    logInCheckError: null,
 };
 
 export const studentLogIn = createAsyncThunk(
     "studentLogIn",
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.post("members/logIn", data);
+            const res = await axios.post("/members/login", data, {
+                withCredentials: true,
+            });
             console.log(res);
-            localStorage.setItem("cookie", res.data.cookie);
+            localStorage.setItem("cookie", res.data.accessToken);
             const COOKIE = localStorage.getItem("cookie");
             console.log(COOKIE);
             return res.data;
@@ -69,7 +74,7 @@ export const studentSignUp = createAsyncThunk(
     "studentSignUp",
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.post("/members/new", data, {
+            const res = await axios.post("/members/signup", data, {
                 withCredentials: true,
             });
             console.log(res);
@@ -81,25 +86,31 @@ export const studentSignUp = createAsyncThunk(
     }
 );
 
-export const logInCheck = createAsyncThunk("logInCheck", async (data) => {
+export const logInCheck = createAsyncThunk("logInCheck", async () => {
     try {
-        axios.defaults.headers.Cookie = "";
+        //axios.defaults.headers.Cookie = "";
+        axios.defaults.headers.common["Authorization"] = "";
         const COOKIE = localStorage.getItem("cookie");
-        axios.defaults.headers.Cookie = COOKIE;
-        const res = await axios.get("/studentLogInCheck");
+        //axios.defaults.headers.Cookie = COOKIE;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+        console.log(COOKIE);
+        const res = await axios.get("/members/me", {
+            withCredentials: true,
+        });
         console.log(res);
         return res.data;
     } catch (error) {
         console.error(error);
-        return error;
+        return error.response.data;
     }
 });
 
 export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
     try {
+        localStorage.removeItem("cookie");
         const res = await axios.post("/hostLogOut", data);
         console.log(res);
-        localStorage.removeItem("cookie");
+
         return res.data;
     } catch (error) {
         console.error(error);
@@ -109,9 +120,10 @@ export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
 
 export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
     try {
+        localStorage.removeItem("cookie");
         const res = await axios.post("studentLogOut", data);
         console.log(res);
-        localStorage.removeItem("cookie");
+
         return res.data;
     } catch (error) {
         console.error(error);
@@ -223,6 +235,22 @@ const userSlice = createSlice({
             state.logOutLoading = false;
             state.logOutDone = false;
             state.logOutError = action.error;
+        },
+        [logInCheck.pending]: (state, action) => {
+            state.logInCheckLoading = true;
+            state.logInCheckDone = false;
+            state.logInCheckError = null;
+        },
+        [logInCheck.fulfilled]: (state, action) => {
+            state.logInCheckLoading = false;
+            state.logInCheckDone = true;
+            state.logInCheckError = null;
+            state.studentUser = action.payload;
+        },
+        [logInCheck.rejected]: (state, action) => {
+            state.logInCheckLoading = false;
+            state.logInCheckDone = false;
+            state.logInCheckError = action.error;
         },
     },
 });
