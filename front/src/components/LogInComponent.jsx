@@ -46,16 +46,11 @@ const LogInComponent = () => {
     }, []);
     const onClickLogIn = useCallback(
         (e) => {
-            console.log(radio);
-            console.log(email);
-            console.log(password);
             if (radio === "student") {
                 dispatch(
                     studentLogIn({
-                        data: {
-                            email: email,
-                            password: password,
-                        },
+                        email: email,
+                        password: password,
                     })
                 );
             }
