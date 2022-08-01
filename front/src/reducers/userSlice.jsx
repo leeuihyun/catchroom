@@ -56,6 +56,7 @@ export const hostLogIn = createAsyncThunk(
         }
     }
 );
+
 export const hostSignUp = createAsyncThunk(
     "hostSignUp",
     async (data, { rejectWithValue }) => {
@@ -86,24 +87,27 @@ export const studentSignUp = createAsyncThunk(
     }
 );
 
-export const logInCheck = createAsyncThunk("logInCheck", async () => {
-    try {
-        //axios.defaults.headers.Cookie = "";
-        axios.defaults.headers.common["Authorization"] = "";
-        const COOKIE = localStorage.getItem("cookie");
-        //axios.defaults.headers.Cookie = COOKIE;
-        axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
-        console.log(COOKIE);
-        const res = await axios.get("/members/me", {
-            withCredentials: true,
-        });
-        console.log(res);
-        return res.data;
-    } catch (error) {
-        console.error(error);
-        return error.response.data;
+export const logInCheck = createAsyncThunk(
+    "logInCheck",
+    async ({ rejectWithValue }) => {
+        try {
+            //axios.defaults.headers.Cookie = "";
+            axios.defaults.headers.common["Authorization"] = "";
+            const COOKIE = localStorage.getItem("cookie");
+            //axios.defaults.headers.Cookie = COOKIE;
+            axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+            console.log(COOKIE);
+            const res = await axios.get("/members/me", {
+                withCredentials: true,
+            });
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
+);
 
 export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
     try {
