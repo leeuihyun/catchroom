@@ -46,7 +46,7 @@ export const hostLogIn = createAsyncThunk(
         try {
             const res = await axios.post("host/logIn", data);
             console.log(res);
-            localStorage.setItem("cookie", res.data.token);
+            localStorage.setItem("cookie", res.data.accessToken);
             const COOKIE = localStorage.getItem("cookie");
             console.log(COOKIE);
             return res.data;
@@ -87,20 +87,32 @@ export const studentSignUp = createAsyncThunk(
     }
 );
 
-export const logInCheck = createAsyncThunk(
-    "logInCheck",
-    async ({ rejectWithValue }) => {
+export const logInCheck = createAsyncThunk("logInCheck", async () => {
+    try {
+        //axios.defaults.headers.Cookie = "";
+        axios.defaults.headers.common["Authorization"] = "";
+        const COOKIE = localStorage.getItem("cookie");
+        //axios.defaults.headers.Cookie = COOKIE;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+        console.log(COOKIE);
+        const res = await axios.get("/members/me", {
+            withCredentials: true,
+        });
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+export const hostLogOut = createAsyncThunk(
+    "hostLogOut",
+    async (data, { rejectWithValue }) => {
         try {
-            //axios.defaults.headers.Cookie = "";
-            axios.defaults.headers.common["Authorization"] = "";
-            const COOKIE = localStorage.getItem("cookie");
-            //axios.defaults.headers.Cookie = COOKIE;
-            axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
-            console.log(COOKIE);
-            const res = await axios.get("/members/me", {
-                withCredentials: true,
-            });
+            const res = await axios.post("/hostLogOut", data);
             console.log(res);
+            localStorage.removeItem("cookie");
+            console.log("쿠키를 삭제했습니다");
             return res.data;
         } catch (error) {
             console.error(error);
@@ -109,30 +121,21 @@ export const logInCheck = createAsyncThunk(
     }
 );
 
-export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
-    try {
-        localStorage.removeItem("cookie");
-        const res = await axios.post("/hostLogOut", data);
-        console.log(res);
-
-        return res.data;
-    } catch (error) {
-        console.error(error);
-        return error;
+export const studentLogOut = createAsyncThunk(
+    "studentLogOut",
+    async (data, { rejectWithValue }) => {
+        try {
+            //const res = await axios.post("studentLogOut", data);
+            //console.log(res);
+            localStorage.removeItem("cookie");
+            console.log("쿠키를 삭제했습니다.");
+            //return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
     }
-});
-
-export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
-    try {
-        localStorage.removeItem("cookie");
-        const res = await axios.post("studentLogOut", data);
-        console.log(res);
-
-        return res.data;
-    } catch (error) {
-        console.error(error);
-    }
-});
+);
 const userSlice = createSlice({
     name: "user",
     initialState,
