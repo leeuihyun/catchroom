@@ -1,10 +1,7 @@
 package catchroom.backend.controller;
 
 
-import catchroom.backend.domain.Address;
-import catchroom.backend.domain.Authority;
-import catchroom.backend.domain.Member;
-import catchroom.backend.domain.Room;
+import catchroom.backend.domain.*;
 import catchroom.backend.dto.MemberRequestDto;
 import catchroom.backend.dto.MemberResponseDto;
 import catchroom.backend.dto.RoomRequestDto;
@@ -74,6 +71,10 @@ public class MemberController {
 
     //찜목록
     @GetMapping("/wishes")
+    public ResponseEntity<?> getWishes(){
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        return ResponseEntity.ok(myInfoBySecurity.getWishes());
+    }
 
     //찜하기
     @PostMapping("/{id}/wish")
@@ -89,7 +90,14 @@ public class MemberController {
         roomService.addRoom(room);
         return new ResponseEntity<>(requestDto, HttpStatus.OK);
     }
+    @PostMapping("/wishRoom")
+    public ResponseEntity<?> createWishRoom(){
+        WishRoom wish = memberService.wish(Long.valueOf(27));
+        System.out.println("wish.getId() = " + wish.getId());
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
 
+        return new ResponseEntity<>(myInfoBySecurity.getWishes(), HttpStatus.OK);
+    }
 
     //회원가입
     @PostMapping("/new")
