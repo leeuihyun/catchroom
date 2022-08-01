@@ -63,12 +63,15 @@ const MapLayout = ({ searchPlace }) => {
     const [Places, setPlaces] = useState([]);
     const { isOpen } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
+    const COOKIE = localStorage.getItem("cookie");
     const onClickCard = () => {
         dispatch(modalActions.setIsOpen({ data: true }));
     };
     useEffect(() => {
-        dispatch(logInCheck());
-    }, []);
+        if (COOKIE) {
+            dispatch(logInCheck());
+        }
+    }, [COOKIE]);
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
         var markers = [];
