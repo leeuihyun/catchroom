@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import ModalContainer from "./ModalContainer";
 import { modalActions } from "../reducers/modalSlice";
+import { logInCheck } from "../reducers/userSlice";
 import Modal from "react-modal";
+
 Modal.setAppElement("body");
 const { kakao } = window;
 
@@ -61,9 +63,15 @@ const MapLayout = ({ searchPlace }) => {
     const [Places, setPlaces] = useState([]);
     const { isOpen } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
+    const COOKIE = localStorage.getItem("cookie");
     const onClickCard = () => {
         dispatch(modalActions.setIsOpen({ data: true }));
     };
+    useEffect(() => {
+        if (COOKIE) {
+            dispatch(logInCheck());
+        }
+    }, [COOKIE]);
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
         var markers = [];
