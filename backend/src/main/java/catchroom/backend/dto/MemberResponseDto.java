@@ -19,7 +19,6 @@ public class MemberResponseDto {
     private String number;
     private String city;
 
-
     private List<WishRoom> wishes;
     public static MemberResponseDto of(Member member) {
 

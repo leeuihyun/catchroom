@@ -1,13 +1,10 @@
 package catchroom.backend.controller;
 
 
-import catchroom.backend.domain.Address;
-import catchroom.backend.domain.Authority;
-import catchroom.backend.domain.Member;
-import catchroom.backend.domain.Room;
+import catchroom.backend.domain.*;
 import catchroom.backend.dto.MemberRequestDto;
 import catchroom.backend.dto.MemberResponseDto;
-import catchroom.backend.dto.TokenDto;
+import catchroom.backend.dto.RoomRequestDto;
 import catchroom.backend.service.AuthService;
 import catchroom.backend.service.MemberService;
 import catchroom.backend.service.RoomService;
@@ -15,7 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -35,30 +37,66 @@ public class MemberController {
     }
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+    public ResponseEntity<Map<String,Object>> login(@RequestBody MemberRequestDto requestDto) {
         log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
-        TokenDto token = authService.login(requestDto);
-        return ResponseEntity.ok(token);
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", authService.login(requestDto));
+        map.put("info",requestDto.getEmail());
+
+        return ResponseEntity.ok(map);
     }
+
+    //로그아웃
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            bearerToken = bearerToken.substring(7);
+        }
+        //authService.logout(bearerToken);
+
+        return ResponseEntity.ok(bearerToken);
+    }
+
 
     //토큰 조회
     @GetMapping("/me")
     public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
         System.out.println(myInfoBySecurity.getName());
+        System.out.println("myInfoBySecurity = " + myInfoBySecurity.getCity());
         return ResponseEntity.ok((myInfoBySecurity));
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
 
     //찜목록
-    @GetMapping("/wish")
+    @GetMapping("/wishes")
+    public ResponseEntity<?> getWishes(){
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        return ResponseEntity.ok(myInfoBySecurity.getWishes());
+    }
 
     //찜하기
     @PostMapping("/{id}/wish")
-    public ResponseEntity<?> roomWish(@PathVariable("id") Long roomId){
+    public ResponseEntity<?> roomWish(@PathVariable Long roomId){
+        return ResponseEntity.ok(memberService.wish(roomId));
+    }
+
+    //임시
+    @PostMapping("/createRoom")
+    public ResponseEntity<?> createRoom(@RequestBody RoomRequestDto requestDto){
+        Room room = new Room();
+        room.setName(requestDto.getName());
+        roomService.addRoom(room);
+        return new ResponseEntity<>(requestDto, HttpStatus.OK);
+    }
+    @PostMapping("/wishRoom")
+    public ResponseEntity<?> createWishRoom(){
+        WishRoom wish = memberService.wish(Long.valueOf(27));
+        System.out.println("wish.getId() = " + wish.getId());
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        Room findRoom = roomService.findOne(roomId);
-        return ResponseEntity.ok(memberService.wish(myInfoBySecurity.getEmail(),findRoom.getId()));
+
+        return new ResponseEntity<>(myInfoBySecurity.getWishes(), HttpStatus.OK);
     }
 
     //회원가입

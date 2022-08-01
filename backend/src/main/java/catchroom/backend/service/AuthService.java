@@ -23,6 +23,7 @@ public class AuthService {
     private final MemberImplRepository memberImplRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+//    private final RedisUtil redisUtil;
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberImplRepository.existsByEmail(requestDto.getEmail())) {
@@ -40,4 +41,9 @@ public class AuthService {
 
         return tokenProvider.generateTokenDto(authentication);
     }
+
+//    public void logout(String accessToken) {
+//        redisUtil.setBlackList(accessToken, "accessToken", 1800);
+//    }
+
 }
