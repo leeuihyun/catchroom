@@ -1,13 +1,10 @@
 package catchroom.backend.dto;
 
 import catchroom.backend.domain.Member;
-import catchroom.backend.domain.WishRoom;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -20,7 +17,6 @@ public class MemberResponseDto {
     private String city;
 
 
-    private List<WishRoom> wishes;
     public static MemberResponseDto of(Member member) {
 
 

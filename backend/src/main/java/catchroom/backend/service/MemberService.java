@@ -48,7 +48,6 @@ public class MemberService {
 
         return memberRepository.findOne(email);
     }
-
     //토큰 방식 정보 넘기기
     public MemberResponseDto getMyInfoBySecurity() {
         return memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
@@ -68,9 +67,10 @@ public class MemberService {
 
     //찜 기능
     @Transactional
-    public WishRoom wish(String memberId, Long roomId){
+    public WishRoom wish(Long roomId){
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         Room room = roomRepository.findOne(roomId);
 
         WishRoom wishRoom = WishRoom.createWish(room);
