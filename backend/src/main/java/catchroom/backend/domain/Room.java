@@ -11,7 +11,7 @@ public class Room {
 
     @Id @GeneratedValue
     @Column(name = "room_id")
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -19,14 +19,14 @@ public class Room {
     private Room_Info room_info;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "president_id")
     private President president;
 
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "room")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
     private WishRoom wishRoom;
 
     //연관관계 메소드//

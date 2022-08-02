@@ -18,7 +18,7 @@ public class RoomService {
 
     //임시 방 추가
     @Transactional
-    public Long addRoom(Room room){
+    public Integer addRoom(Room room){
         roomRepository.save(room);
         return room.getId();
     }
@@ -27,7 +27,7 @@ public class RoomService {
     public List<Room> findRooms(RoomSearch roomSearch) { return roomRepository.findAll(roomSearch);}
 
     //한개 조회
-    public Room findOne(Long roomId){
+    public Room findOne(Integer roomId){
 
         return roomRepository.findOne(roomId);
     }
