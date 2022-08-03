@@ -1,21 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 axios.defaults.withCredentials = true;
-
 const initialState = {
-    wishLoading: false,
-    wishDone: false,
-    widthError: null,
+    loadRoomLoading: false,
+    loadRoomDone: false,
+    loadRoomError: null,
 };
 
-const wishSlice = createSlice({
-    name: 'wish',
+const bangSlice = createSlice({
+    name: "bang",
     initialState,
     reducers: {},
-    extraReducers: {
-        []: (state, action) => {
-            
-        }
-    }
-})
+    extraReducers: {},
+});
+
+export const bangSliceActions = bangSlice.actions;
+export default bangSlice.reducer;

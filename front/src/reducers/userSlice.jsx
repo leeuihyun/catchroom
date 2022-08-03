@@ -20,7 +20,27 @@ const initialState = {
     logInCheckLoading: false,
     logInCheckDone: false,
     logInCheckError: null,
+    wishLoading: false,
+    wishDone: false,
+    widthError: null,
 };
+
+export const wishRoom = createAsyncThunk(
+    "wishBang",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("/members/wish", data, {
+                withCredentials: true,
+            });
+            console.log("찜하기를 진행 완료 했습니다.");
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 
 export const studentLogIn = createAsyncThunk(
     "studentLogIn",
@@ -260,6 +280,21 @@ const userSlice = createSlice({
             state.logInCheckLoading = false;
             state.logInCheckDone = false;
             state.logInCheckError = action.error;
+        },
+        [wishRoom.pending]: (state, action) => {
+            state.wishLoading = true;
+            state.wishDone = false;
+            state.wishError = null;
+        },
+        [wishRoom.fulfilled]: (state, action) => {
+            state.wishLoading = false;
+            state.wishDone = true;
+            state.wishError = null;
+        },
+        [wishRoom.rejected]: (state, action) => {
+            state.wishLoading = false;
+            state.wishDone = false;
+            state.wishError = action.error;
         },
     },
 });
