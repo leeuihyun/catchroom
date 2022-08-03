@@ -10,12 +10,14 @@ const initialState = {
 };
 
 const wishSlice = createSlice({
-    name: 'wish',
+    name: "wish",
     initialState,
     reducers: {},
     extraReducers: {
-        []: (state, action) => {
-            
-        }
-    }
-})
+        //[]: (state, action) => {
+        //}
+    },
+});
+
+export const wishSliceActions = wishSlice.actions;
+export default wishSlice.reducer;
