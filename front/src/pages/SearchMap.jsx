@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import styled from "styled-components";
-import MapLayout from "../components/MapLayout";
+import SearchMapLayout from "../components/SearchMapLayout";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
     width: 100%;
@@ -45,7 +46,36 @@ const MainBox = styled.div`
 `;
 const SearchMap = () => {
     const { value } = useParams();
-    return <div>params : {value}</div>;
+    const [InputText, setInputText] = useState("");
+    const [Place, setPlace] = useState(value);
+
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setPlace(InputText);
+        setInputText("");
+    };
+    return (
+        <>
+            <Header color="black" />
+
+            <Container>
+                <SearchForm className="inputForm" onSubmit={handleSubmit}>
+                    <Search
+                        placeholder="검색어를 입력하세요"
+                        onChange={onChange}
+                        value={InputText}
+                    />
+                    <SearchBtn type="submit">검색</SearchBtn>
+                </SearchForm>
+
+                <SearchMapLayout searchPlace={Place} />
+            </Container>
+        </>
+    );
 };
 
 export default SearchMap;
