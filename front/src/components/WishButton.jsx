@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-
+import { wishBang } from "../reducers/userSlice";
 // 찜하기 버튼 미리 디자인해놓기
 
 const Button = styled.button`
@@ -21,11 +21,12 @@ const WishButton = () => {
 
     const onClickWish = useCallback(() => {
         if (studentUser) {
-            dispatch("찜하기()");
+            dispatch(wishBang("data"));
         } else {
             console.log("로그인 해주세요"); // sweetAlert 이용하면 될 듯 함
         }
     }, [studentUser]);
+
     return (
         <div>
             <Button onClick={onClickWish}>찜하기</Button>
