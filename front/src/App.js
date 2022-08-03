@@ -6,6 +6,8 @@ import Map from "./pages/Map";
 import SignUp from "./pages/SignUp";
 import Wish from "./pages/Wish";
 import MyPageComponent from "./components/MyPageComponent";
+import SearchMap from "./pages/SearchMap";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
@@ -23,6 +25,7 @@ const App = () => {
             <Route path="signup" element={<SignUp />}></Route>
             <Route path="wish" element={<Wish />}></Route>
             <Route path="mypage" element={<MyPageComponent />}></Route>
+            <Route path="searchmap/:value" element={<SearchMap />}></Route>
         </Routes>
     );
 };
