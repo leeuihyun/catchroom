@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import FullPage, {
     FullPageSections,
@@ -8,7 +8,7 @@ import FullPage, {
 import Header from "./Header";
 import Footer from "./Footer";
 import { SearchOutlined } from "@ant-design/icons";
-
+import { useNavigate } from "react-router-dom";
 import Banner from "./Banner";
 
 const Box = styled.div`
@@ -34,11 +34,14 @@ const Second = styled.div`
     bottom: 0;
     position: absolute;
 `;
-const SearchOutLineIcon = styled.div`
+
+const SubmitButton = styled.button`
     background-color: transparent;
+    border: 0;
+    cursor: pointer;
     position: absolute;
-    top: 30%;
-    left: 1rem;
+    right: 1rem;
+
     font-size: 2rem;
 `;
 const Input = styled.div`
@@ -74,6 +77,7 @@ const ThirdPage = styled.div`
 `;
 
 const HomeLayout = () => {
+    const navigate = useNavigate();
     const sectionStyle = {
         height: "100vh",
         width: "100vw",
@@ -82,7 +86,17 @@ const HomeLayout = () => {
         justifyContent: "center",
         alignItems: "center",
     };
-
+    const [text, setText] = useState("");
+    const onChangeText = useCallback((e) => {
+        setText(e.target.value);
+    }, []);
+    const onClickButton = useCallback(
+        (e) => {
+            e.preventDefault();
+            navigate(`/searchmap/${text}`);
+        },
+        [text]
+    );
     return (
         <Box>
             <FullPage>
@@ -90,15 +104,17 @@ const HomeLayout = () => {
                     <FullpageSection>
                         <Header></Header>
                         <div style={sectionStyle}>
-                            <h1>당신의 방을 찾아보세요</h1>
+                            <h1>당신의 자취방을 찾아보세요</h1>
                             <Input>
                                 <input
                                     type="text"
-                                    placeholder="지역 혹은 학교명을 입력해주세요"
+                                    placeholder="학교명을 입력해주세요"
+                                    onChange={onChangeText}
                                 />
-                                <SearchOutLineIcon>
+
+                                <SubmitButton onClick={onClickButton}>
                                     <SearchOutlined />
-                                </SearchOutLineIcon>
+                                </SubmitButton>
                             </Input>
                         </div>
                     </FullpageSection>
