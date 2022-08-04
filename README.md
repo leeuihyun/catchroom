@@ -12,7 +12,7 @@
 > Backend
 
 -   지상일
--   🛠 tech : mysql, spring-boot, JPA
+-   🛠 tech : mysql, spring-boot, JPA , AWS(EC2, RDS)
 
 > Frontend
 
