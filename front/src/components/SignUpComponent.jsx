@@ -10,6 +10,7 @@ import Footer from "./Footer";
 import { studentSignUp } from "../reducers/userSlice";
 import { userSliceActions } from "../reducers/userSlice";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const SignUpComponent = () => {
     const [email, setEamil] = useState("");
@@ -20,6 +21,7 @@ const SignUpComponent = () => {
     const [radio, setRadio] = useState("student");
     const { signUpDone, signUpError } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const Toast = Swal.mixin({
         toast: true,
@@ -91,6 +93,10 @@ const SignUpComponent = () => {
             Toast.fire({
                 icon: "success",
                 title: "회원가입이 성공적으로 완료되었습니다.",
+            }).then(function () {
+                //회원가입이 완료시 =>
+                navigate("/");
+                console.log("회원가입이 완료되어 홈페이지로 이동");
             });
         }
         dispatch(userSliceActions.signUpClear());
