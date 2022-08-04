@@ -20,7 +20,27 @@ const initialState = {
     logInCheckLoading: false,
     logInCheckDone: false,
     logInCheckError: null,
+    wishLoading: false,
+    wishDone: false,
+    widthError: null,
 };
+
+export const wishRoom = createAsyncThunk(
+    "wishBang",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("/members/wish", data, {
+                withCredentials: true,
+            });
+            console.log("찜하기를 진행 완료 했습니다.");
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 
 export const studentLogIn = createAsyncThunk(
     "studentLogIn",
@@ -30,7 +50,7 @@ export const studentLogIn = createAsyncThunk(
                 withCredentials: true,
             });
             console.log(res);
-            localStorage.setItem("cookie", res.data.accessToken);
+            localStorage.setItem("cookie", res.data.token.accessToken);
             const COOKIE = localStorage.getItem("cookie");
             console.log(COOKIE);
             return res.data;
@@ -46,7 +66,7 @@ export const hostLogIn = createAsyncThunk(
         try {
             const res = await axios.post("host/logIn", data);
             console.log(res);
-            localStorage.setItem("cookie", res.data.token);
+            localStorage.setItem("cookie", res.data.accessToken);
             const COOKIE = localStorage.getItem("cookie");
             console.log(COOKIE);
             return res.data;
@@ -56,6 +76,7 @@ export const hostLogIn = createAsyncThunk(
         }
     }
 );
+
 export const hostSignUp = createAsyncThunk(
     "hostSignUp",
     async (data, { rejectWithValue }) => {
@@ -101,32 +122,40 @@ export const logInCheck = createAsyncThunk("logInCheck", async () => {
         return res.data;
     } catch (error) {
         console.error(error);
+    }
+});
+
+export const hostLogOut = createAsyncThunk(
+    "hostLogOut",
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await axios.post("/hostLogOut", data);
+            console.log(res);
+            localStorage.removeItem("cookie");
+            console.log("쿠키를 삭제했습니다");
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const studentLogOut = createAsyncThunk("studentLogOut", async () => {
+    try {
+        axios.defaults.headers.common["Authorization"] = "";
+        const COOKIE = localStorage.getItem("cookie");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+        const res = await axios.delete("/members/logout");
+        console.log(res.data);
+        if (res.data === COOKIE) {
+            localStorage.removeItem("cookie");
+            console.log("쿠키를 삭제했습니다.");
+        }
+        return res.data;
+    } catch (error) {
+        console.error(error);
         return error.response.data;
-    }
-});
-
-export const hostLogOut = createAsyncThunk("hostLogOut", async (data) => {
-    try {
-        localStorage.removeItem("cookie");
-        const res = await axios.post("/hostLogOut", data);
-        console.log(res);
-
-        return res.data;
-    } catch (error) {
-        console.error(error);
-        return error;
-    }
-});
-
-export const studentLogOut = createAsyncThunk("studentLogOut", async (data) => {
-    try {
-        localStorage.removeItem("cookie");
-        const res = await axios.post("studentLogOut", data);
-        console.log(res);
-
-        return res.data;
-    } catch (error) {
-        console.error(error);
     }
 });
 const userSlice = createSlice({
@@ -148,7 +177,7 @@ const userSlice = createSlice({
         [studentLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.studentUser = action.payload;
+            state.studentUser = action.payload.info;
             state.hostUser = null;
             state.logInError = null;
         },
@@ -251,6 +280,21 @@ const userSlice = createSlice({
             state.logInCheckLoading = false;
             state.logInCheckDone = false;
             state.logInCheckError = action.error;
+        },
+        [wishRoom.pending]: (state, action) => {
+            state.wishLoading = true;
+            state.wishDone = false;
+            state.wishError = null;
+        },
+        [wishRoom.fulfilled]: (state, action) => {
+            state.wishLoading = false;
+            state.wishDone = true;
+            state.wishError = null;
+        },
+        [wishRoom.rejected]: (state, action) => {
+            state.wishLoading = false;
+            state.wishDone = false;
+            state.wishError = action.error;
         },
     },
 });

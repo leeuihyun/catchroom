@@ -58,8 +58,7 @@ const MapContainer = styled.div`
     position: relative;
 `;
 
-const MapLayout = ({ searchPlace }) => {
-    // 검색결과 배열에 담아줌
+const SearchMapLayout = ({ searchPlace }) => {
     const [Places, setPlaces] = useState([]);
     const { isOpen } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
@@ -72,6 +71,7 @@ const MapLayout = ({ searchPlace }) => {
             dispatch(logInCheck());
         }
     }, [COOKIE]);
+
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
         var markers = [];
@@ -150,7 +150,6 @@ const MapLayout = ({ searchPlace }) => {
             });
         }
     }, [searchPlace, isOpen]);
-
     return (
         <Divstyle>
             <MapContainer>
@@ -193,4 +192,4 @@ const MapLayout = ({ searchPlace }) => {
     );
 };
 
-export default MapLayout;
+export default SearchMapLayout;

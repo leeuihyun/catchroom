@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
     const dispatch = useDispatch();
+    const COOKIE = localStorage.getItem("cookie");
     useEffect(() => {
-        dispatch(logInCheck());
-    }, []);
+        if (COOKIE) {
+            dispatch(logInCheck());
+        }
+    }, [COOKIE]);
     return <HomeLayout></HomeLayout>;
 };
 

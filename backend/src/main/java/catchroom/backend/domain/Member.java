@@ -34,7 +34,8 @@ public class Member {
 
     //연관관계 메소드//
     public void createWish(WishRoom wishRoom) {
-        wishes.add(wishRoom);
         wishRoom.setMember(this);
+        this.wishes.add(wishRoom);
+
     }
 }
