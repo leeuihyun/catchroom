@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -86,13 +87,18 @@ public class MemberController {
         return ResponseEntity.ok(member.getEmail());
     }
 
-    //임시
+    //대학교 추가용
     @PostMapping("/createRoom")
-    public ResponseEntity<?> createRoom(@RequestBody RoomRequestDto requestDto){
-        Room room = new Room();
-        room.setName(requestDto.getName());
-        roomService.addRoom(room);
-        return new ResponseEntity<>(requestDto, HttpStatus.OK);
+    public ResponseEntity<?> createRoom(@RequestBody List<RoomRequestDto> requestDto){
+        for (RoomRequestDto roomRequestDto: requestDto) {
+            Room room = roomRequestDto.toRoom();
+            room.getRoom_info().set대학교("홍익대학교(세종캠퍼스)");
+            System.out.println("room = " + roomRequestDto.toString());
+            roomService.addRoom(room);
+        }
+
+
+        return new ResponseEntity<>(requestDto.toString(), HttpStatus.OK);
     }
 //    @PostMapping("/wishRoom")
 //    public ResponseEntity<?> createWishRoom(){

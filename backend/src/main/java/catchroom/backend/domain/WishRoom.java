@@ -18,16 +18,21 @@ public class WishRoom {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
+
+    //연관관계 메소드//
+    public void setMember(Member member) {
+        this.member = member;
+        member.getWishes().add(this);
+    }
 
     //생성 메소드
     public static WishRoom createWish(Room room){
         WishRoom wishRoom = new WishRoom();
         wishRoom.setRoom(room);
-
         return wishRoom;
     }
 }

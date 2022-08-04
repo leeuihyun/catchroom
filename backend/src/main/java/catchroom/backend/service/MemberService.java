@@ -75,10 +75,11 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         log.info("토큰찾기 잘됨 :"+member.getEmail());
         Room room = roomRepository.findOne(roomId);
-        log.info("방찾기 잘됨: "+room.getName());
+
         WishRoom wishRoom = WishRoom.createWish(room);
+        memberRepository.save(wishRoom);
+        log.info("wishroomid :"+ member.getWishes().size());
         member.createWish(wishRoom);
-        log.info("연관관계잘됨 :"+wishRoom.getMember().getEmail()+"::"+wishRoom.getRoom().getName());
         log.info("wishroomid :"+ wishRoom.getMember().getWishes().size());
         return MemberResponseDto.of(memberImplRepository.save(member));
     }
