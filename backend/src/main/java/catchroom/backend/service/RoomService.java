@@ -2,7 +2,6 @@ package catchroom.backend.service;
 
 import catchroom.backend.domain.Room;
 import catchroom.backend.repository.RoomRepository;
-import catchroom.backend.repository.RoomSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,7 @@ public class RoomService {
     }
 
     //조회 동적쿼리
-    public List<Room> findRooms(RoomSearch roomSearch) { return roomRepository.findAll(roomSearch);}
+    public List<Room> findRooms(String search) { return roomRepository.findSearch(search);}
 
     //한개 조회
     public Room findOne(Integer roomId){

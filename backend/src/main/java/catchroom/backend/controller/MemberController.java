@@ -72,11 +72,11 @@ public class MemberController {
 
     //찜목록 임시
     @GetMapping("/wishes")
-    public ResponseEntity<?> getWishes(@RequestBody MemberRequestDto requestDto){
+    public ResponseEntity<?> getWishes(){
 //        Member member = memberService.findOne(requestDto.getEmail());
-        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        System.out.println("myInfoBySecurity.toString() = " + myInfoBySecurity.toString());
-        return ResponseEntity.ok("ok");
+        List<Room> getWish = memberService.getWish();
+//        System.out.println("myInfoBySecurity.toString() = " + myInfoBySecurity.toString());
+        return ResponseEntity.ok(getWish);
     }
 
     //찜하기
@@ -96,7 +96,6 @@ public class MemberController {
             System.out.println("room = " + roomRequestDto.toString());
             roomService.addRoom(room);
         }
-
 
         return new ResponseEntity<>(requestDto.toString(), HttpStatus.OK);
     }

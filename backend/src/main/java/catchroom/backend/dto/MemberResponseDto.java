@@ -2,10 +2,7 @@ package catchroom.backend.dto;
 
 import catchroom.backend.domain.Member;
 import catchroom.backend.domain.WishRoom;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class MemberResponseDto {
     private String email;
     private String name;
@@ -35,9 +33,9 @@ public class MemberResponseDto {
                 .build();
     }
 
-    @Override
-    public String toString() {
-        return "MemberVo [email=" + email + ", name=" + name + ", number=" + number + ", city="+
-                city+", wishes="+ wishes + "]";
-    }
+//    @Override
+//    public String toString() {
+//        return "MemberVo [email=" + email + ", name=" + name + ", number=" + number + ", city="+
+//                city+", wishes="+ wishes + "]";
+//    }
 }

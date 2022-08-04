@@ -2,12 +2,14 @@ package catchroom.backend.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "wish_room")
 @Getter @Setter
+@ToString
 public class WishRoom {
 
     @Id @GeneratedValue

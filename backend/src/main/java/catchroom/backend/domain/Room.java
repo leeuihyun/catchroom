@@ -2,11 +2,13 @@ package catchroom.backend.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@ToString
 public class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +18,7 @@ public class Room {
     private String name;
 
     @Embedded
-    private Room_Info room_info;
+    private Room_info room_info;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +28,7 @@ public class Room {
 //    @Embedded
 //    private Address address;
 
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "room")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
 //    private WishRoom wishRoom;
 
     //연관관계 메소드//

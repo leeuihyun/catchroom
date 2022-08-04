@@ -84,6 +84,15 @@ public class MemberService {
         return MemberResponseDto.of(memberImplRepository.save(member));
     }
 
+    public List<Room> getWish() {
+        //엔티티 조회
+        Member member = memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+
+
+        return roomRepository.findWish(member.getEmail());
+    }
+
 
     // 아이디 삭제
     @Transactional

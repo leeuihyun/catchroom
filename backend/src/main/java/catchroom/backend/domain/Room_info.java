@@ -3,12 +3,14 @@ package catchroom.backend.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter @Setter
-public class Room_Info {
+@ToString
+public class Room_info {
 
 
     private String 주소;
