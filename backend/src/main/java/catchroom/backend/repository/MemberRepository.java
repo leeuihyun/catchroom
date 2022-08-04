@@ -1,6 +1,7 @@
 package catchroom.backend.repository;
 
 import catchroom.backend.domain.Member;
+import catchroom.backend.domain.WishRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,10 @@ public class MemberRepository{
 
     public void save(Member member){
         em.persist(member);
+    }
+
+    public void save(WishRoom wishRoom){
+        em.persist(wishRoom);
     }
 
     public Member findOne(String email){

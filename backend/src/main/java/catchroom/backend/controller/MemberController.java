@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -69,80 +70,89 @@ public class MemberController {
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
 
-    //찜목록
+    //찜목록 임시
     @GetMapping("/wishes")
     public ResponseEntity<?> getWishes(){
-        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        return ResponseEntity.ok(myInfoBySecurity.getWishes());
+//        Member member = memberService.findOne(requestDto.getEmail());
+        List<Room> getWish = memberService.getWish();
+//        System.out.println("myInfoBySecurity.toString() = " + myInfoBySecurity.toString());
+        return ResponseEntity.ok(getWish);
     }
 
     //찜하기
     @PostMapping("/{id}/wish")
-    public ResponseEntity<?> roomWish(@PathVariable Long roomId){
-        return ResponseEntity.ok(memberService.wish(roomId));
+    public ResponseEntity<?> roomWish(@PathVariable("id") Integer roomId){
+        MemberResponseDto member = memberService.wish(roomId);
+        System.out.println("wish.getMember().getWishes().size() = " + member.getWishes().size());
+        return ResponseEntity.ok(member.getEmail());
     }
 
-    //임시
+    //대학교 추가용
     @PostMapping("/createRoom")
-    public ResponseEntity<?> createRoom(@RequestBody RoomRequestDto requestDto){
-        Room room = new Room();
-        room.setName(requestDto.getName());
-        roomService.addRoom(room);
-        return new ResponseEntity<>(requestDto, HttpStatus.OK);
+    public ResponseEntity<?> createRoom(@RequestBody List<RoomRequestDto> requestDto){
+        for (RoomRequestDto roomRequestDto: requestDto) {
+            Room room = roomRequestDto.toRoom();
+            room.getRoom_info().set대학교("홍익대학교(세종캠퍼스)");
+            System.out.println("room = " + roomRequestDto.toString());
+            roomService.addRoom(room);
+        }
+
+        return new ResponseEntity<>(requestDto.toString(), HttpStatus.OK);
     }
-    @PostMapping("/wishRoom")
-    public ResponseEntity<?> createWishRoom(){
-        WishRoom wish = memberService.wish(Long.valueOf(27));
-        System.out.println("wish.getId() = " + wish.getId());
-        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-
-        return new ResponseEntity<>(myInfoBySecurity.getWishes(), HttpStatus.OK);
-    }
-
-    //회원가입
-    @PostMapping("/new")
-    public String createMember(@RequestBody MemberForm form) {
-        Address address = new Address(form.getCity(),
-                form.getDistrict(), form.getDetail(), form.getZipcode());
-
-        Member member = new Member();
-        member.setName(form.getName());
-        member.setAddress(address);
-        member.setEmail(form.getEmail());
-        member.setPassword(form.getPassword());
-        member.setNumber(form.getNumber());
-        member.setAuthority(Authority.ROLE_USER);
-        memberService.join(member);
-
-        return "ok";
-    }
-
-    //조회
-    @GetMapping("/{id}")
-    public ResponseEntity<?> searchMember(@PathVariable("id") String email) {
-        Member findMember = memberService.findOne(email);
-
-        return new ResponseEntity<>(findMember, HttpStatus.OK);
-    }
-
-    //수정
-    @PostMapping("/{id}/update")
-    public ResponseEntity<?> updateMember(@PathVariable("id") String email, @RequestBody MemberForm form) {
-        Address address = new Address(form.getCity(),
-                form.getDistrict(), form.getDetail(), form.getZipcode());
-        Member updateMember = memberService.updateMember(email,
-                form.getName(), address, form.getPassword(), form.getNumber());
-
-        return new ResponseEntity<>(updateMember, HttpStatus.OK);
-    }
+//    @PostMapping("/wishRoom")
+//    public ResponseEntity<?> createWishRoom(){
+//        Member member = memberService.wish(27);
+//        System.out.println("wish.getId() = " + member.getWishes().size());
+//        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+//
+//        return new ResponseEntity<>(myInfoBySecurity.getWishes(), HttpStatus.OK);
+//    }
 
 
-    //삭제
-    @PostMapping("/{id}/delete")
-    public ResponseEntity<?> deleteMember(@PathVariable("id") String email){
-        memberService.deleteId(email);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    //회원가입
+//    @PostMapping("/new")
+//    public String createMember(@RequestBody MemberForm form) {
+//        Address address = new Address(form.getCity(),
+//                form.getDistrict(), form.getDetail(), form.getZipcode());
+//
+//        Member member = new Member();
+//        member.setName(form.getName());
+//        member.setAddress(address);
+//        member.setEmail(form.getEmail());
+//        member.setPassword(form.getPassword());
+//        member.setNumber(form.getNumber());
+//        member.setAuthority(Authority.ROLE_USER);
+//        memberService.join(member);
+//
+//        return "ok";
+//    }
+//
+//    //조회
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> searchMember(@PathVariable("id") String email) {
+//        Member findMember = memberService.findOne(email);
+//
+//        return new ResponseEntity<>(findMember, HttpStatus.OK);
+//    }
+//
+//    //수정
+//    @PostMapping("/{id}/update")
+//    public ResponseEntity<?> updateMember(@PathVariable("id") String email, @RequestBody MemberForm form) {
+//        Address address = new Address(form.getCity(),
+//                form.getDistrict(), form.getDetail(), form.getZipcode());
+//        Member updateMember = memberService.updateMember(email,
+//                form.getName(), address, form.getPassword(), form.getNumber());
+//
+//        return new ResponseEntity<>(updateMember, HttpStatus.OK);
+//    }
+//
+//
+//    //삭제
+//    @PostMapping("/{id}/delete")
+//    public ResponseEntity<?> deleteMember(@PathVariable("id") String email){
+//        memberService.deleteId(email);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 
 }

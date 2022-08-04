@@ -10,12 +10,14 @@ import catchroom.backend.repository.MemberImplRepository;
 import catchroom.backend.repository.MemberRepository;
 import catchroom.backend.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -67,15 +69,28 @@ public class MemberService {
 
     //찜 기능
     @Transactional
-    public WishRoom wish(Long roomId){
+    public MemberResponseDto wish(Integer roomId){
         //엔티티 조회
         Member member = memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        log.info("토큰찾기 잘됨 :"+member.getEmail());
         Room room = roomRepository.findOne(roomId);
 
         WishRoom wishRoom = WishRoom.createWish(room);
+        memberRepository.save(wishRoom);
+        log.info("wishroomid :"+ member.getWishes().size());
         member.createWish(wishRoom);
-        return wishRoom;
+        log.info("wishroomid :"+ wishRoom.getMember().getWishes().size());
+        return MemberResponseDto.of(memberImplRepository.save(member));
+    }
+
+    public List<Room> getWish() {
+        //엔티티 조회
+        Member member = memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+
+
+        return roomRepository.findWish(member.getEmail());
     }
 
 
