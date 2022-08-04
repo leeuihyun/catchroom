@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import ModalContainer from "./ModalContainer";
 import { modalActions } from "../reducers/modalSlice";
 import { logInCheck } from "../reducers/userSlice";
+import { getRoom } from "../reducers/roomSlice";
 import Modal from "react-modal";
 
 Modal.setAppElement("body");
@@ -63,6 +64,7 @@ const SearchMapLayout = ({ searchPlace }) => {
     const { isOpen } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
+    const { room } = useSelector((state) => state.room);
     const onClickCard = () => {
         dispatch(modalActions.setIsOpen({ data: true }));
     };
@@ -71,7 +73,12 @@ const SearchMapLayout = ({ searchPlace }) => {
             dispatch(logInCheck());
         }
     }, [COOKIE]);
-
+    useEffect(() => {
+        dispatch(getRoom(searchPlace));
+    }, []);
+    useEffect(() => {
+        console.log(room);
+    }, [room]);
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
         var markers = [];
@@ -168,6 +175,7 @@ const SearchMapLayout = ({ searchPlace }) => {
             <ResultStyle>
                 {Places.map((item, i) => (
                     <Card
+                        key={item.place_name}
                         index={i}
                         data={item.address_name}
                         onClick={onClickCard}
