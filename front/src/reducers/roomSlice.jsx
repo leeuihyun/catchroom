@@ -5,6 +5,7 @@ const initialState = {
     loadRoomLoading: false,
     loadRoomDone: false,
     loadRoomError: null,
+    room: null,
     rooms: [
         {
             Column1: 0,
@@ -49,19 +50,16 @@ const initialState = {
     ],
 };
 
-const getRoom = createAsyncThunk(
-    "getRoom",
-    async (data, { rejectWithValue }) => {
-        try {
-            const res = await axios.post("/room", data);
-            console.log(res);
-            return res.data;
-        } catch (error) {
-            console.error(error);
-            return rejectWithValue(error.response.data);
-        }
+export const getRoom = createAsyncThunk("getRoom", async (data) => {
+    try {
+        const res = await axios.get(`/rooms?search=${data}`);
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return error.response.data;
     }
-);
+});
 const roomSlice = createSlice({
     name: "room",
     initialState,
@@ -76,7 +74,7 @@ const roomSlice = createSlice({
             state.loadRoomLoading = false;
             state.loadRoomDone = true;
             state.loadRoomError = null;
-            state.rooms = action.payload;
+            state.room = action.payload;
         },
         [getRoom.rejected]: (state, action) => {
             state.loadRoomLoading = false;
