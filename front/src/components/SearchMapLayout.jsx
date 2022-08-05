@@ -3,13 +3,9 @@ import styled from "styled-components";
 import Card from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import ModalContainer from "./ModalContainer";
-import { modalActions } from "../reducers/modalSlice";
 import { logInCheck } from "../reducers/userSlice";
 import { getRoom } from "../reducers/roomSlice";
-import Modal from "react-modal";
 
-Modal.setAppElement("body");
 const { kakao } = window;
 
 const Divstyle = styled.div`
@@ -60,22 +56,19 @@ const MapContainer = styled.div`
 `;
 
 const SearchMapLayout = ({ searchPlace }) => {
-    const [Places, setPlaces] = useState([]);
-    const { isOpen } = useSelector((state) => state.modal);
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
     const { room } = useSelector((state) => state.room);
     const onClickCard = () => {
-        dispatch(modalActions.setIsOpen({ data: true }));
+        //카드를 누르면 싱글페이지로 이동하고 데이터는 props로 전달한다.
+        //수정해야함 전에는 모달창이었기 때문에
     };
     useEffect(() => {
         if (COOKIE) {
             dispatch(logInCheck());
         }
     }, [COOKIE]);
-    useEffect(() => {
-        dispatch(getRoom(searchPlace));
-    }, []);
+
     useEffect(() => {
         console.log(room);
     }, [room]);
@@ -88,12 +81,39 @@ const SearchMapLayout = ({ searchPlace }) => {
             level: 3,
         };
         const map = new kakao.maps.Map(container, options);
+        var geocoder = new kakao.maps.services.Geocoder();
+        var value = null;
+        room?.forEach((item) => {
+            geocoder.addressSearch(
+                item.room_info.주소,
+                function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        value = new kakao.maps.LatLng(result[0].y, result[0].x);
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: value,
+                        });
+                        kakao.maps.event.addListener(
+                            marker,
+                            "click",
+                            function () {
+                                infowindow.setContent(
+                                    '<div style="padding:5px;font-size:12px;">' +
+                                        item.room_info.주소 +
+                                        "</div>"
+                                );
+                                infowindow.open(map, marker);
+                            }
+                        );
+                    }
+                }
+            );
+        });
+        //const ps = new kakao.maps.services.Places();
 
-        const ps = new kakao.maps.services.Places();
+        //ps.keywordSearch(searchPlace, placesSearchCB);
 
-        ps.keywordSearch(searchPlace, placesSearchCB);
-
-        function placesSearchCB(data, status, pagination) {
+        /*function placesSearchCB(data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
                 let bounds = new kakao.maps.LatLngBounds();
 
@@ -108,10 +128,10 @@ const SearchMapLayout = ({ searchPlace }) => {
                 displayPagination(pagination);
                 setPlaces(data);
             }
-        }
+        }*/
 
         // 검색결과 목록 하단에 페이지 번호 표시
-        function displayPagination(pagination) {
+        /*function displayPagination(pagination) {
             var paginationEl = document.getElementById("pagination"),
                 fragment = document.createDocumentFragment(),
                 i;
@@ -139,9 +159,9 @@ const SearchMapLayout = ({ searchPlace }) => {
                 fragment.appendChild(el);
             }
             paginationEl.appendChild(fragment);
-        }
+        }*/
         //마커 그리기
-        function displayMarker(place) {
+        /*function displayMarker(place) {
             let marker = new kakao.maps.Marker({
                 map: map,
                 position: new kakao.maps.LatLng(place.y, place.x),
@@ -155,8 +175,8 @@ const SearchMapLayout = ({ searchPlace }) => {
                 );
                 infowindow.open(map, marker);
             });
-        }
-    }, [searchPlace, isOpen]);
+        }*/
+    }, [searchPlace, room]);
     return (
         <Divstyle>
             <MapContainer>
@@ -171,26 +191,21 @@ const SearchMapLayout = ({ searchPlace }) => {
                     }}
                 />
             </MapContainer>
-            {isOpen === true ? <ModalContainer /> : null}
             <ResultStyle>
-                {Places.map((item, i) => (
+                {room?.map((item, i) => (
                     <Card
-                        key={item.place_name}
+                        key={item.id}
                         index={i}
-                        data={item.address_name}
+                        data={item.room_info.주소}
                         onClick={onClickCard}
                     >
                         <div>
-                            <ResultTitle>{item.place_name}</ResultTitle>
-
-                            {item.road_address_name ? (
-                                <div>
-                                    <span>{item.road_address_name}</span>
-                                    <span>{item.address_name}</span>
-                                </div>
-                            ) : (
-                                <span>{item.address_name}</span>
-                            )}
+                            <ResultTitle>{item.room_info.주소}</ResultTitle>
+                            <div>
+                                <span>{item.room_info.가격}</span>
+                                <span>{item.room_info.관리비}</span>
+                                <span>{item.room_info.면적}</span>
+                            </div>
                         </div>
                     </Card>
                 ))}
