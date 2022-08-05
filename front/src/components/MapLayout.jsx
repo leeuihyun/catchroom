@@ -3,12 +3,8 @@ import styled from "styled-components";
 import Card from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
-import ModalContainer from "./ModalContainer";
-import { modalActions } from "../reducers/modalSlice";
 import { logInCheck } from "../reducers/userSlice";
-import Modal from "react-modal";
 
-Modal.setAppElement("body");
 const { kakao } = window;
 
 const Divstyle = styled.div`
@@ -65,7 +61,7 @@ const MapLayout = ({ searchPlace }) => {
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
     const onClickCard = () => {
-        dispatch(modalActions.setIsOpen({ data: true }));
+        //변경해야함
     };
     useEffect(() => {
         if (COOKIE) {
@@ -165,7 +161,7 @@ const MapLayout = ({ searchPlace }) => {
                     }}
                 />
             </MapContainer>
-            {isOpen === true ? <ModalContainer /> : null}
+
             <ResultStyle>
                 {Places.map((item, i) => (
                     <Card
