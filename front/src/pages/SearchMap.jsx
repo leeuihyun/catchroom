@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SearchMapLayout from "../components/SearchMapLayout";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { getRoom } from "../reducers/roomSlice";
 
 const Container = styled.div`
     width: 100%;
@@ -48,7 +49,8 @@ const SearchMap = () => {
     const { value } = useParams();
     const [InputText, setInputText] = useState("");
     const [Place, setPlace] = useState(value);
-
+    const dispatch = useDispatch();
+    const { room } = useSelector((state) => state.room);
     const onChange = (e) => {
         setInputText(e.target.value);
     };
@@ -57,6 +59,7 @@ const SearchMap = () => {
         e.preventDefault();
         setPlace(InputText);
         setInputText("");
+        dispatch(getRoom(Place));
     };
     return (
         <>
