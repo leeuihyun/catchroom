@@ -4,10 +4,12 @@ import Header from "./Header";
 import styled from "styled-components";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
-
+import { wishBang } from "../reducers/userSlice";
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
+    const { room } = useSelector((state) => state.room);
     const { rooms } = useSelector((state) => state.room);
+    const { studentUser } = useSelector((state) => state.user);
     const test = {
         Column1: 0,
         주소: "서울특별시 광진구 자양동",
@@ -22,6 +24,7 @@ const SingleRoomComponent = () => {
     useEffect(() => {
         console.log(data);
         console.log(data.가격.substr(0, 2));
+        //props로 전달받기 때문에 useEffect를 쓰지 않고 props로 받아온 값과 그 방의 id 가 필요함
     }, []); //렌더링할 때 데이터를 불러올 필요 없이 props로 전달하여 데이터를 전달받기 / 어짜피 클릭시이기 때문에
     const firstTitle = data.가격.substr(0, 2);
     const firstSecond = data.가격.substr(2);
@@ -30,7 +33,13 @@ const SingleRoomComponent = () => {
     const fourth = data.면적;
     const fifth = data.층;
     const sixth = data.주소;
-
+    const onClickWish = useCallback(() => {
+        if (studentUser) {
+            dispatch(wishBang("data"));
+        } else {
+            alert("로그인 해주세요"); // sweetAlert 이용하면 될 듯 함
+        }
+    }, [studentUser]);
     return (
         <>
             <Header color="black"></Header>
@@ -144,6 +153,15 @@ const Info = styled.div`
     margin-bottom: 250px;
     display: flex;
     flex-direction: column;
+`;
+const Button = styled.button`
+    margin: 20px;
+    border-radius: 10px;
+    width: 100px;
+    height: 80px;
+    background-color: white;
+    color: white;
+    font-size: 16px;
 `;
 
 export default SingleRoomComponent;
