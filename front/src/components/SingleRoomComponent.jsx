@@ -4,7 +4,7 @@ import Header from "./Header";
 import styled from "styled-components";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
-import { wishBang } from "../reducers/userSlice";
+import { wishRoom } from "../reducers/userSlice";
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
     const { room } = useSelector((state) => state.room);
@@ -35,7 +35,7 @@ const SingleRoomComponent = () => {
     const sixth = data.주소;
     const onClickWish = useCallback(() => {
         if (studentUser) {
-            dispatch(wishBang("data"));
+            dispatch(wishRoom("data"));
         } else {
             alert("로그인 해주세요"); // sweetAlert 이용하면 될 듯 함
         }

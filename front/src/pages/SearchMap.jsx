@@ -6,6 +6,7 @@ import SearchMapLayout from "../components/SearchMapLayout";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoom } from "../reducers/roomSlice";
+import { roomSliceActions } from "../reducers/roomSlice";
 
 const Container = styled.div`
     width: 100%;
@@ -46,36 +47,34 @@ const MainBox = styled.div`
     height: 100%;
 `;
 const SearchMap = () => {
-    const { value } = useParams();
-    const [InputText, setInputText] = useState("");
-    const [Place, setPlace] = useState(value);
+    const [text, setText] = useState("");
     const dispatch = useDispatch();
     const { room } = useSelector((state) => state.room);
     const onChange = (e) => {
-        setInputText(e.target.value);
+        setText(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPlace(InputText);
-        setInputText("");
-        dispatch(getRoom(Place));
+        dispatch(roomSliceActions.rememberLocation(text));
+        dispatch(getRoom(text));
+        setText("");
     };
+
     return (
         <>
             <Header color="black" />
-
             <Container>
                 <SearchForm className="inputForm" onSubmit={handleSubmit}>
                     <Search
                         placeholder="검색어를 입력하세요"
                         onChange={onChange}
-                        value={InputText}
+                        value={text}
                     />
                     <SearchBtn type="submit">검색</SearchBtn>
                 </SearchForm>
 
-                <SearchMapLayout searchPlace={Place} />
+                <SearchMapLayout />
             </Container>
         </>
     );

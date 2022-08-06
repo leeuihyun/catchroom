@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { logInCheck } from "../reducers/userSlice";
 import { getRoom } from "../reducers/roomSlice";
+import { roomSliceActions } from "../reducers/roomSlice";
 
 const { kakao } = window;
 
@@ -36,16 +37,10 @@ const ResultStyle = styled.div`
 
 const Pagination = styled.div`
     margin-top: 3rem;
-    a {
-        color: black;
-        font-size: 20px;
-        text-decoration: none;
-        margin: 0 10px;
-        &on {
-            color: lightblue;
-            font-weight: bold;
-        }
-    }
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 0 10px;
 `;
 
 const MapContainer = styled.div`
@@ -55,10 +50,13 @@ const MapContainer = styled.div`
     position: relative;
 `;
 
-const SearchMapLayout = ({ searchPlace }) => {
+const SearchMapLayout = () => {
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
-    const { room } = useSelector((state) => state.room);
+    const { room, searchCount, now } = useSelector((state) => state.room);
+    const pageNumbers = Math.ceil(searchCount / 20);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * 20;
     const onClickCard = () => {
         //카드를 누르면 싱글페이지로 이동하고 데이터는 props로 전달한다.
         //수정해야함 전에는 모달창이었기 때문에
@@ -72,6 +70,14 @@ const SearchMapLayout = ({ searchPlace }) => {
     useEffect(() => {
         console.log(room);
     }, [room]);
+    const onClickPage = useCallback((e) => {
+        setPage(e.target.value);
+        console.log(page);
+    }, []);
+    useEffect(() => {
+        //dispatch 를 페이지마다 프론트안에서 서버와 x
+        //서버에서 받아온 데이터 한번에 room에 저장 후 프론트안에서 자체적으로 페이지네이션 함
+    }, [page]);
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
         var markers = [];
@@ -83,12 +89,14 @@ const SearchMapLayout = ({ searchPlace }) => {
         const map = new kakao.maps.Map(container, options);
         var geocoder = new kakao.maps.services.Geocoder();
         var value = null;
-        room?.forEach((item) => {
+        var visibleRoomFirst = false;
+        room?.map((item) => {
             geocoder.addressSearch(
-                item.room_info.주소,
+                item.roomInfo.주소,
                 function (result, status) {
                     if (status === kakao.maps.services.Status.OK) {
                         value = new kakao.maps.LatLng(result[0].y, result[0].x);
+
                         var marker = new kakao.maps.Marker({
                             map: map,
                             position: value,
@@ -99,84 +107,22 @@ const SearchMapLayout = ({ searchPlace }) => {
                             function () {
                                 infowindow.setContent(
                                     '<div style="padding:5px;font-size:12px;">' +
-                                        item.room_info.주소 +
+                                        item.roomInfo.주소 +
                                         "</div>"
                                 );
                                 infowindow.open(map, marker);
                             }
                         );
                     }
+
+                    if (value && visibleRoomFirst === false) {
+                        visibleRoomFirst = true;
+                        map.setCenter(value);
+                    }
                 }
             );
         });
-        //const ps = new kakao.maps.services.Places();
-
-        //ps.keywordSearch(searchPlace, placesSearchCB);
-
-        /*function placesSearchCB(data, status, pagination) {
-            if (status === kakao.maps.services.Status.OK) {
-                let bounds = new kakao.maps.LatLngBounds();
-
-                for (let i = 0; i < data.length; i++) {
-                    displayMarker(data[i]);
-                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-                }
-
-                map.setBounds(bounds);
-
-                // 페이지 목록 보여주는 displayPagination() 추가
-                displayPagination(pagination);
-                setPlaces(data);
-            }
-        }*/
-
-        // 검색결과 목록 하단에 페이지 번호 표시
-        /*function displayPagination(pagination) {
-            var paginationEl = document.getElementById("pagination"),
-                fragment = document.createDocumentFragment(),
-                i;
-
-            // 기존에 추가된 페이지 번호 삭제
-            while (paginationEl.hasChildNodes()) {
-                paginationEl.removeChild(paginationEl.lastChild);
-            }
-
-            for (i = 1; i <= pagination.last; i++) {
-                var el = document.createElement("a");
-                el.href = "#";
-                el.innerHTML = i;
-
-                if (i === pagination.current) {
-                    el.className = "on";
-                } else {
-                    el.onclick = (function (i) {
-                        return function () {
-                            pagination.gotoPage(i);
-                        };
-                    })(i);
-                }
-
-                fragment.appendChild(el);
-            }
-            paginationEl.appendChild(fragment);
-        }*/
-        //마커 그리기
-        /*function displayMarker(place) {
-            let marker = new kakao.maps.Marker({
-                map: map,
-                position: new kakao.maps.LatLng(place.y, place.x),
-            });
-            //마커 클릭시
-            kakao.maps.event.addListener(marker, "click", function () {
-                infowindow.setContent(
-                    '<div style="padding:5px;font-size:12px;">' +
-                        place.place_name +
-                        "</div>"
-                );
-                infowindow.open(map, marker);
-            });
-        }*/
-    }, [searchPlace, room]);
+    }, [room, searchCount, pageNumbers]);
     return (
         <Divstyle>
             <MapContainer>
@@ -192,24 +138,36 @@ const SearchMapLayout = ({ searchPlace }) => {
                 />
             </MapContainer>
             <ResultStyle>
-                {room?.map((item, i) => (
+                {room.slice(offset, offset + 20).map((item, i) => (
                     <Card
                         key={item.id}
                         index={i}
-                        data={item.room_info.주소}
+                        data={item.roomInfo.주소}
                         onClick={onClickCard}
                     >
                         <div>
-                            <ResultTitle>{item.room_info.주소}</ResultTitle>
+                            <ResultTitle>{item.roomInfo.주소}</ResultTitle>
                             <div>
-                                <span>{item.room_info.가격}</span>
-                                <span>{item.room_info.관리비}</span>
-                                <span>{item.room_info.면적}</span>
+                                <span>{item.roomInfo.가격}</span>
+                                <span>{item.roomInfo.관리비}</span>
+                                <span>{item.roomInfo.면적}</span>
                             </div>
                         </div>
                     </Card>
                 ))}
-                <div id="pagination"></div>
+                <Pagination>
+                    {Array(pageNumbers)
+                        .fill()
+                        .map((_, i) => (
+                            <button
+                                key={i + 1}
+                                onClick={onClickPage}
+                                value={i + 1}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                </Pagination>
             </ResultStyle>
         </Divstyle>
     );

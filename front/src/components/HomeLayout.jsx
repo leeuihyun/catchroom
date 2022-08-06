@@ -10,7 +10,9 @@ import Footer from "./Footer";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Banner from "./Banner";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getRoom } from "../reducers/roomSlice";
+import { roomSliceActions } from "../reducers/roomSlice";
 const Box = styled.div`
     background: linear-gradient(100deg, #1c16bc, #07aed0);
     width: 100%;
@@ -78,6 +80,7 @@ const ThirdPage = styled.div`
 
 const HomeLayout = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const sectionStyle = {
         height: "100vh",
         width: "100vw",
@@ -93,10 +96,13 @@ const HomeLayout = () => {
     const onClickButton = useCallback(
         (e) => {
             e.preventDefault();
+            dispatch(roomSliceActions.rememberLocation(text));
+            dispatch(getRoom(text));
             navigate(`/searchmap/${text}`);
         },
         [text]
     );
+
     return (
         <Box>
             <FullPage>
