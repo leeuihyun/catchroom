@@ -5,7 +5,9 @@ const initialState = {
     loadRoomLoading: false,
     loadRoomDone: false,
     loadRoomError: null,
+    searchCount: 0,
     room: null,
+    now: null, //현재 검색한 위치
     rooms: [
         {
             Column1: 0,
@@ -50,9 +52,9 @@ const initialState = {
     ],
 };
 
-export const getRoom = createAsyncThunk("getRoom", async (data) => {
+export const getRoom = createAsyncThunk("getRoom", async ({ data }) => {
     try {
-        const res = await axios.get(`/rooms?search=${data}`);
+        const res = await axios.get(`/rooms?search=${data.text}`);
         console.log(res);
         return res.data;
     } catch (error) {
@@ -63,7 +65,11 @@ export const getRoom = createAsyncThunk("getRoom", async (data) => {
 const roomSlice = createSlice({
     name: "room",
     initialState,
-    reducers: {},
+    reducers: {
+        rememberLocation(state, action) {
+            state.now = action.payload;
+        },
+    },
     extraReducers: {
         [getRoom.pending]: (state, action) => {
             state.loadRoomLoading = true;
@@ -74,7 +80,8 @@ const roomSlice = createSlice({
             state.loadRoomLoading = false;
             state.loadRoomDone = true;
             state.loadRoomError = null;
-            state.room = action.payload;
+            state.room = action.payload.Rooms;
+            state.searchCount = action.payload.searchCount;
         },
         [getRoom.rejected]: (state, action) => {
             state.loadRoomLoading = false;
