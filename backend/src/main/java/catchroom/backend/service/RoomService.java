@@ -23,7 +23,7 @@ public class RoomService {
     }
 
     //조회 동적쿼리
-    public List<Room> findRooms(String search) { return roomRepository.findSearch(search);}
+    public List<Room> findRooms(String search,int offset) { return roomRepository.findSearch(search, offset,20);}
 
     //한개 조회
     public Room findOne(Integer roomId){
@@ -31,4 +31,7 @@ public class RoomService {
         return roomRepository.findOne(roomId);
     }
 
+    public List<Room> findRoomsSize(String search) {
+        return roomRepository.findSearch(search,0,1000);
+    }
 }

@@ -22,11 +22,12 @@ public class RoomRepository {
         return em.find(Room.class,roomId);
     }
 
-    public List<Room> findSearch(String search) {
+    public List<Room> findSearch(String search, int offset,int maxResult) {
         return em.createQuery("select r from Room r" +
-                        " where r.room_info.대학교 like '%'||:search||'%'", Room.class)
+                        " where r.roomInfo.대학교 like :search||'%'", Room.class)
                 .setParameter("search", search)
-                .setMaxResults(1000)
+                .setFirstResult(offset)
+                .setMaxResults(maxResult)
                 .getResultList();
 
     }

@@ -14,7 +14,7 @@ public class WishRoom {
 
     @Id @GeneratedValue
     @Column(name = "wish_room_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -24,6 +24,8 @@ public class WishRoom {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @Enumerated(EnumType.STRING)
+    private WishStatus status;
 
     //연관관계 메소드//
     public void setMember(Member member) {
@@ -35,6 +37,7 @@ public class WishRoom {
     public static WishRoom createWish(Room room){
         WishRoom wishRoom = new WishRoom();
         wishRoom.setRoom(room);
+        wishRoom.setStatus(WishStatus.WISH);
         return wishRoom;
     }
 }

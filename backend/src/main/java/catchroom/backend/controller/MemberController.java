@@ -1,16 +1,14 @@
 package catchroom.backend.controller;
 
 
-import catchroom.backend.domain.*;
+import catchroom.backend.domain.Room;
 import catchroom.backend.dto.MemberRequestDto;
 import catchroom.backend.dto.MemberResponseDto;
-import catchroom.backend.dto.RoomRequestDto;
 import catchroom.backend.service.AuthService;
 import catchroom.backend.service.MemberService;
-import catchroom.backend.service.RoomService;
+import catchroom.backend.service.WishRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +27,8 @@ public class MemberController {
 
     private final MemberService memberService;
     private final AuthService authService;
-    private final RoomService roomService;
+    private final WishRoomService wishRoomService;
+//    private final RoomService roomService;
 
     //뉴 회원가입
     @PostMapping("/signup")
@@ -74,7 +73,7 @@ public class MemberController {
     @GetMapping("/wishes")
     public ResponseEntity<?> getWishes(){
 //        Member member = memberService.findOne(requestDto.getEmail());
-        List<Room> getWish = memberService.getWish();
+        List<Room> getWish = wishRoomService.getWish();
 //        System.out.println("myInfoBySecurity.toString() = " + myInfoBySecurity.toString());
         return ResponseEntity.ok(getWish);
     }
@@ -82,23 +81,21 @@ public class MemberController {
     //찜하기
     @PostMapping("/{id}/wish")
     public ResponseEntity<?> roomWish(@PathVariable("id") Integer roomId){
-        MemberResponseDto member = memberService.wish(roomId);
-        System.out.println("wish.getMember().getWishes().size() = " + member.getWishes().size());
+        MemberResponseDto member = wishRoomService.wish(roomId);
         return ResponseEntity.ok(member.getEmail());
     }
 
-    //대학교 추가용
-    @PostMapping("/createRoom")
-    public ResponseEntity<?> createRoom(@RequestBody List<RoomRequestDto> requestDto){
-        for (RoomRequestDto roomRequestDto: requestDto) {
-            Room room = roomRequestDto.toRoom();
-            room.getRoom_info().set대학교("홍익대학교(세종캠퍼스)");
-            System.out.println("room = " + roomRequestDto.toString());
-            roomService.addRoom(room);
-        }
 
-        return new ResponseEntity<>(requestDto.toString(), HttpStatus.OK);
+    //찜취소
+    @PostMapping("/{id}/wishCancel")
+    public ResponseEntity<?> wishCancel(@PathVariable("id") Integer wishRoomId){
+
+        List<Room> rooms =  wishRoomService.wishCancel(wishRoomId);
+
+        return ResponseEntity.ok(rooms);
     }
+
+
 //    @PostMapping("/wishRoom")
 //    public ResponseEntity<?> createWishRoom(){
 //        Member member = memberService.wish(27);

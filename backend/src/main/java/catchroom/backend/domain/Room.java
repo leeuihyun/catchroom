@@ -18,7 +18,7 @@ public class Room {
     private String name;
 
     @Embedded
-    private Room_info room_info;
+    private RoomInfo roomInfo;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
