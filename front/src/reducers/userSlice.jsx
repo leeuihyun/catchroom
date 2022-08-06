@@ -26,7 +26,7 @@ const initialState = {
 };
 
 export const wishRoom = createAsyncThunk(
-    "wishBang",
+    "wishRoom",
     async (data, { rejectWithValue }) => {
         try {
             const res = await axios.post("/members/wish", data, {
