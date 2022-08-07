@@ -39,7 +39,7 @@ public class RoomController {
     public ResponseEntity<?> createRoom(@RequestBody List<RoomRequestDto> requestDto){
         for (RoomRequestDto roomRequestDto: requestDto) {
             Room room = roomRequestDto.toRoom();
-            room.getRoomInfo().set대학교("홍익대학교(세종캠퍼스)");
+//            room.getRoomInfo().set대학교("홍익대학교(세종캠퍼스)");
             System.out.println("room = " + roomRequestDto.toString());
             roomService.addRoom(room);
         }

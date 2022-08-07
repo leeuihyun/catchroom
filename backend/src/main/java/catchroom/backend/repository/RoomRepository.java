@@ -24,10 +24,10 @@ public class RoomRepository {
 
     public List<Room> findSearch(String search, int offset,int maxResult) {
         return em.createQuery("select r from Room r" +
-                        " where r.roomInfo.대학교 like :search||'%'", Room.class)
-                .setParameter("search", search)
-                .setFirstResult(offset)
-                .setMaxResults(maxResult)
+                        "", Room.class)
+//                .setParameter("search", search)
+//                .setFirstResult(offset)
+//                .setMaxResults(maxResult)
                 .getResultList();
 
     }
