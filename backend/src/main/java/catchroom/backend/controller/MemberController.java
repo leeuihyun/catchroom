@@ -87,12 +87,12 @@ public class MemberController {
 
 
     //찜취소
-    @PostMapping("/{id}/wishCancel")
+    @PostMapping("/{id}/cancel")
     public ResponseEntity<?> wishCancel(@PathVariable("id") Integer wishRoomId){
 
-        List<Room> rooms =  wishRoomService.wishCancel(wishRoomId);
-
-        return ResponseEntity.ok(rooms);
+        List<Room> getWish =  wishRoomService.wishCancel(wishRoomId);
+        System.out.println("rooms = " + getWish.toString());
+        return ResponseEntity.ok(getWish);
     }
 
 

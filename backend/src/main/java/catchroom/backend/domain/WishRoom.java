@@ -20,7 +20,7 @@ public class WishRoom {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
 
@@ -40,4 +40,14 @@ public class WishRoom {
         wishRoom.setStatus(WishStatus.WISH);
         return wishRoom;
     }
+
+
+    //비지니스 로직
+    public void cancel(Member member) {
+        if (member.equals(this.getMember())){
+            this.setStatus(WishStatus.CANCEL);
+        }
+    }
+
+
 }

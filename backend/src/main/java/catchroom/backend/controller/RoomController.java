@@ -22,10 +22,10 @@ public class RoomController {
 
     //검색
     @GetMapping("/rooms")
-    public ResponseEntity<?> roomSearch(@RequestParam("search") String search, @RequestParam("page") int offset){
-        offset = (offset-1)*20;
+    public ResponseEntity<?> roomSearch(@RequestParam("search") String search){
+
         Map<String,Object> map = new HashMap<>();
-        List<Room> getWish = roomService.findRooms(search, offset);
+        List<Room> getWish = roomService.findRooms(search);
         map.put("searchCount",roomService.findRoomsSize(search).size());
         map.put("Rooms",getWish);
 

@@ -4,7 +4,6 @@ import catchroom.backend.config.SecurityUtil;
 import catchroom.backend.domain.Member;
 import catchroom.backend.domain.Room;
 import catchroom.backend.domain.WishRoom;
-import catchroom.backend.domain.WishStatus;
 import catchroom.backend.dto.MemberResponseDto;
 import catchroom.backend.repository.MemberImplRepository;
 import catchroom.backend.repository.RoomRepository;
@@ -52,10 +51,9 @@ public class WishRoomService {
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         WishRoom wishRoom = wishRoomRepository.findOne(wishRoomId);
         log.info(member.getEmail()+"::"+wishRoom.getId());
-        if(wishRoom.getMember().getEmail().equals(member.getEmail())) {
-            wishRoom.setStatus(WishStatus.CANCEL);
-        }
+        wishRoom.cancel(member);
+
         log.info("status :" + wishRoom.getStatus());
-        return roomRepository.findWish(member.getEmail());
+        return roomRepository.findWish(wishRoom.getMember().getEmail());
     }
 }

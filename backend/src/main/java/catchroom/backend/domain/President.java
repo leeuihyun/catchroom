@@ -24,7 +24,7 @@ public class President {
 
     private String number;
 
-    @OneToMany(mappedBy = "president")
+    @OneToMany(mappedBy = "president", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
 }
