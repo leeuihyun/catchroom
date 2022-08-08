@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,20 +13,24 @@ import java.util.List;
 @Getter @Setter
 public class Member {
 
+    @NotNull
     private String name;
 
     @Id
     @Column(name = "member_id")
+    @NotNull
     private String email;
 
+    @NotNull
     private String password;
 
     @Embedded
     private Address address;
 
+    @NotNull
     private String number;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WishRoom> wishes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

@@ -4,11 +4,13 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 @Getter
 public class Address {
 
+    @NotNull
     private String city; //도시
     private String district; //구
 

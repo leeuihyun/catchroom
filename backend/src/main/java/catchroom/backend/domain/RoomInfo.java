@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter @Setter
 @ToString
-public class Room_info {
+public class RoomInfo {
 
 
     private String 주소;

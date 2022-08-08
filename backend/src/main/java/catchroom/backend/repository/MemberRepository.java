@@ -18,9 +18,7 @@ public class MemberRepository{
         em.persist(member);
     }
 
-    public void save(WishRoom wishRoom){
-        em.persist(wishRoom);
-    }
+
 
     public Member findOne(String email){
         return em.find(Member.class,email);
@@ -33,4 +31,8 @@ public class MemberRepository{
     }
 
     public void delete(Member member) {em.remove(member); }
+
+    public void delete(WishRoom wishRoom){
+        em.remove(wishRoom);
+    }
 }

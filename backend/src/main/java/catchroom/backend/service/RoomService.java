@@ -31,4 +31,7 @@ public class RoomService {
         return roomRepository.findOne(roomId);
     }
 
+    public List<Room> findRoomsSize(String search) {
+        return roomRepository.findSearch(search);
+    }
 }
