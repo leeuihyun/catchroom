@@ -54,7 +54,7 @@ const initialState = {
 
 export const getRoom = createAsyncThunk("getRoom", async ({ data }) => {
     try {
-        const res = await axios.get(`/rooms?search=${data.text}`);
+        const res = await axios.get(`/rooms?search=${data}`);
         console.log(res);
         return res.data;
     } catch (error) {

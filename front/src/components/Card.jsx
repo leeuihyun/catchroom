@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import HrComponent from "./HrComponent";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -24,10 +25,9 @@ const ContentBox = styled.div`
     justify-content: center;
 `;
 const Card = ({ children, index, data }) => {
-    const dispatch = useDispatch();
     const onClickContainer = useCallback(() => {
         console.log(data);
-        //dispatch(modalActions.setIsOpen({ data: !isOpen }));
+        <Link to="/single" state={{ data: data }}></Link>;
     }, []);
     return (
         <>

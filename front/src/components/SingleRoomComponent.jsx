@@ -5,11 +5,15 @@ import styled from "styled-components";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
 import { wishRoom } from "../reducers/userSlice";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
     const { room } = useSelector((state) => state.room);
     const { rooms } = useSelector((state) => state.room);
-    const { studentUser } = useSelector((state) => state.user);
+    const { studentUser, wishDone } = useSelector((state) => state.user);
+    const navigate = useNavigate();
     const test = {
         Column1: 0,
         주소: "서울특별시 광진구 자양동",
@@ -20,6 +24,29 @@ const SingleRoomComponent = () => {
         방화장실: "1개 / 1개",
         관리비: "2만 원",
     };
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "center-center",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
+    useEffect(() => {
+        if (wishDone) {
+            Toast.fire({
+                icon: "success",
+                title: "방 찜 등록이 완료되었습니다!",
+            }).then(function () {
+                //회원가입이 완료시 =>
+                navigate("/");
+                console.log("방 찜하기가 완료되었습니다!");
+            });
+        }
+    }, [wishDone]);
     const data = rooms[1];
     useEffect(() => {
         console.log(data);
@@ -35,11 +62,14 @@ const SingleRoomComponent = () => {
     const sixth = data.주소;
     const onClickWish = useCallback(() => {
         if (studentUser) {
-            dispatch(wishRoom("data"));
+            dispatch(wishRoom("data")); //data의 아이디를 넘김
         } else {
-            alert("로그인 해주세요"); // sweetAlert 이용하면 될 듯 함
+            navigate("/logIn"); //로그인이 안되어 있기에 로그인 페이지로 이동함
         }
     }, [studentUser]);
+    const onClickSeller = useCallback(() => {
+        console.log("판매자 정보 보기 버튼 클릭 ( 모달창으로 구현) ");
+    }, []);
     return (
         <>
             <Header color="black"></Header>
@@ -90,6 +120,14 @@ const SingleRoomComponent = () => {
                             </InfoTitle>
                         </div>
                         <HrComponent />
+                        <ButtonDiv>
+                            <FirstButton onClick={onClickSeller}>
+                                연락처보기
+                            </FirstButton>
+                            <SecondButton onClick={onClickWish}>
+                                찜하기
+                            </SecondButton>
+                        </ButtonDiv>
                     </Info>
                     <Footer></Footer>
                 </Box>
@@ -150,18 +188,35 @@ const Info = styled.div`
     width: 1100px;
     height: 400px;
 
-    margin-bottom: 250px;
+    margin-bottom: 300px;
     display: flex;
     flex-direction: column;
 `;
-const Button = styled.button`
-    margin: 20px;
-    border-radius: 10px;
+const ButtonDiv = styled.div`
+    display: flex;
+`;
+const SecondButton = styled.button`
+    margin-top: 20px;
     width: 100px;
-    height: 80px;
+    height: 70px;
+    font-weight: bold;
     background-color: white;
+    color: black;
+    font-size: 16px;
+    border-width: thin;
+`;
+
+const FirstButton = styled.button`
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 200px;
+    height: 70px;
+    font-weight: bold;
+    background-color: #4169e1;
     color: white;
     font-size: 16px;
+    border: 0;
+    margin-right: 10px;
 `;
 
 export default SingleRoomComponent;
