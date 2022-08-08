@@ -1,7 +1,7 @@
 package catchroom.backend.dto;
 
 import catchroom.backend.domain.Room;
-import catchroom.backend.domain.Room_info;
+import catchroom.backend.domain.RoomInfo;
 import lombok.*;
 
 @Getter
@@ -23,7 +23,7 @@ public class RoomRequestDto {
     private String 관리비;
 
     public Room toRoom(){
-        Room_info room_info = new Room_info();
+        RoomInfo room_info = new RoomInfo();
         Room room = new Room();
         room.setName(this.getName());
         room_info.set주소(this.get주소());
@@ -34,7 +34,7 @@ public class RoomRequestDto {
         room_info.set층(this.get층());
         room_info.set방_화장실(this.get방_화장실());
         room_info.set관리비(this.get관리비());
-        room.setRoom_info(room_info);
+        room.setRoomInfo(room_info);
         return  room;
     }
 }
