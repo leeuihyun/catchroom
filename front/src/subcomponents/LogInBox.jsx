@@ -49,6 +49,7 @@ const Box = styled.div`
         :focus {
             outline: none;
         }
+        border-width: thin;
     }
 `;
 const LogInBox = ({ children }) => {
