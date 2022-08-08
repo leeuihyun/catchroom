@@ -131,7 +131,7 @@ const SignUpComponent = () => {
                     </form>
                     <div>
                         <div className="des">이메일</div>
-                        <input type="email" onChange={onChangeEmail} />
+                        <input type="text" onChange={onChangeEmail} />
                     </div>
                     <div>
                         <div className="des">비밀번호</div>

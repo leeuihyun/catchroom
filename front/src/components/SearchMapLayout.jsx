@@ -53,7 +53,7 @@ const MapContainer = styled.div`
 const SearchMapLayout = () => {
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
-    const { room, searchCount, now } = useSelector((state) => state.room);
+    const { room, searchCount } = useSelector((state) => state.room);
     const pageNumbers = Math.ceil(searchCount / 20);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * 20;
@@ -137,12 +137,13 @@ const SearchMapLayout = () => {
                     }}
                 />
             </MapContainer>
+
             <ResultStyle>
-                {room.slice(offset, offset + 20).map((item, i) => (
+                {room.map((item, i) => (
                     <Card
                         key={item.id}
                         index={i}
-                        data={item.roomInfo.주소}
+                        data={item.roomInfo}
                         onClick={onClickCard}
                     >
                         <div>
