@@ -7,6 +7,7 @@ import HrComponent from "./HrComponent";
 import { wishRoom } from "../reducers/userSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
@@ -14,16 +15,9 @@ const SingleRoomComponent = () => {
     const { rooms } = useSelector((state) => state.room);
     const { studentUser, wishDone } = useSelector((state) => state.user);
     const navigate = useNavigate();
-    const test = {
-        Column1: 0,
-        주소: "서울특별시 광진구 자양동",
-        가격: "전세 9000",
-        룸타입: "원룸",
-        면적: "19.83㎡",
-        층: "1층",
-        방화장실: "1개 / 1개",
-        관리비: "2만 원",
-    };
+    const location = useLocation();
+    const result = location.state.data; // roompage에서 card 클릭시 안의 데이터 값들 전달하고 그것을 받아오는 useLocation 이용
+
     const Toast = Swal.mixin({
         toast: true,
         position: "center-center",
@@ -47,22 +41,23 @@ const SingleRoomComponent = () => {
             });
         }
     }, [wishDone]);
-    const data = rooms[1];
+
     useEffect(() => {
-        console.log(data);
-        console.log(data.가격.substr(0, 2));
+        console.log(result);
+        console.log(result.가격.substr(0, 2));
         //props로 전달받기 때문에 useEffect를 쓰지 않고 props로 받아온 값과 그 방의 id 가 필요함
     }, []); //렌더링할 때 데이터를 불러올 필요 없이 props로 전달하여 데이터를 전달받기 / 어짜피 클릭시이기 때문에
-    const firstTitle = data.가격.substr(0, 2);
-    const firstSecond = data.가격.substr(2);
-    const second = data.관리비;
-    const third = data.룸타입;
-    const fourth = data.면적;
-    const fifth = data.층;
-    const sixth = data.주소;
+    const id = result.id;
+    const firstTitle = result.가격.substr(0, 2);
+    const firstSecond = result.가격.substr(2);
+    const second = result.관리비;
+    const third = result.룸타입;
+    const fourth = result.면적;
+    const fifth = result.층;
+    const sixth = result.주소;
     const onClickWish = useCallback(() => {
         if (studentUser) {
-            dispatch(wishRoom("data")); //data의 아이디를 넘김
+            dispatch(wishRoom(id)); //data의 아이디를 넘김
         } else {
             navigate("/logIn"); //로그인이 안되어 있기에 로그인 페이지로 이동함
         }

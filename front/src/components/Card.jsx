@@ -27,16 +27,18 @@ const ContentBox = styled.div`
 const Card = ({ children, index, data }) => {
     const onClickContainer = useCallback(() => {
         console.log(data);
-        <Link to="/single" state={{ data: data }}></Link>;
     }, []);
     return (
         <>
-            <Container key={index} onClick={onClickContainer}>
-                <ImageBox>
-                    <img src="이미지 주소" />
-                </ImageBox>
-                <ContentBox>{children}</ContentBox>
-            </Container>
+            <Link to={"/single"} state={{ data: data }}>
+                <Container key={index} onClick={onClickContainer}>
+                    <ImageBox>
+                        <img src="이미지 주소" />
+                    </ImageBox>
+                    <ContentBox>{children}</ContentBox>
+                </Container>
+            </Link>
+
             <HrComponent />
         </>
     );

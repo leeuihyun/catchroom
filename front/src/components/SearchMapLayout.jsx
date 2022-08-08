@@ -57,10 +57,7 @@ const SearchMapLayout = () => {
     const pageNumbers = Math.ceil(searchCount / 20);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * 20;
-    const onClickCard = () => {
-        //카드를 누르면 싱글페이지로 이동하고 데이터는 props로 전달한다.
-        //수정해야함 전에는 모달창이었기 때문에
-    };
+
     useEffect(() => {
         if (COOKIE) {
             dispatch(logInCheck());
@@ -139,13 +136,8 @@ const SearchMapLayout = () => {
             </MapContainer>
 
             <ResultStyle>
-                {room.map((item, i) => (
-                    <Card
-                        key={item.id}
-                        index={i}
-                        data={item.roomInfo}
-                        onClick={onClickCard}
-                    >
+                {room?.slice(offset, offset + 20).map((item, i) => (
+                    <Card key={item.id} index={i} data={item.roomInfo}>
                         <div>
                             <ResultTitle>{item.roomInfo.주소}</ResultTitle>
                             <div>
