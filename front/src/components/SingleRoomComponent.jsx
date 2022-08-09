@@ -42,11 +42,6 @@ const SingleRoomComponent = () => {
         }
     }, [wishDone]);
 
-    useEffect(() => {
-        console.log(result);
-        console.log(result.가격.substr(0, 2));
-        //props로 전달받기 때문에 useEffect를 쓰지 않고 props로 받아온 값과 그 방의 id 가 필요함
-    }, []); //렌더링할 때 데이터를 불러올 필요 없이 props로 전달하여 데이터를 전달받기 / 어짜피 클릭시이기 때문에
     const id = result.id;
     const firstTitle = result.가격.substr(0, 2);
     const firstSecond = result.가격.substr(2);
