@@ -57,7 +57,7 @@ const MapContainer = styled.div`
 const MapLayout = ({ searchPlace }) => {
     // 검색결과 배열에 담아줌
     const [Places, setPlaces] = useState([]);
-    const { isOpen } = useSelector((state) => state.modal);
+
     const dispatch = useDispatch();
     const COOKIE = localStorage.getItem("cookie");
     const onClickCard = () => {
@@ -145,7 +145,7 @@ const MapLayout = ({ searchPlace }) => {
                 infowindow.open(map, marker);
             });
         }
-    }, [searchPlace, isOpen]);
+    }, [searchPlace]);
 
     return (
         <Divstyle>
