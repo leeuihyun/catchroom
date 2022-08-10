@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import Header from "./Header";
 import HrComponent from "./HrComponent";
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Main from "../subcomponents/Main";
 import Button from "../subcomponents/Button";
