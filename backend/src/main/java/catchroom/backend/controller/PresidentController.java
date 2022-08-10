@@ -1,8 +1,8 @@
 package catchroom.backend.controller;
 
 
-import catchroom.backend.dto.MemberRequestDto;
-import catchroom.backend.dto.MemberResponseDto;
+import catchroom.backend.dto.PresidentRequestDto;
+import catchroom.backend.dto.PresidentResponseDto;
 import catchroom.backend.service.AuthService;
 import catchroom.backend.service.PresidentService;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +27,16 @@ public class PresidentController {
 
     //사장님 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto){
-        return  ResponseEntity.ok(authService.signup(requestDto));
+    public ResponseEntity<PresidentResponseDto> signup(@RequestBody PresidentRequestDto requestDto){
+
+        return  ResponseEntity.ok(authService.presidentSignup(requestDto));
     }
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody MemberRequestDto requestDto) {
+    public ResponseEntity<Map<String,Object>> login(@RequestBody PresidentRequestDto requestDto) {
         log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
         Map<String, Object> map = new HashMap<>();
-        map.put("token", authService.login(requestDto));
+        map.put("token", authService.presidentLogin(requestDto));
         map.put("info",requestDto.getEmail());
 
         return ResponseEntity.ok(map);

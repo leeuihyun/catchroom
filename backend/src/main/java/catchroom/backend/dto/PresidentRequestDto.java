@@ -1,11 +1,11 @@
 package catchroom.backend.dto;
 
-import catchroom.backend.domain.Address;
-import catchroom.backend.domain.President;
-import catchroom.backend.domain.Room;
+import catchroom.backend.domain.*;
 import lombok.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,6 +32,17 @@ public class PresidentRequestDto {
     public President toPresident(PasswordEncoder passwordEncoder) {
         Address address = new Address(city,district,detail,zipcode);
         President president  = new President();
+        president.setName(this.getName());
+        president.setRooms(new ArrayList<>());
+        president.setAddress(address);
+        president.setEmail(this.getEmail());
+        president.setPassword(passwordEncoder.encode(this.password));
+        president.setNumber(this.getNumber());
+        president.setAuthority(Authority.ROLE_USER);
         return president;
+    }
+
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(email, password);
     }
 }

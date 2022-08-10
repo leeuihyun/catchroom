@@ -27,4 +27,7 @@ public class President {
     @OneToMany(mappedBy = "president", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
 }
