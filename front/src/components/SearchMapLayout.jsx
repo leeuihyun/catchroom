@@ -4,8 +4,6 @@ import Card from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { logInCheck } from "../reducers/userSlice";
-import { getRoom } from "../reducers/roomSlice";
-import { roomSliceActions } from "../reducers/roomSlice";
 
 const { kakao } = window;
 

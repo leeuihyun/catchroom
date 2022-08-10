@@ -12,7 +12,6 @@ import { useLocation } from "react-router-dom";
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
     const { room } = useSelector((state) => state.room);
-    const { rooms } = useSelector((state) => state.room);
     const { studentUser, wishDone } = useSelector((state) => state.user);
     const navigate = useNavigate();
     const location = useLocation();
