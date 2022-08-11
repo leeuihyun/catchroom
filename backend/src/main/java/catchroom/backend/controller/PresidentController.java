@@ -37,7 +37,7 @@ public class PresidentController {
         log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
         Map<String, Object> map = new HashMap<>();
         map.put("token", authService.presidentLogin(requestDto));
-        map.put("info",requestDto.getEmail());
+        map.put("info",presidentService.loginFind(requestDto.getEmail()));
 
         return ResponseEntity.ok(map);
     }

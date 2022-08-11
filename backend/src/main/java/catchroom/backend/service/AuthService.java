@@ -25,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 //    private final RedisUtil redisUtil;
+    public static String user="";
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberImplRepository.existsByEmail(requestDto.getEmail())) {
@@ -36,6 +37,7 @@ public class AuthService {
     }
 
     public TokenDto login(MemberRequestDto requestDto) {
+        user="member";
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
@@ -44,7 +46,7 @@ public class AuthService {
     }
 
     public PresidentResponseDto presidentSignup(PresidentRequestDto requestDto) {
-        if (memberImplRepository.existsByEmail(requestDto.getEmail())) {
+        if (presidentImplRepository.existsByEmail(requestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
 
@@ -53,6 +55,7 @@ public class AuthService {
     }
 
     public TokenDto presidentLogin(PresidentRequestDto requestDto) {
+        user="president";
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
