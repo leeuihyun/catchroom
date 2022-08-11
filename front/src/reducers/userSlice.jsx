@@ -22,14 +22,20 @@ const initialState = {
     logInCheckError: null,
     wishLoading: false,
     wishDone: false,
-    widthError: null,
+    wishError: null,
 };
-
+const us = (data) => ({
+    info: data.info,
+    wishRooms: data.wishRooms,
+});
 export const wishRoom = createAsyncThunk(
     "wishRoom",
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.post("/members/wish", data, {
+            axios.defaults.headers.common["Authorization"] = "";
+            const COOKIE = localStorage.getItem("cookie");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+            const res = await axios.post(`/members/${data}/wish`, data, {
                 withCredentials: true,
             });
             console.log("찜하기를 진행 완료 했습니다.");
@@ -49,7 +55,7 @@ export const studentLogIn = createAsyncThunk(
             const res = await axios.post("/members/login", data, {
                 withCredentials: true,
             });
-            console.log(res);
+            console.log(res.data);
             localStorage.setItem("cookie", res.data.token.accessToken);
             const COOKIE = localStorage.getItem("cookie");
             console.log(COOKIE);
@@ -167,6 +173,11 @@ const userSlice = createSlice({
             state.signUpDone = false;
             state.signUpError = null;
         },
+        wishClear(state, action) {
+            state.wishLoading = false;
+            state.wishDone = false;
+            state.wishError = null;
+        },
     },
     extraReducers: {
         [studentLogIn.pending]: (state, action) => {
@@ -177,7 +188,7 @@ const userSlice = createSlice({
         [studentLogIn.fulfilled]: (state, action) => {
             state.logInLoading = false;
             state.logInDone = true;
-            state.studentUser = action.payload.info;
+            state.studentUser = us(action.payload);
             state.hostUser = null;
             state.logInError = null;
         },
@@ -274,7 +285,7 @@ const userSlice = createSlice({
             state.logInCheckLoading = false;
             state.logInCheckDone = true;
             state.logInCheckError = null;
-            state.studentUser = action.payload;
+            state.studentUser = us(action.payload);
         },
         [logInCheck.rejected]: (state, action) => {
             state.logInCheckLoading = false;
