@@ -62,12 +62,12 @@ public class MemberController {
 
     //토큰 조회
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+    public ResponseEntity<Map<String ,Object>> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        System.out.println(myInfoBySecurity.getName());
-        System.out.println("myInfoBySecurity = " + myInfoBySecurity.getCity());
-        return ResponseEntity.ok((myInfoBySecurity));
-        // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
+        Map<String, Object> map = new HashMap<>();
+        map.put("info", memberService.getMyInfoBySecurity());
+        map.put("wishRooms",wishRoomService.getWish());
+        return ResponseEntity.ok(map);
     }
 
     //찜목록 임시
