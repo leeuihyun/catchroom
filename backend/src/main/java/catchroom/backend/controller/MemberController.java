@@ -41,7 +41,8 @@ public class MemberController {
         log.info("암호화가 됬는지 확인하기:"+requestDto.getPassword());
         Map<String, Object> map = new HashMap<>();
         map.put("token", authService.login(requestDto));
-        map.put("info",requestDto.getEmail());
+        map.put("info",memberService.loginFind(requestDto.getEmail()));
+        map.put("wishRooms",wishRoomService.loginWish(requestDto.getEmail()));
 
         return ResponseEntity.ok(map);
     }

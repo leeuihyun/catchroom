@@ -6,6 +6,7 @@ import catchroom.backend.domain.Room;
 import catchroom.backend.domain.WishRoom;
 import catchroom.backend.dto.MemberResponseDto;
 import catchroom.backend.repository.MemberImplRepository;
+import catchroom.backend.repository.MemberRepository;
 import catchroom.backend.repository.RoomRepository;
 import catchroom.backend.repository.WishRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 public class WishRoomService {
 
     private final WishRoomRepository wishRoomRepository;
-
+    private final MemberRepository memberRepository;
     private final MemberImplRepository memberImplRepository;
     private final RoomRepository roomRepository;
     //찜 기능
@@ -44,6 +45,11 @@ public class WishRoomService {
         return roomRepository.findWish(member.getEmail());
     }
 
+    public List<Room> loginWish(String email) {
+        //엔티티 조회
+        Member member = memberRepository.findOne(email);
+        return roomRepository.findWish(member.getEmail());
+    }
     //찜 취소
     @Transactional
     public List<Room> wishCancel(Integer wishRoomId){

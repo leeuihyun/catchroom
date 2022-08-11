@@ -46,6 +46,10 @@ public class MemberService {
 
         return memberRepository.findOne(email);
     }
+    public MemberResponseDto loginFind(String email){
+       return memberImplRepository.findById(email).map(MemberResponseDto::of)
+               .orElseThrow(() -> new RuntimeException("로그인 에러"));
+    }
     //토큰 방식 정보 넘기기
     public MemberResponseDto getMyInfoBySecurity() {
         return memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
