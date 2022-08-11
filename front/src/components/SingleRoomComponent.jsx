@@ -4,10 +4,11 @@ import Header from "./Header";
 import styled from "styled-components";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
-import { wishRoom } from "../reducers/userSlice";
+import userSlice, { wishRoom } from "../reducers/userSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { userSliceActions } from "../reducers/userSlice";
 
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
@@ -37,20 +38,23 @@ const SingleRoomComponent = () => {
                 //회원가입이 완료시 =>
                 navigate("/");
                 console.log("방 찜하기가 완료되었습니다!");
+                dispatch(userSliceActions.wishClear());
             });
         }
-    }, [wishDone]);
+    }, [wishDone, Toast]);
 
     const id = result.id;
-    const firstTitle = result.가격.substr(0, 2);
-    const firstSecond = result.가격.substr(2);
-    const second = result.관리비;
-    const third = result.룸타입;
-    const fourth = result.면적;
-    const fifth = result.층;
-    const sixth = result.주소;
+    const firstTitle = result.roomInfo.가격.substr(0, 2);
+    const firstSecond = result.roomInfo.가격.substr(2);
+    const second = result.roomInfo.관리비;
+    const third = result.roomInfo.룸타입;
+    const fourth = result.roomInfo.면적;
+    const fifth = result.roomInfo.층;
+    const sixth = result.roomInfo.주소;
     const onClickWish = useCallback(() => {
         if (studentUser) {
+            console.log(id);
+            console.log(firstTitle);
             dispatch(wishRoom(id)); //data의 아이디를 넘김
         } else {
             navigate("/logIn"); //로그인이 안되어 있기에 로그인 페이지로 이동함

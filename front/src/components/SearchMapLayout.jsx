@@ -135,7 +135,7 @@ const SearchMapLayout = () => {
 
             <ResultStyle>
                 {room?.slice(offset, offset + 20).map((item, i) => (
-                    <Card key={item.id} index={i} data={item.roomInfo}>
+                    <Card key={item.id} index={i} data={item}>
                         <div>
                             <ResultTitle>{item.roomInfo.주소}</ResultTitle>
                             <div>
