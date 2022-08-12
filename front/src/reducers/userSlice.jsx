@@ -23,6 +23,7 @@ const initialState = {
     wishLoading: false,
     wishDone: false,
     wishError: null,
+    show: false,
 };
 const us = (data) => ({
     info: data.info,
@@ -177,6 +178,12 @@ const userSlice = createSlice({
             state.wishLoading = false;
             state.wishDone = false;
             state.wishError = null;
+        },
+        showChange(state, action) {
+            state.show = !state.show;
+        },
+        showFalse(state, action) {
+            state.show = false;
         },
     },
     extraReducers: {
