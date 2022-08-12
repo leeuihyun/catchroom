@@ -32,6 +32,7 @@ const LogInComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [radio, setRadio] = useState("student");
+
     const onChangeStudentRadioButton = useCallback((e) => {
         setRadio("student");
     }, []);

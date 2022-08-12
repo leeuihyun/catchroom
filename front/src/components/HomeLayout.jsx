@@ -13,6 +13,10 @@ import Banner from "./Banner";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoom } from "../reducers/roomSlice";
 import { roomSliceActions } from "../reducers/roomSlice";
+import { userSliceActions } from "../reducers/userSlice";
+import { studentLogOut } from "../reducers/userSlice";
+import { hostLogOut } from "../reducers/userSlice";
+
 const Box = styled.div`
     background: linear-gradient(100deg, #1c16bc, #07aed0);
     width: 100%;
@@ -73,14 +77,42 @@ const ThirdPage = styled.div`
     color: black;
     height: 48vh;
     display: flex;
-
     justify-content: center;
     align-items: center;
 `;
 
+const SubMenu = styled.div`
+    display: flex;
+    flex-direction: column;
+    right: 20px;
+    width: 150px;
+    height: 210px;
+    background-color: white;
+    color: black;
+    position: absolute;
+    div {
+        padding: 10px;
+        :hover {
+            background-color: black;
+            color: white;
+        }
+        cursor: pointer;
+    }
+`;
 const HomeLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { show, studentUser, hostUser } = useSelector((state) => state.user);
+    const onClickLogOut = useCallback(() => {
+        if (studentUser) {
+            dispatch(studentLogOut()); //학생 로그아웃
+        }
+        if (hostUser) {
+            dispatch(hostLogOut()); //주인 로그아웃
+        }
+        dispatch(userSliceActions.showFalse());
+    }, [studentUser, hostUser]);
+
     const sectionStyle = {
         height: "100vh",
         width: "100vw",
@@ -89,6 +121,7 @@ const HomeLayout = () => {
         justifyContent: "center",
         alignItems: "center",
     };
+
     const [text, setText] = useState("");
     const onChangeText = useCallback((e) => {
         setText(e.target.value);
@@ -102,26 +135,41 @@ const HomeLayout = () => {
         },
         [text]
     );
-
+    const onClickUser = useCallback(() => {
+        dispatch(userSliceActions.showFalse());
+    }, []);
     return (
         <Box>
             <FullPage>
                 <FullPageSections>
                     <FullpageSection>
                         <Header></Header>
-                        <div style={sectionStyle}>
-                            <h1>당신의 자취방을 찾아보세요</h1>
-                            <Input>
-                                <input
-                                    type="text"
-                                    placeholder="학교명을 입력해주세요"
-                                    onChange={onChangeText}
-                                />
+                        <div onClick={onClickUser}>
+                            {show && (
+                                <SubMenu>
+                                    <div onClick={() => console.log("1")}>
+                                        1:1 문의하기
+                                    </div>
+                                    <div>1:1 문의 내역</div>
+                                    <div>찜목록 보기</div>
+                                    <div>내 정보</div>
+                                    <div onClick={onClickLogOut}>로그 아웃</div>
+                                </SubMenu>
+                            )}
+                            <div style={sectionStyle}>
+                                <h1>당신의 자취방을 찾아보세요</h1>
+                                <Input>
+                                    <input
+                                        type="text"
+                                        placeholder="학교명을 입력해주세요"
+                                        onChange={onChangeText}
+                                    />
 
-                                <SubmitButton onClick={onClickButton}>
-                                    <SearchOutlined />
-                                </SubmitButton>
-                            </Input>
+                                    <SubmitButton onClick={onClickButton}>
+                                        <SearchOutlined />
+                                    </SubmitButton>
+                                </Input>
+                            </div>
                         </div>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>

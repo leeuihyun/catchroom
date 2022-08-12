@@ -2,9 +2,13 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { hostLogOut, studentLogOut } from "../reducers/userSlice";
+import {
+    hostLogOut,
+    studentLogOut,
+    userSliceActions,
+} from "../reducers/userSlice";
 import HrComponent from "./HrComponent";
-
+import { UserOutlined } from "@ant-design/icons";
 const HeaderBox = styled.div`
     width: 100%;
     padding-top: 20px;
@@ -41,7 +45,8 @@ const HeaderBox = styled.div`
                 font-weight: bolder;
             }
         }
-        .logOut {
+
+        .user {
             display: inline-block;
             letter-spacing: -1px;
             font-weight: normal;
@@ -59,15 +64,9 @@ const HeaderBox = styled.div`
 const Header = ({ color }) => {
     const { studentUser, hostUser } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const onClickLogOut = useCallback(() => {
-        if (studentUser) {
-            dispatch(studentLogOut()); //학생 로그아웃
-        }
-        if (hostUser) {
-            dispatch(hostLogOut()); //주인 로그아웃
-        }
-    }, [studentUser, hostUser]);
-
+    const onClickUser = useCallback(() => {
+        dispatch(userSliceActions.showChange());
+    }, []);
     return (
         <>
             <HeaderBox color={color}>
@@ -79,8 +78,9 @@ const Header = ({ color }) => {
                     <Link to="/map">지도</Link>
                     <Link to="#">찜 목록</Link>
                     {studentUser || hostUser ? (
-                        <div className="logOut" onClick={onClickLogOut}>
-                            로그아웃
+                        <div className="user" onClick={onClickUser}>
+                            <UserOutlined />
+                            {studentUser.info.name} 님
                         </div>
                     ) : (
                         <Link to="/logIn">회원가입 / 로그인</Link>
