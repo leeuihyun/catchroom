@@ -2,20 +2,24 @@ import React from "react";
 import Header from "./Header";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const MyPageComponent = () => {
+    const { studentUser } = useSelector((state) => state.user);
+    const wishRooms = studentUser?.wishRooms;
+
     return (
         <>
             <Header color="black"></Header>
             <Main>
                 <WishText>관심 목록</WishText>
                 <WishList>
-                    <WishCard>ㅇㅇ</WishCard>
-                    <WishCard>ㅇㅇ</WishCard>
-                    <WishCard>ㅇㅇ</WishCard>
-                    <WishCard>ㅇㅇ</WishCard>
-                    <WishCard>ㅇㅇ</WishCard>
-                    <WishCard>ㅇㅇ</WishCard>
+                    {wishRooms?.map((room) => (
+                        <WishCard>
+                            <div>대학교 : {room.roomInfo.대학교}</div>
+                            <div>주소 : {room.roomInfo.주소}</div>
+                        </WishCard>
+                    ))}
                 </WishList>
             </Main>
         </>
