@@ -5,7 +5,7 @@ import LogIn from "./pages/LogIn";
 import Map from "./pages/Map";
 import SignUp from "./pages/SignUp";
 import Wish from "./pages/Wish";
-import MyPageComponent from "./components/MyPageComponent";
+import MyPage from "./pages/MyPage";
 import SearchMap from "./pages/SearchMap";
 import SingleRoomPage from "./pages/SingleRoomPage";
 
@@ -25,7 +25,7 @@ const App = () => {
             <Route path="map" element={<Map />}></Route>
             <Route path="signup" element={<SignUp />}></Route>
             <Route path="wish" element={<Wish />}></Route>
-            <Route path="mypage" element={<MyPageComponent />}></Route>
+            <Route path="mypage" element={<MyPage />}></Route>
             <Route path="searchmap/:value" element={<SearchMap />}></Route>
             <Route path="single" element={<SingleRoomPage />}></Route>
         </Routes>
