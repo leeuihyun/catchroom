@@ -4,7 +4,7 @@ import Header from "./Header";
 import styled from "styled-components";
 import Footer from "./Footer";
 import HrComponent from "./HrComponent";
-import userSlice, { wishRoom } from "../reducers/userSlice";
+import { wishCancelRoom, wishRoom } from "../reducers/userSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -12,8 +12,9 @@ import { userSliceActions } from "../reducers/userSlice";
 
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
-    const { room } = useSelector((state) => state.room);
-    const { studentUser, wishDone } = useSelector((state) => state.user);
+    const { studentUser, wishDone, wishCancelDone } = useSelector(
+        (state) => state.user
+    );
     const navigate = useNavigate();
     const location = useLocation();
     const result = location.state.data; // roompage에서 card 클릭시 안의 데이터 값들 전달하고 그것을 받아오는 useLocation 이용
@@ -22,7 +23,7 @@ const SingleRoomComponent = () => {
         toast: true,
         position: "center-center",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -41,7 +42,18 @@ const SingleRoomComponent = () => {
                 dispatch(userSliceActions.wishClear());
             });
         }
-    }, [wishDone, Toast]);
+        if (wishCancelDone) {
+            Toast.fire({
+                icon: "success",
+                title: "찜등록 취소가 완료되었습니다!",
+            }).then(function () {
+                //회원가입이 완료시 =>
+                navigate("/");
+                console.log("방 찜 취소가 완료되었습니다!");
+                dispatch(userSliceActions.wishCancelClear());
+            });
+        }
+    }, [wishDone, Toast, wishCancelDone]);
 
     const id = result.id;
     const firstTitle = result.roomInfo.가격.substr(0, 2);
@@ -58,6 +70,12 @@ const SingleRoomComponent = () => {
             dispatch(wishRoom(id)); //data의 아이디를 넘김
         } else {
             navigate("/logIn"); //로그인이 안되어 있기에 로그인 페이지로 이동함
+        }
+    }, [studentUser]);
+    const onClickWishCancel = useCallback(() => {
+        if (studentUser) {
+            console.log(id);
+            dispatch(wishCancelRoom(id));
         }
     }, [studentUser]);
     const onClickSeller = useCallback(() => {
@@ -120,6 +138,7 @@ const SingleRoomComponent = () => {
                             <SecondButton onClick={onClickWish}>
                                 찜하기
                             </SecondButton>
+                            <button onClick={onClickWishCancel}>찜 취소</button>
                         </ButtonDiv>
                     </Info>
                     <Footer></Footer>
