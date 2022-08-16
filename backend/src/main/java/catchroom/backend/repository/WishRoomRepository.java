@@ -12,6 +12,19 @@ import javax.persistence.EntityManager;
 public class WishRoomRepository {
 
     private final EntityManager em;
+
+
+    public WishRoom findByMemberEmail(String email, Integer roomId){
+        return (WishRoom) em.createQuery("select w from WishRoom w join w.room r" +
+                " join w.member m" +
+                " where m.email = :email and" +
+                " r.id = :roomId")
+                .setParameter("email", email)
+                .setParameter("roomId",roomId)
+                .getSingleResult();
+
+    };
+
     public void save(WishRoom wishRoom){
         em.persist(wishRoom);
     }

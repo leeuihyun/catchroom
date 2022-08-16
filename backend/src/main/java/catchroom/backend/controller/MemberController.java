@@ -82,16 +82,17 @@ public class MemberController {
     //찜하기
     @PostMapping("/{id}/wish")
     public ResponseEntity<?> roomWish(@PathVariable("id") Integer roomId){
-        MemberResponseDto member = wishRoomService.wish(roomId);
-        return ResponseEntity.ok(member.getEmail());
+        List<Room> wish = wishRoomService.wish(roomId);
+
+        return ResponseEntity.ok(wish);
     }
 
 
     //찜취소
     @PostMapping("/{id}/cancel")
-    public ResponseEntity<?> wishCancel(@PathVariable("id") Integer wishRoomId){
+    public ResponseEntity<?> wishCancel(@PathVariable("id") Integer roomId){
 
-        List<Room> getWish =  wishRoomService.wishCancel(wishRoomId);
+        List<Room> getWish =  wishRoomService.wishCancel(roomId);
         System.out.println("rooms = " + getWish.toString());
         return ResponseEntity.ok(getWish);
     }
