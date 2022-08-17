@@ -93,7 +93,6 @@ public class MemberController {
     public ResponseEntity<?> wishCancel(@PathVariable("id") Integer roomId){
 
         List<Room> getWish =  wishRoomService.wishCancel(roomId);
-        System.out.println("rooms = " + getWish.toString());
         return ResponseEntity.ok(getWish);
     }
 

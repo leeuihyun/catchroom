@@ -69,10 +69,9 @@ public class WishRoomService {
         Member member = memberImplRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         Room findRoom = roomRepository.findOne(roomId);
-        log.info(member.getEmail()+"::"+findRoom.getId());
-        WishRoom wishRoom = wishRoomRepository.findByMemberEmail(member.getEmail(),roomId);
+        WishRoom wishRoom = wishRoomRepository.findByMemberEmail(member.getEmail(),findRoom.getId());
         wishRoom.cancel(member);
-        log.info("status :" + wishRoom.getStatus());
+
         return roomRepository.findWish(wishRoom.getMember().getEmail());
     }
 }
