@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { userSliceActions } from "../reducers/userSlice";
-
+import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
     const { studentUser, wishDone, wishCancelDone } = useSelector(
@@ -63,6 +63,7 @@ const SingleRoomComponent = () => {
     const fourth = result.roomInfo.면적;
     const fifth = result.roomInfo.층;
     const sixth = result.roomInfo.주소;
+    const wishId = studentUser?.wishRooms.find((v) => v.id === id);
     const onClickWish = useCallback(() => {
         if (studentUser) {
             console.log(id);
@@ -135,10 +136,21 @@ const SingleRoomComponent = () => {
                             <FirstButton onClick={onClickSeller}>
                                 연락처보기
                             </FirstButton>
-                            <SecondButton onClick={onClickWish}>
-                                찜하기
-                            </SecondButton>
-                            <button onClick={onClickWishCancel}>찜 취소</button>
+                            {wishId ? (
+                                <SecondButton onClick={onClickWishCancel}>
+                                    <HeartTwoTone
+                                        twoToneColor="#eb2f96"
+                                        key="heart"
+                                    ></HeartTwoTone>
+                                </SecondButton>
+                            ) : (
+                                <SecondButton onClick={onClickWish}>
+                                    <HeartOutlined
+                                        key="heart"
+                                        twoToneColor="#eb2f96"
+                                    />
+                                </SecondButton>
+                            )}
                         </ButtonDiv>
                     </Info>
                     <Footer></Footer>
