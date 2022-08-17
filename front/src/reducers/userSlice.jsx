@@ -23,6 +23,9 @@ const initialState = {
     wishLoading: false,
     wishDone: false,
     wishError: null,
+    wishCancelLoading: false,
+    wishCancelDone: false,
+    wishCancelError: null,
     show: false,
 };
 const us = (data) => ({
@@ -48,7 +51,25 @@ export const wishRoom = createAsyncThunk(
         }
     }
 );
-
+export const wishCancelRoom = createAsyncThunk(
+    "wishCancelRoom",
+    async (data, { rejectWithValue }) => {
+        try {
+            axios.defaults.headers.common["Authorization"] = "";
+            const COOKIE = localStorage.getItem("cookie");
+            axios.defaults.headers.common["Authorization"] = `Bearer ${COOKIE}`;
+            const res = await axios.post(`/members/${data}/cancel`, data, {
+                withCredentials: true,
+            });
+            console.log("찜 취소를 진행 완료 했습니다.");
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 export const studentLogIn = createAsyncThunk(
     "studentLogIn",
     async (data, { rejectWithValue }) => {
@@ -125,7 +146,7 @@ export const logInCheck = createAsyncThunk("logInCheck", async () => {
         const res = await axios.get("/members/me", {
             withCredentials: true,
         });
-        console.log(res);
+        //console.log(res);
         return res.data;
     } catch (error) {
         console.error(error);
@@ -178,6 +199,11 @@ const userSlice = createSlice({
             state.wishLoading = false;
             state.wishDone = false;
             state.wishError = null;
+        },
+        wishCancelClear(state, action) {
+            state.wishCancelDone = false;
+            state.wishCancelError = null;
+            state.wishCancelLoading = false;
         },
         showChange(state, action) {
             state.show = !state.show;
@@ -308,11 +334,28 @@ const userSlice = createSlice({
             state.wishLoading = false;
             state.wishDone = true;
             state.wishError = null;
+            state.studentUser.wishRooms = action.payload;
         },
         [wishRoom.rejected]: (state, action) => {
             state.wishLoading = false;
             state.wishDone = false;
             state.wishError = action.error;
+        },
+        [wishCancelRoom.pending]: (state, action) => {
+            state.wishCancelDone = false;
+            state.wishCancelLoading = true;
+            state.wishCancelError = null;
+        },
+        [wishCancelRoom.fulfilled]: (state, action) => {
+            state.wishCancelDone = true;
+            state.wishCancelLoading = false;
+            state.wishCancelError = null;
+            state.studentUser.wishRooms = action.payload;
+        },
+        [wishCancelRoom.rejected]: (state, action) => {
+            state.wishCancelDone = false;
+            state.wishCancelLoading = false;
+            state.wishCancelError = action.error;
         },
     },
 });
