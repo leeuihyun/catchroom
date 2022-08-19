@@ -15,6 +15,7 @@ const SingleRoomComponent = () => {
     const { studentUser, wishDone, wishCancelDone } = useSelector(
         (state) => state.user
     );
+
     const navigate = useNavigate();
     const location = useLocation();
     const result = location.state.data; // roompage에서 card 클릭시 안의 데이터 값들 전달하고 그것을 받아오는 useLocation 이용
