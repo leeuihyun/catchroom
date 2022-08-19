@@ -9,10 +9,13 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { userSliceActions } from "../reducers/userSlice";
-import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import img from "../images/living-room-ge16fb7fc8_1280.jpg";
+import SubMenu from "../subcomponents/SubMenu";
+
 const SingleRoomComponent = () => {
     const dispatch = useDispatch();
-    const { studentUser, wishDone, wishCancelDone } = useSelector(
+    const { studentUser, wishDone, wishCancelDone, show } = useSelector(
         (state) => state.user
     );
 
@@ -83,12 +86,23 @@ const SingleRoomComponent = () => {
     const onClickSeller = useCallback(() => {
         console.log("판매자 정보 보기 버튼 클릭 ( 모달창으로 구현) ");
     }, []);
+    const onClickUser = useCallback(() => {
+        dispatch(userSliceActions.showFalse());
+    }, []);
     return (
         <>
             <Header color="black"></Header>
             <Main>
-                <Box>
-                    <ImageBox>이미지 넣을 곳</ImageBox>
+                <Box onClick={onClickUser}>
+                    <ImageBox>
+                        {show && <SubMenu></SubMenu>}
+                        <img
+                            src={img}
+                            alt="자취방 대체 이미지"
+                            width="1100px"
+                            height="500px"
+                        />
+                    </ImageBox>
                     <Price>가격정보</Price>
                     <Info>
                         <div>
@@ -139,10 +153,9 @@ const SingleRoomComponent = () => {
                             </FirstButton>
                             {wishId ? (
                                 <SecondButton onClick={onClickWishCancel}>
-                                    <HeartTwoTone
-                                        twoToneColor="#eb2f96"
-                                        key="heart"
-                                    ></HeartTwoTone>
+                                    <HeartFilled
+                                        style={{ color: "red" }}
+                                    ></HeartFilled>
                                 </SecondButton>
                             ) : (
                                 <SecondButton onClick={onClickWish}>
@@ -180,6 +193,7 @@ const Main = styled.div`
     height: 100%;
     background-color: white;
     color: black;
+    position: absolute;
 `;
 
 const Box = styled.div`
@@ -190,9 +204,6 @@ const Box = styled.div`
     position: relative;
 `;
 const ImageBox = styled.div`
-    width: 1100px;
-    height: 500px;
-    background-color: yellow;
     color: black;
     margin-bottom: 30px;
     margin-top: 30px;

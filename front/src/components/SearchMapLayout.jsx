@@ -13,6 +13,7 @@ const Divstyle = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
+    position: absolute;
 `;
 const ResultTitle = styled.div`
     color: black;
@@ -45,6 +46,7 @@ const MapContainer = styled.div`
     width: 1020px;
     height: 615px;
     left: 20px;
+    margin-top: 610px;
     position: relative;
 `;
 
@@ -75,7 +77,6 @@ const SearchMapLayout = () => {
     }, [page]);
     useEffect(() => {
         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-        var markers = [];
         const container = document.getElementById("myMap");
         const options = {
             center: new kakao.maps.LatLng(33.450701, 126.570667),
