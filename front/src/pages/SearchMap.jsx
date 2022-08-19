@@ -1,12 +1,12 @@
 /*global kakao*/
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import styled from "styled-components";
 import SearchMapLayout from "../components/SearchMapLayout";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getRoom } from "../reducers/roomSlice";
 import { roomSliceActions } from "../reducers/roomSlice";
+import SubMenu from "../subcomponents/SubMenu";
 
 const Container = styled.div`
     width: 100%;
@@ -42,14 +42,10 @@ const SearchBtn = styled.button`
     }
 `;
 
-const MainBox = styled.div`
-    width: 100%;
-    height: 100%;
-`;
 const SearchMap = () => {
     const [text, setText] = useState("");
     const dispatch = useDispatch();
-    const { room } = useSelector((state) => state.room);
+    const { show } = useSelector((state) => state.user);
     const onChange = (e) => {
         setText(e.target.value);
     };
@@ -62,8 +58,9 @@ const SearchMap = () => {
     };
 
     return (
-        <>
+        <div>
             <Header color="black" />
+            {show && <SubMenu></SubMenu>}
             <Container>
                 <SearchForm className="inputForm" onSubmit={handleSubmit}>
                     <Search
@@ -73,10 +70,10 @@ const SearchMap = () => {
                     />
                     <SearchBtn type="submit">검색</SearchBtn>
                 </SearchForm>
-
+                {show && <SubMenu></SubMenu>}
                 <SearchMapLayout />
             </Container>
-        </>
+        </div>
     );
 };
 
