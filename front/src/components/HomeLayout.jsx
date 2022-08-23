@@ -14,6 +14,7 @@ import { getRoom } from "../reducers/roomSlice";
 import { roomSliceActions } from "../reducers/roomSlice";
 import { userSliceActions } from "../reducers/userSlice";
 import SubMenu from "../subcomponents/SubMenu";
+import Blog from "../subcomponents/Blog";
 
 const Box = styled.div`
     background: linear-gradient(100deg, #1c16bc, #07aed0);
@@ -72,12 +73,14 @@ const ThirdPage = styled.div`
     width: 100%;
     background-color: white;
     color: black;
-    height: 48vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100vh;
 `;
 
+const ThirdBox = styled.div`
+    display: flex;
+    margin-top: 75px;
+    justify-content: center;
+`;
 const HomeLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -140,7 +143,25 @@ const HomeLayout = () => {
                         </SecondBox>
                     </FullpageSection>
                     <FullpageSection style={sectionStyle}>
-                        <ThirdPage>블로그 등이 연결될 부분입니다.</ThirdPage>
+                        <ThirdPage>
+                            <ThirdBox>
+                                <Blog
+                                    title="자방 이야기"
+                                    content="자방 깃허브 구경하기"
+                                    link="https://github.com/leeuihyun/catchroom"
+                                ></Blog>
+                                <Blog
+                                    title="자방 이야기"
+                                    content="자방 블로그에서 확인하기"
+                                    link="https://velog.io/@mrvanc"
+                                ></Blog>
+                                <Blog
+                                    title="자방 이야기"
+                                    content="자방 노션에서 확인하기"
+                                    link="https://www.notion.so/24037361792743ab9637e35613ad56c2"
+                                ></Blog>
+                            </ThirdBox>
+                        </ThirdPage>
                         <Footer />
                     </FullpageSection>
                 </FullPageSections>

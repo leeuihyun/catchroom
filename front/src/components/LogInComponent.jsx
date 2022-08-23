@@ -126,7 +126,7 @@ const LogInComponent = () => {
                     </SignUpBox>
                 </LogInBox>
 
-                <Footer>footer</Footer>
+                <Footer></Footer>
             </Main>
         </>
     );

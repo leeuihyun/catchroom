@@ -34,7 +34,7 @@ function SubMenu() {
             dispatch(hostLogOut()); //주인 로그아웃
         }
         dispatch(userSliceActions.showFalse());
-    }, [studentUser, hostUser]);
+    }, [studentUser, hostUser, dispatch]);
     return (
         <Sub>
             <div onClick={() => console.log("1")}>1:1 문의하기</div>
