@@ -74,9 +74,8 @@ const Header = ({ color }) => {
                     <Link to="/">자방</Link>
                 </div>
                 <div className="box">
-                    <Link to="/mypage">마이페이지</Link>
+                    <Link to="/mypage">관심목록</Link>
                     <Link to="/map">지도</Link>
-                    <Link to="#">찜 목록</Link>
                     {studentUser || hostUser ? (
                         <div className="user" onClick={onClickUser}>
                             <UserOutlined />

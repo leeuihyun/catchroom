@@ -5,6 +5,7 @@ import WishCard from "./WishCard";
 import SubMenu from "../subcomponents/SubMenu";
 import { useCallback } from "react";
 import { userSliceActions } from "../reducers/userSlice";
+import Footer from "./Footer";
 
 const MyPageComponent = () => {
     const { studentUser, show } = useSelector((state) => state.user);
@@ -24,12 +25,17 @@ const MyPageComponent = () => {
                         <WishCard room={room} />
                     ))}
                 </WishList>
+                <Footer></Footer>
             </Main>
         </div>
     );
 };
 
-const Main = styled.div``;
+const Main = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+`;
 const WishText = styled.div`
     display: flex;
     justify-content: center;
@@ -44,6 +50,7 @@ const WishList = styled.div`
     display: flex;
     flex-wrap: wrap;
     background-color: white;
+    padding-bottom: 200px;
 `; //방 목록 띄울 곳
 
 export default MyPageComponent;
