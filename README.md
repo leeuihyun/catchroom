@@ -18,7 +18,7 @@
 
 -   이의현
 -   🛠 tech : react, redux, redux-toolkit
--   notion : [notion] : [https://www.notion.so/24037361792743ab9637e35613ad56c2]
+-   notion : [notion][https://www.notion.so/24037361792743ab9637e35613ad56c2]
 
     > 빅데이터 시각화
 
