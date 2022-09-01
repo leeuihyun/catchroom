@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import MyPage from "./pages/MyPage";
 import SearchMap from "./pages/SearchMap";
 import SingleRoomPage from "./pages/SingleRoomPage";
+import Community from "./pages/Community";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="mypage" element={<MyPage />}></Route>
             <Route path="searchmap/:value" element={<SearchMap />}></Route>
             <Route path="single" element={<SingleRoomPage />}></Route>
+            <Route path="community" element={<Community />}></Route>
         </Routes>
     );
 };
